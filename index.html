@@ -1,85 +1,79 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Archeon Novel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archeon Novel Platform</title>
 
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#111;
-      color:#fff;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    header{
-      background:#1a1a1a;
-      padding:15px;
-      text-align:center;
-      font-size:24px;
-      font-weight:bold;
-      color:#9d4edd;
-    }
-
-    .container{
-      max-width:900px;
-      margin:auto;
-      padding:20px;
-    }
-
-    .card{
-      background:#1f1f1f;
-      padding:20px;
-      border-radius:12px;
-      margin-bottom:20px;
-      box-shadow:0 0 10px rgba(0,0,0,0.4);
-    }
-
-    input, textarea, button, select{
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border:none;
-      border-radius:8px;
-      font-size:16px;
-    }
-
-    input, textarea, select{
-      background:#2b2b2b;
-      color:#fff;
-    }
-
-    button{
-      background:#7b2cbf;
-      color:#fff;
-      cursor:pointer;
-      font-weight:bold;
-    }
-
-    button:hover{
-      background:#9d4edd;
-    }
-
-    .hidden{
-      display:none;
-    }
-
-    .novel-item{
-      background:#2b2b2b;
-      padding:15px;
-      border-radius:10px;
-      margin-top:10px;
-    }
-
-    .role-badge{
-      display:inline-block;
-      padding:5px 10px;
-      border-radius:8px;
-      background:#444;
-      margin-top:10px;
-    }
-  </style>
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#111;
+    color:#fff;
+}
+header{
+    background:#1a1a1a;
+    text-align:center;
+    padding:15px;
+    font-size:24px;
+    color:#9d4edd;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+.card{
+    background:#1f1f1f;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+input, textarea, button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+}
+input, textarea{
+    background:#2a2a2a;
+    color:#fff;
+}
+button{
+    background:#7b2cbf;
+    color:#fff;
+    cursor:pointer;
+}
+button:hover{
+    background:#9d4edd;
+}
+.hidden{
+    display:none;
+}
+.novel{
+    background:#2b2b2b;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+}
+.cover{
+    width:100%;
+    max-height:250px;
+    object-fit:cover;
+    border-radius:10px;
+}
+.chapter{
+    background:#181818;
+    padding:10px;
+    border-radius:8px;
+    margin-top:10px;
+}
+</style>
 </head>
 <body>
 
@@ -87,170 +81,200 @@
 
 <div class="container">
 
-  <!-- LOGIN -->
-  <div class="card" id="authBox">
-    <h2>Login / Register</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <button onclick="register()">Register</button>
-  </div>
+<div class="card" id="authBox">
+<h2>Login</h2>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
 
-  <!-- DASHBOARD -->
-  <div class="card hidden" id="dashboard">
-    <h2>Dashboard</h2>
-    <p>Selamat datang, <span id="userDisplay"></span></p>
-    <div class="role-badge" id="roleDisplay"></div>
+<div class="card hidden" id="dashboard">
+<h2>Dashboard</h2>
+<p id="userInfo"></p>
+<button id="btnNovel" class="hidden" onclick="showNovelForm()">Tambah Novel</button>
+<button id="btnChapter" class="hidden" onclick="showChapterForm()">Tambah Chapter</button>
+<button onclick="logout()">Logout</button>
+</div>
 
-    <button id="btnAddNovel" class="hidden" onclick="showNovelForm()">Tambah Novel</button>
-    <button id="btnAddChapter" class="hidden" onclick="showChapterForm()">Tambah Chapter</button>
+<div class="card hidden" id="novelForm">
+<h2>Tambah Novel</h2>
+<input type="text" id="novelTitle" placeholder="Judul Novel">
+<textarea id="novelDesc" placeholder="Deskripsi Novel"></textarea>
+<input type="file" id="novelCover" accept="image/*">
+<button onclick="addNovel()">Simpan Novel</button>
+</div>
 
-    <button onclick="logout()">Logout</button>
-  </div>
+<div class="card hidden" id="chapterForm">
+<h2>Tambah Chapter</h2>
+<input type="number" id="chapterNovelId" placeholder="ID Novel">
+<input type="text" id="chapterTitle" placeholder="Judul Chapter">
+<textarea id="chapterContent" placeholder="Isi Chapter"></textarea>
+<button onclick="addChapter()">Simpan Chapter</button>
+</div>
 
-  <!-- TAMBAH NOVEL -->
-  <div class="card hidden" id="novelForm">
-    <h2>Tambah Novel</h2>
-    <input type="text" id="novelTitle" placeholder="Judul Novel">
-    <textarea id="novelDesc" rows="5" placeholder="Deskripsi Novel"></textarea>
-    <button onclick="addNovel()">Simpan Novel</button>
-  </div>
-
-  <!-- TAMBAH CHAPTER -->
-  <div class="card hidden" id="chapterForm">
-    <h2>Tambah Chapter</h2>
-    <input type="text" id="chapterNovel" placeholder="Judul Novel">
-    <input type="text" id="chapterTitle" placeholder="Judul Chapter">
-    <textarea id="chapterContent" rows="8" placeholder="Isi Chapter"></textarea>
-    <button onclick="addChapter()">Simpan Chapter</button>
-  </div>
-
-  <!-- LIST NOVEL -->
-  <div class="card">
-    <h2>Daftar Novel</h2>
-    <div id="novelList"></div>
-  </div>
+<div class="card">
+<h2>Daftar Novel</h2>
+<div id="novelList"></div>
+</div>
 
 </div>
 
 <script>
-let users = [
-  {
-    username:"Varen",
-    password:"farel1211",
-    role:"developer"
-  }
-];
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
-let novels = [];
 
-function register(){
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  if(!username || !password){
-    alert("Isi username dan password");
-    return;
-  }
-
-  users.push({
-    username,
-    password,
-    role:"member"
-  });
-
-  alert("Register berhasil");
-}
+const users = [
+    {
+        username:"Varen",
+        password:"farel1211",
+        role:"developer"
+    }
+];
 
 function login(){
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-  const user = users.find(u => u.username===username && u.password===password);
+    const user = users.find(
+        u => u.username === username && u.password === password
+    );
 
-  if(!user){
-    alert("Login gagal");
-    return;
-  }
+    if(!user){
+        alert("Login gagal");
+        return;
+    }
 
-  currentUser = user;
+    currentUser = user;
 
-  document.getElementById("authBox").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
+    document.getElementById("authBox").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
 
-  document.getElementById("userDisplay").innerText = user.username;
-  document.getElementById("roleDisplay").innerText = "Role: " + user.role;
+    document.getElementById("userInfo").innerText =
+        "Login sebagai " + user.username + " (" + user.role + ")";
 
-  if(user.role === "developer" || user.role === "admin" || user.role === "writer"){
-    document.getElementById("btnAddNovel").classList.remove("hidden");
-    document.getElementById("btnAddChapter").classList.remove("hidden");
-  }
+    if(["developer","admin","writer"].includes(user.role)){
+        document.getElementById("btnNovel").classList.remove("hidden");
+        document.getElementById("btnChapter").classList.remove("hidden");
+    }
+
+    loadNovels();
 }
 
 function logout(){
-  currentUser = null;
-  location.reload();
+    location.reload();
 }
 
 function showNovelForm(){
-  document.getElementById("novelForm").classList.remove("hidden");
+    document.getElementById("novelForm").classList.remove("hidden");
 }
 
 function showChapterForm(){
-  document.getElementById("chapterForm").classList.remove("hidden");
+    document.getElementById("chapterForm").classList.remove("hidden");
 }
 
-function addNovel(){
-  const title = document.getElementById("novelTitle").value;
-  const desc = document.getElementById("novelDesc").value;
+async function addNovel(){
+    const title = document.getElementById("novelTitle").value;
+    const desc = document.getElementById("novelDesc").value;
+    const file = document.getElementById("novelCover").files[0];
 
-  novels.push({
-    title,
-    desc,
-    chapters:[]
-  });
+    let coverUrl = "";
 
-  renderNovels();
-  alert("Novel ditambahkan");
+    if(file){
+        const fileName = Date.now() + "_" + file.name;
+
+        const { error:uploadError } = await db.storage
+            .from("novel-covers")
+            .upload(fileName, file);
+
+        if(uploadError){
+            alert(uploadError.message);
+            return;
+        }
+
+        const { data } = db.storage
+            .from("novel-covers")
+            .getPublicUrl(fileName);
+
+        coverUrl = data.publicUrl;
+    }
+
+    const { error } = await db.from("novels").insert([
+        {
+            title:title,
+            description:desc,
+            cover_url:coverUrl
+        }
+    ]);
+
+    if(error){
+        alert(error.message);
+        return;
+    }
+
+    alert("Novel berhasil ditambahkan");
+    loadNovels();
 }
 
-function addChapter(){
-  const novelName = document.getElementById("chapterNovel").value;
-  const chapterTitle = document.getElementById("chapterTitle").value;
-  const content = document.getElementById("chapterContent").value;
+async function addChapter(){
+    const novelId = document.getElementById("chapterNovelId").value;
+    const title = document.getElementById("chapterTitle").value;
+    const content = document.getElementById("chapterContent").value;
 
-  const novel = novels.find(n => n.title === novelName);
+    const { error } = await db.from("chapters").insert([
+        {
+            novel_id:novelId,
+            title:title,
+            content:content
+        }
+    ]);
 
-  if(!novel){
-    alert("Novel tidak ditemukan");
-    return;
-  }
+    if(error){
+        alert(error.message);
+        return;
+    }
 
-  novel.chapters.push({
-    title:chapterTitle,
-    content:content
-  });
-
-  renderNovels();
-  alert("Chapter ditambahkan");
+    alert("Chapter berhasil ditambahkan");
+    loadNovels();
 }
 
-function renderNovels(){
-  const list = document.getElementById("novelList");
-  list.innerHTML = "";
+async function loadNovels(){
+    const { data:novels } = await db.from("novels").select("*").order("id");
+    const { data:chapters } = await db.from("chapters").select("*").order("id");
 
-  novels.forEach(novel => {
-    let html = `
-      <div class="novel-item">
-        <h3>${novel.title}</h3>
-        <p>${novel.desc}</p>
-        <small>${novel.chapters.length} Chapter</small>
-      </div>
-    `;
-    list.innerHTML += html;
-  });
+    const list = document.getElementById("novelList");
+    list.innerHTML = "";
+
+    novels.forEach(novel => {
+        const chapterList = chapters.filter(c => c.novel_id == novel.id);
+
+        let html = `
+        <div class="novel">
+            ${novel.cover_url ? `<img src="${novel.cover_url}" class="cover">` : ""}
+            <h3>${novel.title}</h3>
+            <p>${novel.description}</p>
+            <small>ID Novel: ${novel.id}</small>
+        `;
+
+        chapterList.forEach(ch => {
+            html += `
+            <div class="chapter">
+                <b>${ch.title}</b>
+                <p>${ch.content.substring(0,200)}...</p>
+            </div>
+            `;
+        });
+
+        html += `</div>`;
+
+        list.innerHTML += html;
+    });
 }
+
+loadNovels();
 </script>
 
 </body>
