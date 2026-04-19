@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>VNovel - Platform Novel & Komik</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>VNovel - Archeon</title>
     <style>
         * {
             margin: 0;
@@ -13,10 +12,9 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: #faf7f2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f0e8;
             color: #1a1a1a;
-            transition: all 0.3s ease;
         }
 
         body.dark {
@@ -24,12 +22,7 @@
             color: #e0e0e0;
         }
 
-        body.dark .header,
-        body.dark .komik-card,
-        body.dark .chapter-card,
-        body.dark .reading-content,
-        body.dark .modal-content,
-        body.dark .dashboard-panel {
+        body.dark .header, body.dark .komik-card, body.dark .chapter-card, body.dark .reading-content, body.dark .modal-content {
             background: #1e1e1e;
             border-color: #333;
         }
@@ -37,7 +30,7 @@
         /* HEADER */
         .header {
             background: white;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -45,19 +38,11 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            flex-wrap: wrap;
-            gap: 0.8rem;
         }
 
         .logo h1 {
             color: #b87c4f;
-            font-size: 1.3rem;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .logo p {
-            font-size: 0.6rem;
-            opacity: 0.7;
+            font-size: 1.2rem;
         }
 
         .right-area {
@@ -70,27 +55,20 @@
             background: #b87c4f;
             border: none;
             color: white;
-            width: 36px;
-            height: 36px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 1rem;
-            transition: 0.2s;
         }
 
-        .icon-btn:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
-        }
-
-        /* DROPDOWN USER */
         .user-dropdown {
             position: absolute;
-            top: 60px;
-            right: 20px;
+            top: 55px;
+            right: 10px;
             background: white;
             border-radius: 12px;
-            min-width: 170px;
+            min-width: 150px;
             display: none;
             z-index: 200;
             border: 1px solid #ddd;
@@ -108,11 +86,11 @@
 
         .user-dropdown a {
             display: block;
-            padding: 0.7rem 1rem;
+            padding: 0.5rem 0.8rem;
             color: #2c2c2c;
             text-decoration: none;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         body.dark .user-dropdown a {
@@ -129,36 +107,28 @@
 
         .user-dropdown .user-name {
             color: #b87c4f;
-            border-bottom: 1px solid #eee;
             font-weight: bold;
         }
 
-        /* CONTAINER */
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .page {
             display: none;
-            animation: fadeIn 0.3s ease;
         }
 
         .page.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* GRID KOMIK - seperti website komik */
+        /* GRID KOMIK */
         .komik-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
             margin-top: 1rem;
         }
 
@@ -167,15 +137,13 @@
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            transition: 0.3s;
             border: 1px solid #e0d5c8;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: 0.2s;
         }
 
         .komik-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: #b87c4f;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         /* GAMBAR RASIO 2:3 */
@@ -183,9 +151,6 @@
             width: 100%;
             aspect-ratio: 2 / 3;
             background: #2a2a2a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
 
@@ -196,108 +161,73 @@
         }
 
         .komik-info {
-            padding: 0.8rem;
+            padding: 0.5rem;
         }
 
         .komik-title {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: bold;
             color: #b87c4f;
-            font-family: 'Playfair Display', serif;
-            line-height: 1.3;
         }
 
-        .komik-desc {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 0.3rem;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* GRID CHAPTER */
+        /* CHAPTER GRID */
         .chapter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 0.8rem;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.7rem;
             margin-top: 1rem;
         }
 
         .chapter-card {
             background: white;
-            border-radius: 10px;
-            padding: 0.7rem;
+            border-radius: 8px;
+            padding: 0.5rem;
             cursor: pointer;
             text-align: center;
-            transition: 0.3s;
             border: 1px solid #e0d5c8;
-            position: relative;
         }
 
         .chapter-card:hover {
             border-color: #b87c4f;
             background: #faf7f2;
-            transform: translateY(-2px);
         }
 
         .chapter-num {
             color: #b87c4f;
             font-size: 0.7rem;
-            font-weight: 600;
         }
 
         .chapter-title {
-            font-size: 0.75rem;
-            margin-top: 0.2rem;
-            line-height: 1.3;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .chapter-edit-btn {
-            position: absolute;
-            top: 3px;
-            right: 5px;
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
             font-size: 0.7rem;
+            margin-top: 0.2rem;
         }
 
-        .chapter-edit-btn:hover {
-            color: #b87c4f;
-        }
-
-        /* READING PAGE */
+        /* READING */
         .reading-content {
             background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1rem;
         }
 
         .reading-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #b87c4f;
             border-left: 3px solid #b87c4f;
-            padding-left: 0.8rem;
-            margin-bottom: 1.2rem;
-            font-family: 'Playfair Display', serif;
+            padding-left: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .reading-text p {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             text-indent: 1.5em;
-            font-size: 0.95rem;
-            line-height: 1.7;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .nav-chapter {
             display: flex;
             justify-content: space-between;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             gap: 0.5rem;
         }
 
@@ -305,115 +235,84 @@
             background: #2a2a2a;
             border: none;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             flex: 1;
-        }
-
-        .nav-chapter button:hover:not(:disabled) {
-            background: #b87c4f;
         }
 
         .nav-chapter button:disabled {
             opacity: 0.4;
-            cursor: not-allowed;
         }
 
         /* KOMENTAR */
         .comment-section {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid #ddd;
         }
 
         .comment-section h4 {
             color: #b87c4f;
-            margin-bottom: 0.8rem;
-            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .comment-input {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
         }
 
         .comment-input textarea {
             flex: 1;
-            padding: 0.7rem;
-            background: #f5f0e8;
+            padding: 0.5rem;
             border: 1px solid #ddd;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: inherit;
+            font-size: 0.8rem;
             resize: vertical;
-            font-size: 0.85rem;
-        }
-
-        body.dark .comment-input textarea {
-            background: #2a2a2a;
-            border-color: #444;
-            color: white;
         }
 
         .comment-input button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.85rem;
         }
 
         .comment {
             background: #f5f0e8;
-            padding: 0.8rem;
-            border-radius: 12px;
-            margin-bottom: 0.7rem;
-        }
-
-        body.dark .comment {
-            background: #2a2a2a;
+            padding: 0.5rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
         }
 
         .comment-user {
             font-weight: bold;
             color: #b87c4f;
-            margin-bottom: 0.2rem;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .comment-date {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             opacity: 0.6;
-            margin-left: 0.3rem;
         }
 
         .comment-text {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-top: 0.2rem;
-            line-height: 1.4;
-        }
-
-        .writer-badge {
-            background: #27ae60;
-            color: white;
-            padding: 0.1rem 0.4rem;
-            border-radius: 15px;
-            font-size: 0.6rem;
-            margin-left: 0.3rem;
         }
 
         .login-to-comment {
             text-align: center;
-            padding: 1rem;
+            padding: 0.8rem;
             background: #f5f0e8;
-            border-radius: 12px;
-            color: #666;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
         }
 
         .login-to-comment a {
@@ -429,7 +328,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -442,64 +341,37 @@
         .modal-content {
             background: white;
             padding: 1.5rem;
-            border-radius: 20px;
-            max-width: 400px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
+            border-radius: 16px;
+            width: 280px;
+            text-align: center;
         }
 
         .modal-content h3 {
             color: #b87c4f;
             margin-bottom: 1rem;
-            text-align: center;
-            font-size: 1.2rem;
         }
 
-        .modal-content input,
-        .modal-content textarea,
-        .modal-content select {
+        .modal-content input {
             width: 100%;
-            padding: 0.7rem;
+            padding: 0.5rem;
             margin-bottom: 0.8rem;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 0.85rem;
-        }
-
-        .modal-content textarea {
-            resize: vertical;
-        }
-
-        body.dark .modal-content input,
-        body.dark .modal-content textarea,
-        body.dark .modal-content select {
-            background: #2a2a2a;
-            border-color: #444;
-            color: white;
+            border-radius: 8px;
         }
 
         .modal-content button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.6rem;
-            border-radius: 25px;
+            padding: 0.5rem;
+            border-radius: 20px;
             cursor: pointer;
             width: 100%;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        .modal-content button.cancel {
-            background: #666;
         }
 
         .auth-switch {
-            text-align: center;
             margin-top: 0.8rem;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
 
         .auth-switch a {
@@ -507,138 +379,28 @@
             cursor: pointer;
         }
 
-        .auth-message {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            text-align: center;
-            color: #b87c4f;
-        }
-
-        /* BACK BUTTON */
         .back-btn {
             background: #2a2a2a;
             border: none;
             color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 25px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
             cursor: pointer;
-            margin-bottom: 1rem;
-            font-size: 0.8rem;
-            display: inline-block;
+            margin-bottom: 0.8rem;
+            font-size: 0.7rem;
         }
 
-        .back-btn:hover {
-            background: #b87c4f;
-        }
-
-        /* FOOTER */
         .footer {
             text-align: center;
-            padding: 1.5rem;
-            border-top: 1px solid #ddd;
+            padding: 1rem;
             font-size: 0.7rem;
-            opacity: 0.7;
+            border-top: 1px solid #ddd;
             margin-top: 1rem;
         }
 
-        /* DASHBOARD */
-        .dashboard-panel {
-            background: white;
-            border-radius: 16px;
-            padding: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        .dashboard-panel h2 {
-            color: #b87c4f;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .user-list, .novel-list {
-            margin-top: 0.8rem;
-        }
-
-        .user-item, .novel-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.6rem;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .role-owner { background: #b87c4f; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.7rem; }
-        .role-writer { background: #27ae60; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.7rem; }
-        .role-user { background: #666; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.7rem; }
-
-        .edit-user-btn, .edit-novel-btn {
-            background: #3498db;
-            border: none;
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            margin-right: 0.3rem;
-        }
-
-        .delete-user-btn, .delete-novel-btn {
-            background: #e74c3c;
-            border: none;
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-
-        .create-form {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
-        }
-
-        .create-form h3 {
-            color: #b87c4f;
-            margin-bottom: 0.8rem;
-            font-size: 1rem;
-        }
-
-        .create-form input, .create-form textarea {
-            width: 100%;
-            padding: 0.6rem;
-            margin-bottom: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 0.85rem;
-        }
-
-        body.dark .create-form input, body.dark .create-form textarea {
-            background: #2a2a2a;
-            border-color: #444;
-            color: white;
-        }
-
-        .create-form button {
-            background: #27ae60;
-            border: none;
-            color: white;
-            padding: 0.6rem 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
-        /* RESPONSIVE */
         @media (max-width: 600px) {
-            .container { padding: 1rem; }
-            .komik-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
-            .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-            .reading-title { font-size: 1.2rem; }
-            .reading-text p { font-size: 0.9rem; }
+            .container { padding: 0.8rem; }
+            .komik-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
         }
     </style>
 </head>
@@ -647,10 +409,9 @@
 <div class="header">
     <div class="logo">
         <h1>📚 VNOVEL</h1>
-        <p>Baca Novel & Komik</p>
     </div>
     <div class="right-area">
-        <button class="icon-btn" id="themeToggle">🌙</button>
+        <button class="icon-btn" id="themeBtn">🌙</button>
         <button class="icon-btn" id="accountBtn">👤</button>
         <div class="user-dropdown" id="userDropdown">
             <div id="dropdownContent"></div>
@@ -663,55 +424,21 @@
         <div class="komik-grid" id="komikGrid"></div>
     </div>
 
-    <div id="chapters-page" class="page">
-        <button class="back-btn" id="backToHomeBtn">← Kembali</button>
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <h2 style="color: #b87c4f; font-size: 1.1rem;" id="komikTitle"></h2>
-            <button id="addChapterBtn" style="display:none; background:#27ae60; border:none; color:white; padding:0.3rem 0.8rem; border-radius:20px; font-size:0.7rem;">+ Tambah Bab</button>
-        </div>
-        <div id="chapter-list-container" class="chapter-grid"></div>
+    <div id="chaptersPage" class="page">
+        <button class="back-btn" id="backHomeBtn">← Kembali</button>
+        <h2 style="color:#b87c4f; margin:0.5rem 0; font-size:1rem;" id="komikTitle"></h2>
+        <div id="chapterList" class="chapter-grid"></div>
     </div>
 
-    <div id="reading-page" class="page">
-        <button class="back-btn" id="backToChaptersBtn">← Daftar Bab</button>
-        <div id="readingContainer"></div>
-    </div>
-
-    <div id="dashboard-page" class="page">
-        <button class="back-btn" id="backToHomeFromDashboardBtn">← Beranda</button>
-        <div class="dashboard-panel">
-            <h2>👑 Dashboard Owner</h2>
-            <p>Kelola akun pengguna</p>
-            <div id="userListContainer" class="user-list"></div>
-        </div>
-        <div class="dashboard-panel" style="margin-top:1rem;">
-            <h2>📚 Manajemen Novel</h2>
-            <div id="novelListContainer" class="novel-list"></div>
-            <div class="create-form">
-                <h3>📝 Buat Novel Baru</h3>
-                <input type="text" id="newNovelTitle" placeholder="Judul Novel">
-                <textarea id="newNovelDesc" rows="2" placeholder="Deskripsi Novel"></textarea>
-                <input type="text" id="newNovelImage" placeholder="Nama file gambar (contoh: novel.jpg)">
-                <button id="createNovelBtn">+ Buat Novel</button>
-                <div id="createNovelMessage" class="auth-message"></div>
-            </div>
-        </div>
+    <div id="readPage" class="page">
+        <button class="back-btn" id="backChaptersBtn">← Daftar Bab</button>
+        <div id="readContainer"></div>
     </div>
 </div>
 
 <div id="authModal" class="modal">
     <div class="modal-content">
-        <div id="modalFormContainer"></div>
-    </div>
-</div>
-
-<div id="chapterModal" class="modal">
-    <div class="modal-content">
-        <h3 id="chapterModalTitle">Tambah Bab Baru</h3>
-        <input type="text" id="chapterTitleInput" placeholder="Judul Bab">
-        <textarea id="chapterContentInput" rows="10" placeholder="Isi cerita bab..."></textarea>
-        <button id="saveChapterBtn">Simpan</button>
-        <button id="cancelChapterBtn" class="cancel">Batal</button>
+        <div id="authForm"></div>
     </div>
 </div>
 
@@ -720,456 +447,270 @@
 </div>
 
 <script>
-    // ==================== DATA STORAGE ====================
-    let komikData = [];
+    // ==================== DATA ====================
     let currentUser = localStorage.getItem('currentUser') || null;
     let currentKomik = null;
-    let currentChapter = null;
-    let editingChapterId = null;
-    let editingNovelId = null;
-
-    function loadData() {
-        const saved = localStorage.getItem('vnovel_data');
-        if (saved) {
-            komikData = JSON.parse(saved);
-        } else {
-            komikData = [{
-                id: 1,
-                title: "Archeon: The End Before Beginning",
-                description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
-                image: "archeonn.jpg",
-                chapters: [
-                    { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>" },
-                    { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. <em>— Bab 2 selesai —</em></p>" }
-                ]
-            }];
-            for (let i = 3; i <= 25; i++) {
-                komikData[0].chapters.push({ id: i, title: `Bab ${i}`, content: `<p>Cerita berlanjut ke bab ${i}... <em>— Bab ${i} selesai —</em></p>` });
-            }
-            saveData();
+    
+    // Data novel
+    let komikData = [
+        {
+            id: 1,
+            title: "Archeon: The End Before Beginning",
+            description: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
+            image: "archeonn.jpg",
+            chapters: []
         }
-        renderKomikGrid();
+    ];
+
+    // Generate 25 chapter
+    const judulBab = [
+        "Anak yang Lahir dalam Keheningan", "Hari yang Tidak Memilihnya", "Yang Dibuang Oleh Cahaya",
+        "Langkah Pertama di Luar Cahaya", "Kota di Ujung Hutan", "Nama yang Dicari Kegelapan",
+        "Nama yang Bukan Miliknya", "Jejak yang Mulai Terbuka", "Reruntuhan yang Mengenalnya",
+        "Pintu Kedua", "Runtuhan yang Memilih", "Suara dari Dalam Diri",
+        "Cahaya yang Tetap Tinggal", "Luka Pertama", "Simbol Kedua",
+        "Nama yang Dibisikkan", "Kota yang Menolak", "Pedang Tanpa Mana",
+        "Malam Berdarah Astera", "Nama yang Mulai Bangkit", "Setelah Nama Itu Bangkit",
+        "Mata di Dalam Bayangan", "Jalan ke Timur", "Kota Abu yang Sunyi", "Desa yang Mengingat"
+    ];
+
+    for (let i = 0; i < 25; i++) {
+        komikData[0].chapters.push({
+            id: i + 1,
+            title: judulBab[i],
+            content: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab ${i+1} selesai —</em></p>`
+        });
     }
 
-    function saveData() {
-        localStorage.setItem('vnovel_data', JSON.stringify(komikData));
+    // ==================== FUNGSI ====================
+    function renderKomik() {
+        const grid = document.getElementById('komikGrid');
+        if (!grid) return;
+        grid.innerHTML = komikData.map(k => `
+            <div class="komik-card" onclick="pilihKomik(${k.id})">
+                <div class="komik-image">
+                    <img src="${k.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Novel'">
+                </div>
+                <div class="komik-info">
+                    <div class="komik-title">${k.title}</div>
+                </div>
+            </div>
+        `).join('');
     }
 
-    // ==================== LOGIN SYSTEM ====================
+    window.pilihKomik = function(id) {
+        currentKomik = komikData.find(k => k.id === id);
+        if (!currentKomik) return;
+        document.getElementById('komikTitle').innerHTML = currentKomik.title;
+        renderChapterList();
+        showPage('chaptersPage');
+    }
+
+    function renderChapterList() {
+        const container = document.getElementById('chapterList');
+        if (!container || !currentKomik) return;
+        container.innerHTML = currentKomik.chapters.map(ch => `
+            <div class="chapter-card" onclick="bacaBab(${ch.id})">
+                <div class="chapter-num">Bab ${ch.id}</div>
+                <div class="chapter-title">${ch.title}</div>
+            </div>
+        `).join('');
+    }
+
+    window.bacaBab = function(chapterId) {
+        const bab = currentKomik.chapters.find(ch => ch.id === chapterId);
+        if (!bab) return;
+        
+        // Load komentar
+        const comments = loadComments(currentKomik.id, chapterId);
+        let htmlKomen = '';
+        if (comments.length > 0) {
+            htmlKomen = comments.map(c => `<div class="comment"><div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div><div class="comment-text">${c.text}</div></div>`).join('');
+        } else {
+            htmlKomen = '<p style="opacity:0.6;">Belum ada komentar.</p>';
+        }
+        
+        let formKomen = '';
+        if (currentUser) {
+            formKomen = `<div class="comment-input"><textarea id="komenText" rows="2" placeholder="Tulis komentar..."></textarea><button onclick="kirimKomen(${currentKomik.id}, ${chapterId})">Kirim</button></div>`;
+        } else {
+            formKomen = `<div class="login-to-comment">🔐 <a onclick="openAuthModal('login')">Login</a> untuk berkomentar</div>`;
+        }
+        
+        const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
+        const prevBab = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
+        const nextBab = currentIndex < currentKomik.chapters.length - 1 ? currentKomik.chapters[currentIndex + 1] : null;
+        
+        const container = document.getElementById('readContainer');
+        container.innerHTML = `
+            <div class="reading-content">
+                <div class="reading-title">Bab ${bab.id} — ${bab.title}</div>
+                <div class="reading-text">${bab.content}</div>
+                <div class="nav-chapter">
+                    <button id="prevBtn" ${!prevBab ? 'disabled' : ''}>← Sebelumnya</button>
+                    <button id="nextBtn" ${!nextBab ? 'disabled' : ''}>Selanjutnya →</button>
+                </div>
+                <div class="comment-section">
+                    <h4>💬 Komentar (${comments.length})</h4>
+                    <div id="komenList">${htmlKomen}</div>
+                    ${formKomen}
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('prevBtn')?.onclick = () => { if (prevBab) bacaBab(prevBab.id); };
+        document.getElementById('nextBtn')?.onclick = () => { if (nextBab) bacaBab(nextBab.id); };
+        
+        showPage('readPage');
+    }
+
+    window.kirimKomen = function(komikId, chapterId) {
+        const text = document.getElementById('komenText').value;
+        if (!text.trim()) return;
+        const key = `komentar_${komikId}_${chapterId}`;
+        let komen = localStorage.getItem(key);
+        komen = komen ? JSON.parse(komen) : [];
+        komen.push({ user: currentUser, text: text, date: new Date().toLocaleString() });
+        localStorage.setItem(key, JSON.stringify(komen));
+        bacaBab(chapterId);
+    }
+
+    function loadComments(komikId, chapterId) {
+        const key = `komentar_${komikId}_${chapterId}`;
+        const komen = localStorage.getItem(key);
+        return komen ? JSON.parse(komen) : [];
+    }
+
+    // ==================== LOGIN ====================
     function loadUsers() {
         const users = localStorage.getItem('users');
         if (users) return JSON.parse(users);
-        const defaultUsers = { 'Varen': { password: 'farelgg1211', role: 'owner' } };
-        saveUsers(defaultUsers);
+        const defaultUsers = { 'Varen': { password: 'farelgg1211' } };
+        localStorage.setItem('users', JSON.stringify(defaultUsers));
         return defaultUsers;
     }
 
-    function saveUsers(users) {
-        localStorage.setItem('users', JSON.stringify(users));
-    }
-
-    function register(username, password, role = 'user') {
+    function register(username, password) {
         const users = loadUsers();
-        if (users[username]) return { success: false, message: 'Username sudah digunakan!' };
-        if (username.length < 3) return { success: false, message: 'Username minimal 3 karakter!' };
-        if (password.length < 4) return { success: false, message: 'Password minimal 4 karakter!' };
-        users[username] = { password: password, role: role };
-        saveUsers(users);
-        return { success: true, message: 'Akun berhasil dibuat!' };
+        if (users[username]) return 'Username sudah ada!';
+        if (username.length < 3) return 'Username minimal 3 karakter!';
+        if (password.length < 4) return 'Password minimal 4 karakter!';
+        users[username] = { password: password };
+        localStorage.setItem('users', JSON.stringify(users));
+        return 'success';
     }
 
     function login(username, password) {
         const users = loadUsers();
         const user = users[username];
-        if (!user) return { success: false, message: 'Username tidak ditemukan!' };
-        if (user.password !== password) return { success: false, message: 'Password salah!' };
+        if (!user) return 'Username tidak ditemukan!';
+        if (user.password !== password) return 'Password salah!';
         localStorage.setItem('currentUser', username);
         currentUser = username;
-        updateUserDropdown();
-        return { success: true, message: `Selamat datang, ${username}!` };
+        updateDropdown();
+        return 'success';
     }
 
     function logout() {
         localStorage.removeItem('currentUser');
         currentUser = null;
-        updateUserDropdown();
-        showHomePage();
+        updateDropdown();
+        showPage('home');
     }
 
-    function getUserRole() {
-        const users = loadUsers();
-        return users[currentUser]?.role || 'user';
-    }
-
-    function isOwner() { return getUserRole() === 'owner'; }
-    function isWriter() { return getUserRole() === 'writer' || getUserRole() === 'owner'; }
-
-    // ==================== NOVEL CRUD ====================
-    function createNovel(title, description, image) {
-        if (!isWriter()) return false;
-        const newId = Date.now();
-        komikData.push({ id: newId, title: title, description: description, image: image || 'default.jpg', chapters: [] });
-        saveData();
-        renderKomikGrid();
-        if (isOwner()) renderNovelList();
-        return true;
-    }
-
-    function updateNovel(novelId, title, description, image) {
-        if (!isWriter()) return false;
-        const novel = komikData.find(n => n.id == novelId);
-        if (novel) {
-            novel.title = title;
-            novel.description = description;
-            if (image) novel.image = image;
-            saveData();
-            renderKomikGrid();
-            if (isOwner()) renderNovelList();
-        }
-        return true;
-    }
-
-    function deleteNovel(novelId) {
-        if (!isOwner()) return false;
-        komikData = komikData.filter(n => n.id != novelId);
-        saveData();
-        renderKomikGrid();
-        if (isOwner()) renderNovelList();
-        return true;
-    }
-
-    function addChapter(novelId, title, content) {
-        if (!isWriter()) return false;
-        const novel = komikData.find(n => n.id == novelId);
-        if (novel) {
-            const newId = novel.chapters.length > 0 ? Math.max(...novel.chapters.map(c => c.id)) + 1 : 1;
-            novel.chapters.push({ id: newId, title: title, content: content });
-            saveData();
-            if (currentKomik && currentKomik.id == novelId) renderChapterList();
-            if (isOwner()) renderNovelList();
-        }
-        return true;
-    }
-
-    function updateChapter(novelId, chapterId, title, content) {
-        if (!isWriter()) return false;
-        const novel = komikData.find(n => n.id == novelId);
-        if (novel) {
-            const chapter = novel.chapters.find(c => c.id == chapterId);
-            if (chapter) {
-                chapter.title = title;
-                chapter.content = content;
-                saveData();
-                if (currentKomik && currentKomik.id == novelId) renderChapterList();
-            }
-        }
-        return true;
-    }
-
-    function deleteChapter(novelId, chapterId) {
-        if (!isOwner()) return false;
-        const novel = komikData.find(n => n.id == novelId);
-        if (novel) {
-            novel.chapters = novel.chapters.filter(c => c.id != chapterId);
-            saveData();
-            if (currentKomik && currentKomik.id == novelId) renderChapterList();
-            if (isOwner()) renderNovelList();
-        }
-        return true;
-    }
-
-    // ==================== UI FUNCTIONS ====================
-    function renderKomikGrid() {
-        const grid = document.getElementById('komikGrid');
-        if (!grid) return;
-        grid.innerHTML = komikData.map(komik => `
-            <div class="komik-card" onclick="selectKomik(${komik.id})">
-                <div class="komik-image">
-                    <img src="${komik.image}" alt="${komik.title}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Novel'">
-                </div>
-                <div class="komik-info">
-                    <div class="komik-title">${komik.title}</div>
-                    <div class="komik-desc">${komik.description.substring(0, 80)}${komik.description.length > 80 ? '...' : ''}</div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    window.selectKomik = function(komikId) {
-        currentKomik = komikData.find(k => k.id === komikId);
-        if (!currentKomik) return;
-        document.getElementById('komikTitle').innerHTML = `📖 ${currentKomik.title}`;
-        const addBtn = document.getElementById('addChapterBtn');
-        if (addBtn && isWriter()) addBtn.style.display = 'inline-block';
-        else if (addBtn) addBtn.style.display = 'none';
-        renderChapterList();
-        showChaptersPage();
-    }
-
-    function renderChapterList() {
-        const container = document.getElementById('chapter-list-container');
-        if (!container || !currentKomik) return;
-        container.innerHTML = currentKomik.chapters.map(ch => `
-            <div class="chapter-card" onclick="openChapter(${ch.id})">
-                <div class="chapter-num">Bab ${ch.id}</div>
-                <div class="chapter-title">${ch.title}</div>
-                ${isWriter() ? `<button class="chapter-edit-btn" onclick="event.stopPropagation(); editChapter(${ch.id})">✏️</button>` : ''}
-            </div>
-        `).join('');
-    }
-
-    window.openChapter = function(chapterId) {
-        currentChapter = currentKomik.chapters.find(ch => ch.id === chapterId);
-        if (!currentChapter) return;
-        
-        const comments = loadComments(currentKomik.id, chapterId);
-        let commentsHtml = comments.length > 0 ? comments.map(c => `<div class="comment"><div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div><div class="comment-text">${c.text}</div></div>`).join('') : '<p style="opacity:0.6;">Belum ada komentar.</p>';
-        
-        let commentInputHtml = currentUser ? `<div class="comment-input"><textarea id="commentText" rows="2" placeholder="Tulis komentar..."></textarea><button id="submitCommentBtn">Kirim</button></div>` : `<div class="login-to-comment">🔐 <a id="loginToCommentBtn">Login</a> untuk berkomentar</div>`;
-        
-        const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
-        const prevChapter = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
-        const nextChapter = currentIndex < currentKomik.chapters.length - 1 ? currentKomik.chapters[currentIndex + 1] : null;
-        
-        const readingContainer = document.getElementById('readingContainer');
-        readingContainer.innerHTML = `
-            <div class="reading-content">
-                <div class="reading-title">Bab ${currentChapter.id} — ${currentChapter.title}</div>
-                <div class="reading-text">${currentChapter.content}</div>
-                <div class="nav-chapter">
-                    <button id="prevChapterBtn" ${!prevChapter ? 'disabled' : ''}>← Bab Sebelumnya</button>
-                    <button id="nextChapterBtn" ${!nextChapter ? 'disabled' : ''}>Bab Selanjutnya →</button>
-                </div>
-                <div class="comment-section">
-                    <h4>💬 Komentar (${comments.length})</h4>
-                    <div id="commentsList">${commentsHtml}</div>
-                    ${commentInputHtml}
-                </div>
-            </div>
-        `;
-        
-        document.getElementById('prevChapterBtn')?.onclick = () => { if (prevChapter) openChapter(prevChapter.id); };
-        document.getElementById('nextChapterBtn')?.onclick = () => { if (nextChapter) openChapter(nextChapter.id); };
-        document.getElementById('submitCommentBtn')?.onclick = () => {
-            const text = document.getElementById('commentText').value;
-            if (addComment(currentKomik.id, chapterId, text)) {
-                document.getElementById('commentText').value = '';
-                openChapter(chapterId);
-            }
-        };
-        document.getElementById('loginToCommentBtn')?.onclick = () => openAuthModal('login');
-        showReadingPage();
-    }
-
-    window.editChapter = function(chapterId) {
-        const chapter = currentKomik.chapters.find(ch => ch.id === chapterId);
-        if (!chapter) return;
-        editingChapterId = chapterId;
-        document.getElementById('chapterModalTitle').textContent = 'Edit Bab';
-        document.getElementById('chapterTitleInput').value = chapter.title;
-        document.getElementById('chapterContentInput').value = chapter.content.replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<em>.*?<\/em>/g, '');
-        document.getElementById('chapterModal').classList.add('active');
-    }
-
-    // ==================== KOMENTAR ====================
-    function loadComments(komikId, chapterId) {
-        const key = `comments_${komikId}_${chapterId}`;
-        const comments = localStorage.getItem(key);
-        return comments ? JSON.parse(comments) : [];
-    }
-
-    function addComment(komikId, chapterId, text) {
-        if (!currentUser || !text.trim()) return false;
-        const comments = loadComments(komikId, chapterId);
-        comments.push({ id: Date.now(), user: currentUser, text: text.trim(), date: new Date().toLocaleString() });
-        localStorage.setItem(`comments_${komikId}_${chapterId}`, JSON.stringify(comments));
-        return true;
-    }
-
-    // ==================== PAGE NAVIGATION ====================
-    function showHomePage() {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('home').classList.add('active');
-    }
-    function showChaptersPage() {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('chapters-page').classList.add('active');
-    }
-    function showReadingPage() {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('reading-page').classList.add('active');
-    }
-    function showDashboardPage() {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('dashboard-page').classList.add('active');
-        renderUserList();
-        renderNovelList();
-    }
-
-    function renderUserList() {
-        if (!isOwner()) return;
-        const users = loadUsers();
-        document.getElementById('userListContainer').innerHTML = Object.entries(users).map(([username, data]) => {
-            let roleClass = data.role === 'owner' ? 'role-owner' : (data.role === 'writer' ? 'role-writer' : 'role-user');
-            let roleText = data.role === 'owner' ? '👑 Owner' : (data.role === 'writer' ? '✍️ Penulis' : '📖 Pembaca');
-            return `<div class="user-item"><span><strong>${username}</strong> <span class="${roleClass}">${roleText}</span></span>
-                    ${username !== 'Varen' ? `<div><button class="edit-user-btn" onclick="promoteToWriter('${username}')">Jadikan Penulis</button> <button class="delete-user-btn" onclick="deleteUser('${username}')">Hapus</button></div>` : ''}</div>`;
-        }).join('');
-    }
-
-    window.promoteToWriter = function(username) {
-        const users = loadUsers();
-        if (users[username]) {
-            users[username].role = 'writer';
-            saveUsers(users);
-            renderUserList();
-            alert(`${username} sekarang menjadi Penulis!`);
-        }
-    }
-
-    window.deleteUser = function(username) {
-        if (confirm(`Hapus user "${username}"?`)) {
-            const users = loadUsers();
-            delete users[username];
-            saveUsers(users);
-            renderUserList();
-        }
-    }
-
-    function renderNovelList() {
-        if (!isOwner()) return;
-        const container = document.getElementById('novelListContainer');
-        container.innerHTML = komikData.map(novel => `
-            <div class="novel-item">
-                <div><strong>${novel.title}</strong> (${novel.chapters.length} bab)</div>
-                <div>
-                    <button class="edit-novel-btn" onclick="editNovel(${novel.id})">✏️ Edit</button>
-                    <button class="delete-novel-btn" onclick="deleteNovelConfirm(${novel.id})">🗑️ Hapus</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    window.editNovel = function(novelId) {
-        const novel = komikData.find(n => n.id == novelId);
-        if (!novel) return;
-        editingNovelId = novelId;
-        document.getElementById('newNovelTitle').value = novel.title;
-        document.getElementById('newNovelDesc').value = novel.description;
-        document.getElementById('newNovelImage').value = novel.image;
-        document.getElementById('createNovelBtn').textContent = 'Update Novel';
-    }
-
-    window.deleteNovelConfirm = function(novelId) {
-        if (confirm('Hapus novel ini? Semua bab akan hilang!')) deleteNovel(novelId);
-    }
-
-    // ==================== MODAL AUTH ====================
-    function openAuthModal(tab = 'login') {
-        const modal = document.getElementById('authModal');
-        const container = document.getElementById('modalFormContainer');
-        const loginForm = `<h3>🔐 LOGIN</h3><input type="text" id="loginUsername" placeholder="Username"><input type="password" id="loginPassword" placeholder="Password"><button id="doLoginBtn">Login</button><div class="auth-switch">Belum punya akun? <a id="toRegister">Daftar</a></div><div id="loginMessage" class="auth-message"></div>`;
-        const registerForm = `<h3>📝 DAFTAR</h3><input type="text" id="regUsername" placeholder="Username (min 3)"><input type="password" id="regPassword" placeholder="Password (min 4)"><button id="doRegisterBtn">Daftar</button><div class="auth-switch">Sudah punya akun? <a id="toLogin">Login</a></div><div id="registerMessage" class="auth-message"></div>`;
-        container.innerHTML = tab === 'login' ? loginForm : registerForm;
-        modal.classList.add('active');
-        if (tab === 'login') {
-            document.getElementById('doLoginBtn').onclick = () => {
-                const result = login(document.getElementById('loginUsername').value, document.getElementById('loginPassword').value);
-                document.getElementById('loginMessage').textContent = result.message;
-                if (result.success) setTimeout(() => { modal.classList.remove('active'); location.reload(); }, 1000);
-            };
-            document.getElementById('toRegister').onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
-        } else {
-            document.getElementById('doRegisterBtn').onclick = () => {
-                const result = register(document.getElementById('regUsername').value, document.getElementById('regPassword').value, 'user');
-                document.getElementById('registerMessage').textContent = result.message;
-                if (result.success) setTimeout(() => openAuthModal('login'), 1500);
-            };
-            document.getElementById('toLogin').onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
-        }
-    }
-
-    function updateUserDropdown() {
+    function updateDropdown() {
         const dropdown = document.getElementById('dropdownContent');
         if (!dropdown) return;
         if (currentUser) {
-            const role = getUserRole();
-            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser} ${role === 'owner' ? '👑' : (role === 'writer' ? '✍️' : '')}</a>
-                ${role === 'owner' ? '<a id="dropdownDashboard">📊 Dashboard</a>' : ''}
-                <a id="dropdownLogout">🚪 Logout</a>`;
-            document.getElementById('dropdownLogout')?.addEventListener('click', logout);
-            document.getElementById('dropdownDashboard')?.addEventListener('click', showDashboardPage);
+            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser}</a><a id="logoutBtn">🚪 Logout</a>`;
+            document.getElementById('logoutBtn')?.addEventListener('click', logout);
         } else {
-            dropdown.innerHTML = `<a id="dropdownLogin">🔐 Login / Daftar</a>`;
-            document.getElementById('dropdownLogin')?.addEventListener('click', () => openAuthModal('login'));
+            dropdown.innerHTML = `<a id="loginBtn">🔐 Login / Daftar</a>`;
+            document.getElementById('loginBtn')?.addEventListener('click', () => openAuthModal('login'));
         }
     }
 
-    // ==================== INIT ====================
+    function openAuthModal(tab = 'login') {
+        const modal = document.getElementById('authModal');
+        const form = document.getElementById('authForm');
+        
+        if (tab === 'login') {
+            form.innerHTML = `
+                <h3>🔐 LOGIN</h3>
+                <input type="text" id="loginUser" placeholder="Username">
+                <input type="password" id="loginPass" placeholder="Password">
+                <button id="loginAction">Login</button>
+                <div class="auth-switch">Belum punya akun? <a id="toReg">Daftar</a></div>
+                <div id="authMsg" style="color:#b87c4f; font-size:0.7rem; margin-top:0.5rem;"></div>
+            `;
+            document.getElementById('loginAction')?.onclick = () => {
+                const result = login(document.getElementById('loginUser').value, document.getElementById('loginPass').value);
+                if (result === 'success') {
+                    modal.classList.remove('active');
+                    location.reload();
+                } else {
+                    document.getElementById('authMsg').innerText = result;
+                }
+            };
+            document.getElementById('toReg')?.onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
+        } else {
+            form.innerHTML = `
+                <h3>📝 DAFTAR</h3>
+                <input type="text" id="regUser" placeholder="Username (min 3)">
+                <input type="password" id="regPass" placeholder="Password (min 4)">
+                <button id="regAction">Daftar</button>
+                <div class="auth-switch">Sudah punya akun? <a id="toLogin">Login</a></div>
+                <div id="authMsg" style="color:#b87c4f; font-size:0.7rem; margin-top:0.5rem;"></div>
+            `;
+            document.getElementById('regAction')?.onclick = () => {
+                const result = register(document.getElementById('regUser').value, document.getElementById('regPass').value);
+                if (result === 'success') {
+                    openAuthModal('login');
+                } else {
+                    document.getElementById('authMsg').innerText = result;
+                }
+            };
+            document.getElementById('toLogin')?.onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
+        }
+        modal.classList.add('active');
+    }
+
+    // ==================== NAVIGASI ====================
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    // ==================== DARK MODE ====================
     function initTheme() {
-        const theme = localStorage.getItem('theme') || 'light';
-        if (theme === 'dark') document.body.classList.add('dark');
-        const btn = document.getElementById('themeToggle');
-        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        const dark = localStorage.getItem('dark') === 'true';
+        if (dark) document.body.classList.add('dark');
+        const btn = document.getElementById('themeBtn');
+        btn.textContent = dark ? '☀️' : '🌙';
         btn.onclick = () => {
             document.body.classList.toggle('dark');
-            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-            btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('dark', isDark);
+            btn.textContent = isDark ? '☀️' : '🌙';
         };
     }
 
+    // ==================== INIT ====================
     function init() {
-        loadData();
-        document.getElementById('backToHomeBtn')?.addEventListener('click', showHomePage);
-        document.getElementById('backToChaptersBtn')?.addEventListener('click', showChaptersPage);
-        document.getElementById('backToHomeFromDashboardBtn')?.addEventListener('click', showHomePage);
+        renderKomik();
         
-        document.getElementById('addChapterBtn')?.addEventListener('click', () => {
-            editingChapterId = null;
-            document.getElementById('chapterModalTitle').textContent = 'Tambah Bab Baru';
-            document.getElementById('chapterTitleInput').value = '';
-            document.getElementById('chapterContentInput').value = '';
-            document.getElementById('chapterModal').classList.add('active');
-        });
-        
-        document.getElementById('saveChapterBtn')?.addEventListener('click', () => {
-            const title = document.getElementById('chapterTitleInput').value;
-            const content = `<p>${document.getElementById('chapterContentInput').value.replace(/\n/g, '</p><p>')}</p><em>— Bab selesai —</em>`;
-            if (editingChapterId) updateChapter(currentKomik.id, editingChapterId, title, content);
-            else addChapter(currentKomik.id, title, content);
-            document.getElementById('chapterModal').classList.remove('active');
-            if (currentKomik) renderChapterList();
-        });
-        
-        document.getElementById('cancelChapterBtn')?.addEventListener('click', () => {
-            document.getElementById('chapterModal').classList.remove('active');
-        });
-        
-        document.getElementById('createNovelBtn')?.addEventListener('click', () => {
-            const title = document.getElementById('newNovelTitle').value;
-            const desc = document.getElementById('newNovelDesc').value;
-            const image = document.getElementById('newNovelImage').value;
-            if (editingNovelId) {
-                updateNovel(editingNovelId, title, desc, image);
-                editingNovelId = null;
-                document.getElementById('createNovelBtn').textContent = '+ Buat Novel';
-            } else createNovel(title, desc, image);
-            document.getElementById('newNovelTitle').value = '';
-            document.getElementById('newNovelDesc').value = '';
-            document.getElementById('newNovelImage').value = '';
-        });
+        document.getElementById('backHomeBtn')?.onclick = () => showPage('home');
+        document.getElementById('backChaptersBtn')?.onclick = () => showPage('chaptersPage');
         
         const accountBtn = document.getElementById('accountBtn');
         const dropdown = document.getElementById('userDropdown');
-        accountBtn?.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); });
-        document.addEventListener('click', () => dropdown.classList.remove('active'));
+        accountBtn?.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); };
+        document.onclick = () => dropdown.classList.remove('active');
         
         const modal = document.getElementById('authModal');
-        modal?.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
-        const chapterModal = document.getElementById('chapterModal');
-        chapterModal?.addEventListener('click', (e) => { if (e.target === chapterModal) chapterModal.classList.remove('active'); });
+        modal?.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
         
-        updateUserDropdown();
+        updateDropdown();
         initTheme();
     }
     
