@@ -28,7 +28,8 @@
         body.dark .komik-card,
         body.dark .chapter-card,
         body.dark .reading-content,
-        body.dark .modal-content {
+        body.dark .modal-content,
+        body.dark .dashboard-panel {
             background: #1e1e1e;
             border-color: #333;
         }
@@ -217,7 +218,7 @@
 
         .chapter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 0.8rem;
             margin-top: 1.5rem;
         }
@@ -244,7 +245,7 @@
         }
 
         .chapter-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 0.3rem;
         }
 
@@ -358,6 +359,15 @@
             margin-left: 0.5rem;
         }
 
+        .writer-badge {
+            background: #27ae60;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            margin-left: 0.5rem;
+        }
+
         .login-to-comment {
             text-align: center;
             padding: 1rem;
@@ -468,10 +478,113 @@
             opacity: 0.7;
         }
 
+        .dashboard-panel {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+
+        .dashboard-panel h2 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+        }
+
+        .user-list {
+            margin-top: 1rem;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .role-owner {
+            background: #b87c4f;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        .role-writer {
+            background: #27ae60;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        .role-user {
+            background: #666;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        .delete-user-btn {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .delete-user-btn:hover {
+            background: #c0392b;
+        }
+
+        .create-writer-form {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid #ddd;
+        }
+
+        .create-writer-form h3 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+        }
+
+        .create-writer-form input {
+            padding: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            width: 200px;
+        }
+
+        body.dark .create-writer-form input {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
+        .create-writer-form button {
+            background: #27ae60;
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
         @media (max-width: 600px) {
             .header { flex-direction: column; text-align: center; }
             .komik-grid { grid-template-columns: 1fr; }
             .reading-title { font-size: 1.3rem; }
+            .chapter-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -510,6 +623,22 @@
         <button class="back-btn" id="backToChaptersBtn">← Kembali ke Daftar Bab</button>
         <div id="readingContainer"></div>
     </div>
+
+    <div id="dashboard-page" class="page">
+        <button class="back-btn" id="backToHomeFromDashboardBtn">← Kembali ke Beranda</button>
+        <div class="dashboard-panel">
+            <h2>👑 Dashboard Owner</h2>
+            <p>Kelola akun penulis dan pengguna</p>
+            <div id="userListContainer" class="user-list"></div>
+            <div class="create-writer-form">
+                <h3>📝 Buat Akun Penulis Baru</h3>
+                <input type="text" id="newWriterUsername" placeholder="Username">
+                <input type="password" id="newWriterPassword" placeholder="Password">
+                <button id="createWriterBtn">+ Tambah Penulis</button>
+                <div id="createWriterMessage" class="auth-message"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="authModal" class="modal">
@@ -523,18 +652,35 @@
 </div>
 
 <script>
-    // ==================== DATA KOMIK (25 CHAPTER LENGKAP) ====================
-    const komikData = [
-        {
-            id: 1,
-            title: "Archeon: The End Before Beginning",
-            description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
-            image: "archeonn.jpg",
-            chapters: []
-        }
-    ];
+    // ==================== DATA KOMIK DENGAN JUDUL BAB ====================
+    const chapterJudul = {
+        1: "Anak yang Lahir dalam Keheningan",
+        2: "Hari yang Tidak Memilihnya",
+        3: "Yang Dibuang Oleh Cahaya",
+        4: "Langkah Pertama di Luar Cahaya",
+        5: "Kota di Ujung Hutan",
+        6: "Nama yang Dicari Kegelapan",
+        7: "Nama yang Bukan Miliknya",
+        8: "Jejak yang Mulai Terbuka",
+        9: "Reruntuhan yang Mengenalnya",
+        10: "Pintu Kedua",
+        11: "Runtuhan yang Memilih",
+        12: "Suara dari Dalam Diri",
+        13: "Cahaya yang Tetap Tinggal",
+        14: "Luka Pertama",
+        15: "Simbol Kedua",
+        16: "Nama yang Dibisikkan",
+        17: "Kota yang Menolak",
+        18: "Pedang Tanpa Mana",
+        19: "Malam Berdarah Astera",
+        20: "Nama yang Mulai Bangkit",
+        21: "Setelah Nama Itu Bangkit",
+        22: "Mata di Dalam Bayangan",
+        23: "Jalan ke Timur",
+        24: "Kota Abu yang Sunyi",
+        25: "Desa yang Mengingat"
+    };
 
-    // ==================== GENERATE 25 CHAPTER DENGAN CERITA LENGKAP ====================
     const chapterContents = {
         1: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>`,
         2: `<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. Pagi itu, Archeon duduk di atas bukit kecil di belakang desa. Lyria duduk di sampingnya. 'Kau kabur lagi ke sini?' 'Aku cuma ingin tenang.' Lyria tersenyum kecil. 'Berarti kau gugup.' Hari itu adalah Hari Pengukuran. <em>— Bab 2 selesai —</em></p>`,
@@ -563,15 +709,25 @@
         25: `<p>Di tengah desa, patung raksasa berlutut. Seorang anak kecil bermata merah berdiri di depan rumah tua. 'Aku yang tertinggal.' Patung raksasa mengangkat kepala. 'Desa ini... telah menunggumu.' Pintu-pintu rumah terbuka. Bayangan manusia muncul. Seorang wanita tua berkata, 'Kami menunggumu...' Lalu hancur menjadi abu. Anak kecil itu berbisik, 'Jangan terlambat kali ini.' <em>— Bab 25 selesai —</em></p>`
     };
 
+    const komikData = [
+        {
+            id: 1,
+            title: "Archeon: The End Before Beginning",
+            description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
+            image: "archeonn.jpg",
+            chapters: []
+        }
+    ];
+
     for (let i = 1; i <= 25; i++) {
         komikData[0].chapters.push({
             id: i,
-            title: `Bab ${i}`,
-            content: chapterContents[i] || `<p>Cerita Bab ${i} dari novel Archeon... <em>— Bab ${i} selesai —</em></p>`
+            title: chapterJudul[i],
+            content: chapterContents[i]
         });
     }
 
-    // ==================== LOGIN SYSTEM (LocalStorage) ====================
+    // ==================== LOGIN SYSTEM ====================
     let currentUser = localStorage.getItem('currentUser') || null;
 
     function loadUsers() {
@@ -586,15 +742,15 @@
         localStorage.setItem('users', JSON.stringify(users));
     }
 
-    function register(username, password) {
+    function register(username, password, role = 'user') {
         const users = loadUsers();
         if (users[username]) return { success: false, message: 'Username sudah digunakan!' };
         if (username.length < 3) return { success: false, message: 'Username minimal 3 karakter!' };
         if (password.length < 4) return { success: false, message: 'Password minimal 4 karakter!' };
         
-        users[username] = { password: password, role: 'user' };
+        users[username] = { password: password, role: role };
         saveUsers(users);
-        return { success: true, message: 'Registrasi berhasil! Silakan login.' };
+        return { success: true, message: 'Akun berhasil dibuat!' };
     }
 
     function login(username, password) {
@@ -614,6 +770,20 @@
         currentUser = null;
         updateUserDropdown();
         showHomePage();
+    }
+
+    function isOwner() {
+        const users = loadUsers();
+        return users[currentUser]?.role === 'owner';
+    }
+
+    function deleteUser(username) {
+        if (username === 'Varen') return { success: false, message: 'Tidak bisa menghapus owner!' };
+        const users = loadUsers();
+        if (!users[username]) return { success: false, message: 'User tidak ditemukan!' };
+        delete users[username];
+        saveUsers(users);
+        return { success: true, message: 'User berhasil dihapus!' };
     }
 
     // ==================== UI FUNCTIONS ====================
@@ -661,14 +831,13 @@
         currentChapter = currentKomik.chapters.find(ch => ch.id === chapterId);
         if (!currentChapter) return;
         
-        // Load komentar dari localStorage
         const comments = loadComments(currentKomik.id, chapterId);
         
         let commentsHtml = '';
         if (comments.length > 0) {
             commentsHtml = comments.map(c => `
                 <div class="comment">
-                    <div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div>
+                    <div class="comment-user">${c.user} ${getRoleBadge(c.user)}<span class="comment-date">${c.date}</span></div>
                     <div class="comment-text">${c.text}</div>
                 </div>
             `).join('');
@@ -676,7 +845,6 @@
             commentsHtml = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
         }
         
-        // Login prompt untuk komentar
         let commentInputHtml = '';
         if (currentUser) {
             commentInputHtml = `
@@ -740,7 +908,15 @@
         showReadingPage();
     }
 
-    // ==================== KOMENTAR (LocalStorage) ====================
+    function getRoleBadge(username) {
+        const users = loadUsers();
+        const role = users[username]?.role;
+        if (role === 'owner') return '<span class="writer-badge" style="background:#b87c4f;">👑 Owner</span>';
+        if (role === 'writer') return '<span class="writer-badge">✍️ Penulis</span>';
+        return '';
+    }
+
+    // ==================== KOMENTAR ====================
     function loadComments(komikId, chapterId) {
         const key = `comments_${komikId}_${chapterId}`;
         const comments = localStorage.getItem(key);
@@ -766,6 +942,49 @@
         return true;
     }
 
+    // ==================== DASHBOARD ====================
+    function renderDashboard() {
+        if (!isOwner()) return;
+        
+        const users = loadUsers();
+        const userList = Object.entries(users).map(([username, data]) => {
+            let roleClass = '';
+            let roleText = '';
+            if (data.role === 'owner') { roleClass = 'role-owner'; roleText = '👑 Owner'; }
+            else if (data.role === 'writer') { roleClass = 'role-writer'; roleText = '✍️ Penulis'; }
+            else { roleClass = 'role-user'; roleText = '📖 Pembaca'; }
+            
+            return `
+                <div class="user-item">
+                    <span><strong>${username}</strong> <span class="${roleClass}">${roleText}</span></span>
+                    ${username !== 'Varen' ? `<button class="delete-user-btn" onclick="deleteUserAccount('${username}')">Hapus</button>` : ''}
+                </div>
+            `;
+        }).join('');
+        
+        document.getElementById('userListContainer').innerHTML = userList;
+    }
+    
+    window.deleteUserAccount = function(username) {
+        if (confirm(`Hapus user "${username}"?`)) {
+            const result = deleteUser(username);
+            alert(result.message);
+            if (result.success) renderDashboard();
+        }
+    }
+    
+    document.getElementById('createWriterBtn')?.addEventListener('click', () => {
+        const username = document.getElementById('newWriterUsername').value;
+        const password = document.getElementById('newWriterPassword').value;
+        const result = register(username, password, 'writer');
+        document.getElementById('createWriterMessage').textContent = result.message;
+        if (result.success) {
+            document.getElementById('newWriterUsername').value = '';
+            document.getElementById('newWriterPassword').value = '';
+            renderDashboard();
+        }
+    });
+
     // ==================== PAGE NAVIGATION ====================
     function showHomePage() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -780,6 +999,12 @@
     function showReadingPage() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('reading-page').classList.add('active');
+    }
+
+    function showDashboardPage() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('dashboard-page').classList.add('active');
+        renderDashboard();
     }
 
     // ==================== MODAL AUTH ====================
@@ -830,7 +1055,7 @@
             document.getElementById('doRegisterBtn')?.addEventListener('click', () => {
                 const username = document.getElementById('regUsername').value;
                 const password = document.getElementById('regPassword').value;
-                const result = register(username, password);
+                const result = register(username, password, 'user');
                 const msg = document.getElementById('registerMessage');
                 msg.textContent = result.message;
                 if (result.success) {
@@ -848,8 +1073,10 @@
         const dropdown = document.getElementById('dropdownContent');
         if (!dropdown) return;
         if (currentUser) {
-            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser}</a><a id="dropdownLogout">🚪 Logout</a>`;
+            const isOwnerUser = isOwner();
+            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser}</a>${isOwnerUser ? '<a id="dropdownDashboard">📊 Dashboard Owner</a>' : ''}<a id="dropdownLogout">🚪 Logout</a>`;
             document.getElementById('dropdownLogout')?.addEventListener('click', logout);
+            document.getElementById('dropdownDashboard')?.addEventListener('click', showDashboardPage);
         } else {
             dropdown.innerHTML = `<a id="dropdownLogin">🔐 Login / Daftar</a>`;
             document.getElementById('dropdownLogin')?.addEventListener('click', () => openAuthModal('login'));
@@ -876,6 +1103,7 @@
         
         document.getElementById('backToHomeBtn')?.addEventListener('click', showHomePage);
         document.getElementById('backToChaptersBtn')?.addEventListener('click', showChaptersPage);
+        document.getElementById('backToHomeFromDashboardBtn')?.addEventListener('click', showHomePage);
         
         const accountBtn = document.getElementById('accountBtn');
         const dropdown = document.getElementById('userDropdown');
