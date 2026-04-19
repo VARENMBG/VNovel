@@ -3,33 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Archeon Novel</title>
-  <link rel="stylesheet" href="style.css">
+  <titleArcheon</title>
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
 
 <header>
-  <h1>Archeon</h1>
+  <h1>Archeon Novel</h1>
   <div id="userBox"></div>
 </header>
 
 <section class="auth-box">
+  <h2>Login / Register</h2>
   <input type="text" id="username" placeholder="Username">
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
-  <div class="btn-group">
+  <div class="buttons">
     <button onclick="register()">Register</button>
     <button onclick="login()">Login</button>
   </div>
 </section>
 
-<section class="add-novel">
+<section class="novel-form">
   <h2>Tambah Novel</h2>
-  <input type="text" id="novelTitle" placeholder="Judul Novel">
-  <textarea id="novelDesc" placeholder="Deskripsi Novel"></textarea>
+  <input type="text" id="novelTitle" placeholder="Judul novel">
+  <textarea id="novelDesc" placeholder="Deskripsi novel"></textarea>
   <input type="file" id="coverFile">
-  <button onclick="addNovel()">Tambah Novel</button>
+  <button onclick="addNovel()">Simpan Novel</button>
 </section>
 
 <section>
@@ -37,25 +38,25 @@
   <div id="novelList" class="novel-list"></div>
 </section>
 
-<section class="chapter-box">
+<section class="chapter-form">
   <h2>Tambah Chapter</h2>
-  <input type="text" id="chapterTitle" placeholder="Judul Chapter">
-  <textarea id="chapterContent" placeholder="Isi Chapter"></textarea>
-  <button onclick="addChapter()">Tambah Chapter</button>
+  <input type="text" id="chapterTitle" placeholder="Judul chapter">
+  <textarea id="chapterContent" placeholder="Isi chapter"></textarea>
+  <button onclick="addChapter()">Simpan Chapter</button>
 </section>
 
 <section>
-  <h2>Chapter</h2>
+  <h2>Daftar Chapter</h2>
   <div id="chapterList"></div>
 </section>
 
-<section class="comment-box">
+<section class="comment-form">
   <h2>Komentar</h2>
   <textarea id="commentText" placeholder="Tulis komentar..."></textarea>
-  <button onclick="addComment()">Kirim Komentar</button>
+  <button onclick="addComment()">Kirim</button>
   <div id="commentList"></div>
 </section>
 
-<script src="app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
