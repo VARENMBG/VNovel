@@ -1,0 +1,103 @@
+body{
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+  background:#0f0f0f;
+  color:#fff;
+}
+
+header{
+  background:#181818;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #333;
+}
+
+h1,h2{
+  margin:0 0 15px;
+}
+
+section{
+  padding:20px;
+}
+
+input,textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:8px;
+  background:#1f1f1f;
+  color:#fff;
+  box-sizing:border-box;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+button{
+  background:#6c2bd9;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+.btn-group{
+  display:flex;
+  gap:10px;
+}
+
+.novel-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+}
+
+.novel-card{
+  background:#181818;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #333;
+}
+
+.novel-card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.chapter-item{
+  background:#181818;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+  border:1px solid #333;
+}
+
+.chapter-item pre{
+  white-space:pre-wrap;
+  color:#ddd;
+}
+
+.comment{
+  background:#181818;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  border:1px solid #333;
+}
+
+.comment b{
+  color:#9d6bff;
+}
