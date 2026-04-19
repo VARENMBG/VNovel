@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Kampus Komik | Baca Novel & Komik Online</title>
+    <title>VNovel | Baca Novel & Komik Online</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Light Mode (Default) */
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #f5f5f0;
+            color: #1a1a1a;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+        
+        /* Dark Mode */
+        body.dark {
             background: #0a0a0a;
             color: #e0e0e0;
-            line-height: 1.6;
         }
+        
+        body.dark .header { background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%); border-bottom-color: #b87c4f; }
+        body.dark .hero { background: linear-gradient(135deg, #1a1a1a, #0f0f0f); }
+        body.dark .komik-card, body.dark .chapter-card, body.dark .reading-content, body.dark .modal-content { background: #1a1a1a; border-color: #2a2a2a; }
+        body.dark .comment { background: #2a2a2a; }
+        body.dark .comment-input textarea, body.dark .modal-content input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
+        body.dark .footer { border-top-color: #2a2a2a; }
+        
         .header {
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #e8e0d5 0%, #f0ebe4 100%);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -26,9 +43,9 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-        .logo h1 { font-size: 1.5rem; color: #b87c4f; }
+        .logo h1 { font-size: 1.8rem; color: #b87c4f; letter-spacing: 1px; }
         .logo p { font-size: 0.7rem; opacity: 0.7; }
-        .user-area { display: flex; gap: 0.5rem; align-items: center; }
+        .right-area { display: flex; gap: 0.5rem; align-items: center; }
         .icon-btn {
             background: #2a2a2a;
             border: none;
@@ -40,28 +57,32 @@
             font-size: 1.2rem;
             transition: 0.3s;
         }
-        .icon-btn:hover { background: #b87c4f; }
+        body:not(.dark) .icon-btn { background: #b87c4f; color: white; }
+        .icon-btn:hover { opacity: 0.8; transform: scale(1.05); }
         .user-dropdown {
             position: absolute;
             top: 70px;
             right: 20px;
-            background: #1a1a1a;
+            background: white;
             border-radius: 16px;
             min-width: 180px;
             display: none;
             z-index: 200;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #ddd;
         }
+        body.dark .user-dropdown { background: #1a1a1a; border-color: #2a2a2a; }
         .user-dropdown.active { display: block; }
         .user-dropdown a {
             display: block;
             padding: 0.8rem 1rem;
-            color: white;
+            color: #1a1a1a;
             text-decoration: none;
             cursor: pointer;
         }
-        .user-dropdown a:hover { background: #2a2a2a; }
-        .user-dropdown .user-name { color: #b87c4f; border-bottom: 1px solid #2a2a2a; }
+        body.dark .user-dropdown a { color: white; }
+        .user-dropdown a:hover { background: #f0ebe4; }
+        body.dark .user-dropdown a:hover { background: #2a2a2a; }
+        .user-dropdown .user-name { color: #b87c4f; border-bottom: 1px solid #eee; font-weight: bold; }
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
         .page { display: none; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
@@ -69,7 +90,7 @@
         .hero {
             text-align: center;
             padding: 3rem 1rem;
-            background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
+            background: linear-gradient(135deg, #e8e0d5, #f0ebe4);
             border-radius: 24px;
             margin-bottom: 2rem;
         }
@@ -82,15 +103,16 @@
             margin-top: 1rem;
         }
         .komik-card {
-            background: #1a1a1a;
+            background: white;
             border-radius: 16px;
             overflow: hidden;
             cursor: pointer;
             transition: 0.3s;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #e0d5c8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         .komik-card:hover { transform: translateY(-5px); border-color: #b87c4f; }
-        .komik-image { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .komik-image { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .komik-image img { width: 100%; height: 100%; object-fit: cover; }
         .komik-info { padding: 1rem; }
         .komik-title { font-size: 1.2rem; font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
@@ -102,18 +124,18 @@
             margin-top: 1.5rem;
         }
         .chapter-card {
-            background: #1a1a1a;
+            background: white;
             border-radius: 12px;
             padding: 0.8rem;
             cursor: pointer;
             text-align: center;
             transition: 0.3s;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #e0d5c8;
         }
-        .chapter-card:hover { border-color: #b87c4f; background: #222; }
+        .chapter-card:hover { border-color: #b87c4f; background: #faf7f2; }
         .chapter-num { color: #b87c4f; font-size: 0.8rem; font-weight: bold; }
         .chapter-title { font-size: 0.9rem; margin-top: 0.3rem; }
-        .reading-content { background: #1a1a1a; border-radius: 24px; padding: 2rem; }
+        .reading-content { background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .reading-title { font-size: 2rem; color: #b87c4f; border-left: 4px solid #b87c4f; padding-left: 1rem; margin-bottom: 1.5rem; }
         .reading-text p { margin-bottom: 1.5rem; text-indent: 2em; }
         .nav-chapter { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
@@ -128,16 +150,15 @@
         }
         .nav-chapter button:hover:not(:disabled) { background: #b87c4f; }
         .nav-chapter button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .comment-section { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #2a2a2a; }
+        .comment-section { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; }
         .comment-section h4 { color: #b87c4f; margin-bottom: 1rem; }
         .comment-input { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
         .comment-input textarea {
             flex: 1;
             padding: 0.8rem;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
+            background: #f5f5f0;
+            border: 1px solid #ddd;
             border-radius: 16px;
-            color: white;
             font-family: inherit;
             resize: vertical;
         }
@@ -150,13 +171,18 @@
             cursor: pointer;
         }
         .comment {
-            background: #2a2a2a;
+            background: #f5f5f0;
             padding: 1rem;
             border-radius: 16px;
             margin-bottom: 0.8rem;
         }
         .comment-user { font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
         .comment-date { font-size: 0.7rem; opacity: 0.6; margin-left: 0.5rem; }
+        .role-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 20px; margin-left: 0.5rem; display: inline-block; }
+        .role-owner { background: #b87c4f; color: white; }
+        .role-admin { background: #4a90e2; color: white; }
+        .role-writer { background: #27ae60; color: white; }
+        .role-dev { background: #9b59b6; color: white; }
         .modal {
             display: none;
             position: fixed;
@@ -171,22 +197,22 @@
         }
         .modal.active { display: flex; }
         .modal-content {
-            background: #1a1a1a;
+            background: white;
             padding: 2rem;
             border-radius: 24px;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             border: 1px solid #b87c4f;
         }
         .modal-content h3 { color: #b87c4f; margin-bottom: 1rem; text-align: center; }
-        .modal-content input {
+        .modal-content input, .modal-content select {
             width: 100%;
             padding: 0.8rem;
             margin-bottom: 1rem;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
+            background: #f5f5f0;
+            border: 1px solid #ddd;
             border-radius: 12px;
-            color: white;
+            font-family: inherit;
         }
         .modal-content button {
             background: #b87c4f;
@@ -196,6 +222,7 @@
             border-radius: 30px;
             cursor: pointer;
             width: 100%;
+            margin-top: 0.5rem;
         }
         .close-modal {
             position: absolute;
@@ -203,9 +230,9 @@
             right: 1rem;
             background: none;
             border: none;
-            color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #999;
         }
         .auth-switch { text-align: center; margin-top: 1rem; font-size: 0.8rem; }
         .auth-switch a { color: #b87c4f; cursor: pointer; }
@@ -220,11 +247,18 @@
             display: inline-block;
         }
         .back-btn:hover { background: #b87c4f; }
-        .footer { text-align: center; padding: 2rem; border-top: 1px solid #2a2a2a; font-size: 0.8rem; opacity: 0.7; }
+        .footer { text-align: center; padding: 2rem; border-top: 1px solid #ddd; font-size: 0.8rem; opacity: 0.7; }
+        .admin-panel { margin-top: 2rem; padding: 1rem; background: #f5f5f0; border-radius: 16px; }
+        body.dark .admin-panel { background: #1a1a1a; }
+        .user-list { margin-top: 1rem; }
+        .user-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; gap: 0.5rem; }
+        .user-item select { width: auto; margin: 0; padding: 0.3rem; }
+        .user-item button { width: auto; padding: 0.3rem 0.8rem; margin: 0; }
         @media (max-width: 600px) {
             .header { flex-direction: column; text-align: center; }
             .komik-grid { grid-template-columns: 1fr; }
             .reading-title { font-size: 1.5rem; }
+            .logo h1 { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -232,10 +266,11 @@
 
 <div class="header">
     <div class="logo">
-        <h1>📚 KAMPUS KOMIK</h1>
+        <h1>📚 VNOVEL</h1>
         <p>Baca Novel & Komik Online</p>
     </div>
-    <div class="user-area">
+    <div class="right-area">
+        <button class="icon-btn" id="themeToggle">🌙</button>
         <button class="icon-btn" id="accountBtn">👤</button>
         <div class="user-dropdown" id="userDropdown">
             <div id="dropdownContent"></div>
@@ -246,7 +281,7 @@
 <div class="container">
     <div id="home" class="page active">
         <div class="hero">
-            <h1>✨ Selamat Datang di Kampus Komik ✨</h1>
+            <h1>✨ Selamat Datang di VNovel ✨</h1>
             <p>Baca novel dan komik favoritmu gratis! Login dulu ya sebelum baca.</p>
         </div>
         <div class="komik-grid" id="komikGrid"></div>
@@ -262,6 +297,15 @@
         <button class="back-btn" id="backToChaptersBtn">← Kembali ke Daftar Bab</button>
         <div id="readingContainer"></div>
     </div>
+
+    <div id="admin-page" class="page">
+        <button class="back-btn" id="backToHomeFromAdminBtn">← Kembali ke Beranda</button>
+        <div class="admin-panel">
+            <h2 style="color: #b87c4f;">👑 Panel Owner & Developer</h2>
+            <p>Kelola role pengguna (Admin, Penulis, User biasa)</p>
+            <div id="adminUserList" class="user-list"></div>
+        </div>
+    </div>
 </div>
 
 <div id="authModal" class="modal">
@@ -272,7 +316,7 @@
 </div>
 
 <div class="footer">
-    © 2026 Kampus Komik — Muhammad Alfarel Hafizh
+    © 2026 VNovel — Muhammad Alfarel Hafizh (Owner & Developer)
 </div>
 
 <script>
@@ -282,39 +326,39 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ==================== DATA KOMIK (25 CHAPTER LENGKAP) ====================
+    // ==================== DATA KOMIK ====================
     const komikData = [
         {
             id: 1,
             title: "Archeon: The End Before Beginning",
             description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
-            image: "archeon.jpg",
+            image: "archeonn.jpg",
             chapters: [
-                { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>" },
-                { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. Pagi itu, Archeon duduk di atas bukit kecil di belakang desa. Dari sana, ia bisa melihat seluruh Elaris. Lyria duduk di sampingnya. 'Kau kabur lagi ke sini.' 'Aku cuma ingin tenang.' Lyria tersenyum kecil. 'Berarti kau gugup.' Hari itu adalah Hari Pengukuran. <em>— Bab 2 selesai —</em></p>" },
-                { id: 3, title: "Yang Dibuang Oleh Cahaya", content: "<p>Keheningan menyelimuti alun-alun desa. Setelah tangan Archeon terlepas dari Crystal of Origin, tak ada satu pun cahaya yang muncul. 'Kosong...' 'Benar-benar tidak punya mana...' 'Bahkan kristal menolaknya...' Ketua Rowan melangkah maju. 'Anak tanpa mana tidak bisa hidup di bawah perlindungan desa ini. Mulai hari ini, Archeon diasingkan dari desa.' Lyria melangkah maju. 'Kalau dia pergi... aku ikut.' Rhen, Mira, Kaien, dan Selene juga ikut. <em>— Bab 3 selesai —</em></p>" },
-                { id: 4, title: "Langkah Pertama di Luar Cahaya", content: "<p>Malam pertama di luar desa terasa jauh lebih sunyi. Tidak ada suara lonceng malam. Tidak ada cahaya rumah. Yang ada hanya hutan gelap, angin dingin. Archeon duduk di dekat api kecil tanpa banyak bicara. Lyria duduk di sampingnya. 'Kau masih memikirkannya?' Archeon menatap api. 'Aku tidak tahu kenapa aku bisa mendengar suara itu.' Selene menatap gelapnya hutan. 'Besok... kita tidak sendirian.' <em>— Bab 4 selesai —</em></p>" },
-                { id: 5, title: "Kota di Ujung Hutan", content: "<p>Jalan batu tua itu membawa mereka keluar dari hutan. Di kejauhan, berdiri sebuah kota kecil dengan tembok batu rendah dan gerbang kayu besar. Di atas gerbang tertulis: Astera. Mira langsung tersenyum lebar. 'Akhirnya kita sampai!' Kaien hampir terlihat terharu. 'Aku mau makanan hangat. Sekarang.' Hanya Archeon yang diam. Ia menatap kota itu cukup lama. Lyria memperhatikan wajahnya. 'Kau baik?' 'Hanya terasa aneh.' <em>— Bab 5 selesai —</em></p>" },
-                { id: 6, title: "Nama yang Dicari Kegelapan", content: "<p>Archeon terbangun dengan napas tertahan. Ia langsung bangkit dari tempat tidur dan menatap ke luar. Jalanan kota Astera sunyi. Pria berjubah abu-abu itu sudah menghilang. 'Kau tidak tidur?' Lyria sudah duduk di tepi ranjang. 'Ada apa?' Archeon menatap jendela. 'Dia ada di luar tadi.' Lyria berjalan mendekat. 'Kenapa dia cuma melihat?' 'Itu yang membuatku khawatir.' <em>— Bab 6 selesai —</em></p>" },
-                { id: 7, title: "Nama yang Bukan Miliknya", content: "<p>Suasana di dalam penginapan membeku. 'Origin.' Archeon menatap pria berjubah abu-abu itu. Rhen mengangkat pedangnya. 'Kau salah orang.' Pria itu menjawab, 'Aku tidak pernah salah.' Lyria berdiri lebih dekat. 'Kau siapa?' 'Seorang penjaga.' Pria itu menatap Archeon. 'Segel.' Archeon menatap telapak tangannya. Simbol lingkaran retak itu masih terlihat samar. <em>— Bab 7 selesai —</em></p>" },
-                { id: 8, title: "Jejak yang Mulai Terbuka", content: "<p>Pagi di Astera terasa berbeda. Archeon berdiri di dekat jendela, menatap telapak tangannya. Simbol lingkaran retak itu masih ada. Lyria masuk. 'Kau belum tidur semalam?' Archeon bertanya, 'Kalau suatu hari aku berubah... apa kau masih percaya padaku?' Lyria menjawab tanpa ragu. 'Aku tidak pernah percaya pada kekuatanmu. Aku percaya padamu.' <em>— Bab 8 selesai —</em></p>" },
-                { id: 9, title: "Reruntuhan yang Mengenalnya", content: "<p>Pecahan Stone Hollow masih berserakan di tanah. 'Kau... bagaimana bisa tahu titik lemahnya?' Archeon masih melihat tangannya sendiri. 'Aku tidak tahu.' Lyria berjalan mendekat, lalu memegang tangannya. 'Kita belum selesai.' Di depan mereka, pintu batu besar yang sebelumnya tertutup rapat kini terbuka perlahan. <em>— Bab 9 selesai —</em></p>" },
-                { id: 10, title: "Pintu Kedua", content: "<p>Suara batu bergeser memenuhi lorong. Pintu kedua perlahan terbuka. Di tengah ruangan, berdiri sebuah altar hitam yang dipenuhi retakan bercahaya merah. Di atas altar, melayang sebuah pecahan kristal kecil yang sangat mirip dengan Crystal of Origin. Namun warnanya hitam. Archeon berjalan perlahan mendekat. <em>— Bab 10 selesai —</em></p>" },
-                { id: 11, title: "Runtuhan yang Memilih", content: "<p>Suara retakan memenuhi ruangan. Langit-langit batu mulai runtuh. Mira menjerit. 'Tempat ini runtuh!' Rhen langsung bangkit. 'Keluar sekarang!' Kaien membantu Mira berdiri. Lyria masih berdiri di depan Archeon. Sebuah batu besar jatuh dari atas. Refleks. Archeon menarik tubuh Lyria ke dalam pelukannya. <em>— Bab 11 selesai —</em></p>" },
-                { id: 12, title: "Suara dari Dalam Diri", content: "<p>Lorong batu itu kembali sunyi. Hanya suara napas Archeon dan Lyria yang terdengar. Di ujung lorong, pintu batu besar terbuka penuh. 'Pemilik telah kembali.' Lyria menggenggam tangan Archeon. 'Kita tidak harus masuk.' Archeon menatap pintu itu. 'Aku harus tahu.' <em>— Bab 12 selesai —</em></p>" },
-                { id: 13, title: "Cahaya yang Tetap Tinggal", content: "<p>Ruangan itu kembali sunyi. Archeon berlutut, tangannya gemetar. Lyria memeluknya. 'Archeon... dengar suaraku. Kau di sini. Bukan di masa lalu.' Archeon menatap wajahnya lama. Dan perlahan, suara di dalam kepalanya mereda. 'Kalau kau takut... maka takutlah bersama aku. Aku tidak akan pergi.' <em>— Bab 13 selesai —</em></p>" },
-                { id: 14, title: "Luka Pertama", content: "<p>Debu masih memenuhi ruangan. Tiga sosok berjubah hitam berdiri di pintu reruntuhan. 'Subjek ditemukan. Eksekusi diizinkan.' Mereka menyerang. Kaien terpental. Rhen terluka. Archeon melihat semuanya. Sosok bertopeng mengangkat tangan. Rantai hitam muncul menuju Lyria. Archeon berlari mendorong Lyria. Rantai itu menghantam tubuh Archeon. <em>— Bab 14 selesai —</em></p>" },
-                { id: 15, title: "Simbol Kedua", content: "<p>Ruangan mendadak sunyi. Selene berdiri dengan mata perak menyala. 'Aku bilang... jangan sentuh dia.' Waktu mulai retak. Archeon masih berlutut. Simbol hitam di telapak tangannya berdenyut lebih keras. Lalu garis hitam baru muncul naik sampai pergelangan tangan. Simbol kedua. Lebih tajam. Lebih gelap. <em>— Bab 15 selesai —</em></p>" },
-                { id: 16, title: "Nama yang Dibisikkan", content: "<p>Ruangan reruntuhan masih dipenuhi debu. 'Master harus diberitahu.' Dari balik pohon, pria berjubah abu-abu muncul. 'Simbol kedua sudah bangkit.' Archeon menatap tajam. 'Siapa Master?' Pria itu diam sesaat. 'Azravel.' Nama itu membuat kepala Archeon berdenyut hebat. <em>— Bab 16 selesai —</em></p>" },
-                { id: 17, title: "Kota yang Menolak", content: "<p>Malam mulai turun saat mereka kembali ke Astera. Begitu Archeon melangkah masuk, beberapa orang langsung berhenti bicara. Bisikan mulai terdengar. 'Itu dia...' 'Anak tanpa mana itu...' 'Katanya monster di utara mati karenanya...' Seorang ibu menarik anaknya menjauh. Lyria berjalan lebih dekat ke Archeon. <em>— Bab 17 selesai —</em></p>" },
-                { id: 18, title: "Pedang Tanpa Mana", content: "<p>Pagi di Astera terasa lebih sunyi. Archeon berdiri memegang pedang kayu. 'Aku tidak punya mana. Kalau begitu, aku harus punya sesuatu yang lain.' Beberapa jam berlalu. Keringat membasahi bajunya. Rhen mengangkat pedang. 'Cukup.' Archeon masih berdiri. 'Belum.' <em>— Bab 18 selesai —</em></p>" },
-                { id: 19, title: "Malam Berdarah Astera", content: "<p>Angin malam berhembus pelan. Tiba-tiba ledakan besar mengguncang Astera. Di langit, lingkaran hitam besar muncul. Puluhan makhluk bayangan jatuh ke jalan-jalan kota. Warga berteriak panik. Makhluk raksasa mendarat di tengah kota. Azravel menatap makhluk itu. 'Silent Order... sudah gila.' <em>— Bab 19 selesai —</em></p>" },
-                { id: 20, title: "Nama yang Mulai Bangkit", content: "<p>Makhluk raksasa itu berdiri di tengah kota. 'Origin...' Makhluk itu menyerang. Rhen terpental. Kaien terlempar. Archeon jatuh berlutut. Lyria memeluknya. 'Archeon! Lihat aku!' Makhluk itu menyerang Lyria. Tanpa sadar, kata itu keluar: 'Berhenti.' Seluruh kota sunyi. Makhluk itu perlahan berlutut. 'Origin... telah kembali.' <em>— Bab 20 selesai —</em></p>" },
-                { id: 21, title: "Setelah Nama Itu Bangkit", content: "<p>Malam di Astera mendadak sunyi. Puluhan monster bayangan berlutut di hadapan Archeon. Tak bergerak. Tak menyerang. Mira menatap dengan bibir gemetar. 'Ini... bukan lagi kebetulan.' Rhen berdiri sambil menahan luka. 'Archeon.' Monster raksasa mengangkat kepala. 'Perintah.' <em>— Bab 21 selesai —</em></p>" },
-                { id: 22, title: "Mata di Dalam Bayangan", content: "<p>Malam di Astera belum berakhir. Orang-orang keluar dari tempat persembunyian. Mereka melihat Archeon. Bisikan mulai menyebar. 'Anak terkutuk...' 'Pembawa bencana...' 'Dia bukan manusia...' Lyria berdiri lebih dekat. Archeon melangkah menjauh. 'Mereka benar.' 'Aku sendiri sudah tidak tahu lagi.' <em>— Bab 22 selesai —</em></p>" },
-                { id: 23, title: "Jalan ke Timur", content: "<p>Mereka memutuskan meninggalkan Astera. Selene menunjuk ke timur. 'Kita harus ke sana.' Perjalanan melelahkan. Hutan semakin gelap. Tapi Archeon terus melangkah. Lyria tetap di sampingnya. Di kejauhan, bayangan hitam mulai mengikuti mereka. <em>— Bab 23 selesai —</em></p>" },
-                { id: 24, title: "Kota Abu yang Sunyi", content: "<p>Mereka sampai di sebuah desa kosong. Tidak ada suara. Tidak ada kehidupan. Hanya rumah-rumah kayu tua yang setengah rusak. Mira memeluk lengannya. 'Aku tidak suka ini.' Rhen menghunus pedang. 'Terlalu sepi.' Lyria menatap pintu-pintu rumah. 'Seperti semua orang pergi mendadak.' <em>— Bab 24 selesai —</em></p>" },
-                { id: 25, title: "Desa yang Mengingat", content: "<p>Di tengah desa, patung raksasa berlutut. Seorang anak kecil bermata merah berdiri di depan rumah tua. 'Aku yang tertinggal.' Patung raksasa mengangkat kepala. 'Desa ini... telah menunggumu.' Pintu-pintu rumah terbuka. Bayangan manusia muncul. Seorang wanita tua berkata, 'Kami menunggumu...' Lalu hancur menjadi abu. Anak kecil itu berbisik, 'Jangan terlambat kali ini.' <em>— Bab 25 selesai —</em></p>" }
+                { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya... <em>— Bab 1 selesai —</em></p>" },
+                { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat... <em>— Bab 2 selesai —</em></p>" },
+                { id: 3, title: "Yang Dibuang Oleh Cahaya", content: "<p>Keheningan menyelimuti alun-alun desa... <em>— Bab 3 selesai —</em></p>" },
+                { id: 4, title: "Langkah Pertama di Luar Cahaya", content: "<p>Malam pertama di luar desa terasa jauh lebih sunyi... <em>— Bab 4 selesai —</em></p>" },
+                { id: 5, title: "Kota di Ujung Hutan", content: "<p>Jalan batu tua itu membawa mereka keluar dari hutan... <em>— Bab 5 selesai —</em></p>" },
+                { id: 6, title: "Nama yang Dicari Kegelapan", content: "<p>Archeon terbangun dengan napas tertahan... <em>— Bab 6 selesai —</em></p>" },
+                { id: 7, title: "Nama yang Bukan Miliknya", content: "<p>Suasana di dalam penginapan membeku... <em>— Bab 7 selesai —</em></p>" },
+                { id: 8, title: "Jejak yang Mulai Terbuka", content: "<p>Pagi di Astera terasa berbeda... <em>— Bab 8 selesai —</em></p>" },
+                { id: 9, title: "Reruntuhan yang Mengenalnya", content: "<p>Pecahan Stone Hollow masih berserakan di tanah... <em>— Bab 9 selesai —</em></p>" },
+                { id: 10, title: "Pintu Kedua", content: "<p>Suara batu bergeser memenuhi lorong... <em>— Bab 10 selesai —</em></p>" },
+                { id: 11, title: "Runtuhan yang Memilih", content: "<p>Suara retakan memenuhi ruangan... <em>— Bab 11 selesai —</em></p>" },
+                { id: 12, title: "Suara dari Dalam Diri", content: "<p>Lorong batu itu kembali sunyi... <em>— Bab 12 selesai —</em></p>" },
+                { id: 13, title: "Cahaya yang Tetap Tinggal", content: "<p>Ruangan itu kembali sunyi... <em>— Bab 13 selesai —</em></p>" },
+                { id: 14, title: "Luka Pertama", content: "<p>Debu masih memenuhi ruangan... <em>— Bab 14 selesai —</em></p>" },
+                { id: 15, title: "Simbol Kedua", content: "<p>Ruangan itu mendadak sunyi... <em>— Bab 15 selesai —</em></p>" },
+                { id: 16, title: "Nama yang Dibisikkan", content: "<p>Ruangan reruntuhan masih dipenuhi debu... <em>— Bab 16 selesai —</em></p>" },
+                { id: 17, title: "Kota yang Menolak", content: "<p>Malam mulai turun saat mereka kembali ke Astera... <em>— Bab 17 selesai —</em></p>" },
+                { id: 18, title: "Pedang Tanpa Mana", content: "<p>Pagi di Astera terasa lebih sunyi... <em>— Bab 18 selesai —</em></p>" },
+                { id: 19, title: "Malam Berdarah Astera", content: "<p>Angin malam berhembus pelan... <em>— Bab 19 selesai —</em></p>" },
+                { id: 20, title: "Nama yang Mulai Bangkit", content: "<p>Makhluk raksasa itu berdiri di tengah kota Astera... <em>— Bab 20 selesai —</em></p>" },
+                { id: 21, title: "Setelah Nama Itu Bangkit", content: "<p>Malam di Astera mendadak sunyi... <em>— Bab 21 selesai —</em></p>" },
+                { id: 22, title: "Mata di Dalam Bayangan", content: "<p>Malam di Astera belum benar-benar berakhir... <em>— Bab 22 selesai —</em></p>" },
+                { id: 23, title: "Jalan ke Timur", content: "<p>Mereka memutuskan meninggalkan Astera... <em>— Bab 23 selesai —</em></p>" },
+                { id: 24, title: "Kota Abu yang Sunyi", content: "<p>Mereka sampai di sebuah desa kosong... <em>— Bab 24 selesai —</em></p>" },
+                { id: 25, title: "Desa yang Mengingat", content: "<p>Di tengah desa, patung raksasa berlutut... <em>— Bab 25 selesai —</em></p>" }
             ]
         }
     ];
@@ -322,6 +366,7 @@
     // ==================== GLOBAL VARIABLES ====================
     let currentUser = localStorage.getItem('currentUser') || null;
     let currentUserId = localStorage.getItem('currentUserId') || null;
+    let currentUserRole = localStorage.getItem('currentUserRole') || null;
     let currentKomik = null;
     let currentChapter = null;
 
@@ -340,7 +385,7 @@
         
         const { error } = await supabase
             .from('users')
-            .insert([{ username, password, created_at: new Date() }]);
+            .insert([{ username, password, role: 'user', created_at: new Date() }]);
         
         if (error) return { success: false, message: error.message };
         return { success: true, message: 'Registrasi berhasil! Silakan login.' };
@@ -349,7 +394,7 @@
     async function login(username, password) {
         const { data, error } = await supabase
             .from('users')
-            .select('id, username')
+            .select('id, username, role')
             .eq('username', username)
             .eq('password', password)
             .single();
@@ -360,9 +405,11 @@
         
         currentUser = data.username;
         currentUserId = data.id;
+        currentUserRole = data.role;
         
         localStorage.setItem('currentUser', currentUser);
         localStorage.setItem('currentUserId', currentUserId);
+        localStorage.setItem('currentUserRole', currentUserRole);
         
         updateUserDropdown();
         return { success: true, message: `Selamat datang, ${username}!` };
@@ -371,10 +418,74 @@
     function logout() {
         currentUser = null;
         currentUserId = null;
+        currentUserRole = null;
         localStorage.removeItem('currentUser');
         localStorage.removeItem('currentUserId');
+        localStorage.removeItem('currentUserRole');
         updateUserDropdown();
         showHomePage();
+        document.getElementById('admin-page').classList.remove('active');
+    }
+
+    function getRoleBadges(role) {
+        let badges = '';
+        if (role === 'owner') badges = '<span class="role-badge role-owner">👑 Owner</span><span class="role-badge role-writer">✍️ Penulis</span><span class="role-badge role-dev">💻 Developer</span>';
+        else if (role === 'admin') badges = '<span class="role-badge role-admin">⭐ Admin</span>';
+        else if (role === 'writer') badges = '<span class="role-badge role-writer">✍️ Penulis</span>';
+        else badges = '<span class="role-badge" style="background:#666;">📖 Pembaca</span>';
+        return badges;
+    }
+
+    function isOwner() {
+        return currentUserRole === 'owner';
+    }
+
+    function isAdmin() {
+        return currentUserRole === 'admin' || currentUserRole === 'owner';
+    }
+
+    // ==================== ADMIN FUNCTIONS ====================
+    async function loadAdminPanel() {
+        if (!isAdmin()) return;
+        
+        const { data: users, error } = await supabase
+            .from('users')
+            .select('id, username, role')
+            .order('created_at', { ascending: true });
+        
+        if (error) return;
+        
+        const container = document.getElementById('adminUserList');
+        container.innerHTML = users.map(user => `
+            <div class="user-item">
+                <span><strong>${user.username}</strong> ${getRoleBadges(user.role)}</span>
+                <div>
+                    <select id="role-${user.id}" ${user.username === 'Varen' ? 'disabled' : ''}>
+                        <option value="user" ${user.role === 'user' ? 'selected' : ''}>📖 Pembaca</option>
+                        <option value="writer" ${user.role === 'writer' ? 'selected' : ''}>✍️ Penulis</option>
+                        <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>⭐ Admin</option>
+                    </select>
+                    <button onclick="updateUserRole('${user.id}', '${user.username}')" ${user.username === 'Varen' ? 'disabled' : ''}>Simpan</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function updateUserRole(userId, username) {
+        const select = document.getElementById(`role-${userId}`);
+        const newRole = select.value;
+        
+        const { error } = await supabase
+            .from('users')
+            .update({ role: newRole })
+            .eq('id', userId);
+        
+        if (error) {
+            alert('Gagal update role: ' + error.message);
+        } else {
+            alert(`Role ${username} berhasil diubah!`);
+            loadAdminPanel();
+        }
     }
 
     // ==================== COMMENTS FUNCTIONS ====================
@@ -388,9 +499,7 @@
                 .order('created_at', { ascending: true });
             if (error) return [];
             return data || [];
-        } catch (e) {
-            return [];
-        }
+        } catch (e) { return []; }
     }
 
     async function addComment(komikId, chapterId, content) {
@@ -406,9 +515,12 @@
             }]);
             if (error) return false;
             return true;
-        } catch (e) {
-            return false;
-        }
+        } catch (e) { return false; }
+    }
+
+    async function getUserRole(username) {
+        const { data } = await supabase.from('users').select('role').eq('username', username).single();
+        return data ? data.role : 'user';
     }
 
     // ==================== UI FUNCTIONS ====================
@@ -430,14 +542,9 @@
     }
 
     function selectKomik(komikId) {
-        if (!currentUser) {
-            openAuthModal('login');
-            return;
-        }
-        
+        if (!currentUser) { openAuthModal('login'); return; }
         currentKomik = komikData.find(k => k.id === komikId);
         if (!currentKomik) return;
-        
         document.getElementById('komikTitle').innerHTML = `📖 ${currentKomik.title}`;
         renderChapterList();
         showChaptersPage();
@@ -446,7 +553,6 @@
     function renderChapterList() {
         const container = document.getElementById('chapter-list-container');
         if (!container || !currentKomik) return;
-        
         container.innerHTML = currentKomik.chapters.map(ch => `
             <div class="chapter-card" onclick="openChapter(${ch.id})">
                 <div class="chapter-num">Bab ${ch.id}</div>
@@ -456,11 +562,7 @@
     }
 
     async function openChapter(chapterId) {
-        if (!currentUser) {
-            openAuthModal('login');
-            return;
-        }
-        
+        if (!currentUser) { openAuthModal('login'); return; }
         currentChapter = currentKomik.chapters.find(ch => ch.id === chapterId);
         if (!currentChapter) return;
         
@@ -468,15 +570,16 @@
         
         let commentsHtml = '';
         if (comments.length > 0) {
-            commentsHtml = comments.map(c => `
-                <div class="comment">
-                    <div class="comment-user">${c.user_name === 'Varen' ? '👑' : '👤'} ${c.user_name}<span class="comment-date">${new Date(c.created_at).toLocaleString()}</span>${c.user_name === 'Varen' ? ' (Penulis)' : ''}</div>
-                    <div class="comment-text">${c.content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
-                </div>
-            `).join('');
-        } else {
-            commentsHtml = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
-        }
+            for (const c of comments) {
+                const role = await getUserRole(c.user_name);
+                commentsHtml += `
+                    <div class="comment">
+                        <div class="comment-user">${c.user_name} ${getRoleBadges(role)}<span class="comment-date">${new Date(c.created_at).toLocaleString()}</span></div>
+                        <div class="comment-text">${c.content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+                    </div>
+                `;
+            }
+        } else { commentsHtml = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>'; }
         
         const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
         const prevChapter = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
@@ -502,14 +605,8 @@
             </div>
         `;
         
-        document.getElementById('prevChapterBtn')?.addEventListener('click', () => {
-            if (prevChapter) openChapter(prevChapter.id);
-        });
-        
-        document.getElementById('nextChapterBtn')?.addEventListener('click', () => {
-            if (nextChapter) openChapter(nextChapter.id);
-        });
-        
+        document.getElementById('prevChapterBtn')?.addEventListener('click', () => { if (prevChapter) openChapter(prevChapter.id); });
+        document.getElementById('nextChapterBtn')?.addEventListener('click', () => { if (nextChapter) openChapter(nextChapter.id); });
         document.getElementById('submitCommentBtn')?.addEventListener('click', async () => {
             const text = document.getElementById('commentText').value;
             if (await addComment(currentKomik.id, chapterId, text)) {
@@ -517,7 +614,6 @@
                 openChapter(chapterId);
             }
         });
-        
         showReadingPage();
     }
 
@@ -526,15 +622,18 @@
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('home').classList.add('active');
     }
-
     function showChaptersPage() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('chapters-page').classList.add('active');
     }
-
     function showReadingPage() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('reading-page').classList.add('active');
+    }
+    function showAdminPage() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('admin-page').classList.add('active');
+        loadAdminPanel();
     }
 
     // ==================== MODAL AUTH ====================
@@ -542,45 +641,21 @@
         const modal = document.getElementById('authModal');
         const container = document.getElementById('modalFormContainer');
         container.innerHTML = '';
-        
-        const loginForm = `
-            <h3>🔐 Login</h3>
-            <input type="text" id="modalUsername" placeholder="Username">
-            <input type="password" id="modalPassword" placeholder="Password">
-            <button id="modalLoginBtn">Login</button>
-            <div class="auth-switch">Belum punya akun? <a id="switchToRegister">Daftar di sini</a></div>
-            <div id="modalMessage" class="auth-message"></div>
-        `;
-        
-        const registerForm = `
-            <h3>📝 Daftar Akun Baru</h3>
-            <input type="text" id="modalRegUsername" placeholder="Username (min 3 karakter)">
-            <input type="password" id="modalRegPassword" placeholder="Password (min 4 karakter)">
-            <button id="modalRegisterBtn">Daftar</button>
-            <div class="auth-switch">Sudah punya akun? <a id="switchToLogin">Login di sini</a></div>
-            <div id="modalMessage" class="auth-message"></div>
-        `;
-        
+        const loginForm = `<h3>🔐 Login</h3><input type="text" id="modalUsername" placeholder="Username"><input type="password" id="modalPassword" placeholder="Password"><button id="modalLoginBtn">Login</button><div class="auth-switch">Belum punya akun? <a id="switchToRegister">Daftar di sini</a></div><div id="modalMessage" class="auth-message"></div>`;
+        const registerForm = `<h3>📝 Daftar Akun Baru</h3><input type="text" id="modalRegUsername" placeholder="Username (min 3 karakter)"><input type="password" id="modalRegPassword" placeholder="Password (min 4 karakter)"><button id="modalRegisterBtn">Daftar</button><div class="auth-switch">Sudah punya akun? <a id="switchToLogin">Login di sini</a></div><div id="modalMessage" class="auth-message"></div>`;
         container.innerHTML = tab === 'login' ? loginForm : registerForm;
         modal.classList.add('active');
-        
         if (tab === 'login') {
             document.getElementById('modalLoginBtn')?.addEventListener('click', async () => {
-                const username = document.getElementById('modalUsername').value;
-                const password = document.getElementById('modalPassword').value;
-                const result = await login(username, password);
+                const result = await login(document.getElementById('modalUsername').value, document.getElementById('modalPassword').value);
                 const msg = document.getElementById('modalMessage');
                 msg.textContent = result.message;
-                if (result.success) {
-                    setTimeout(() => { modal.classList.remove('active'); showHomePage(); renderKomikGrid(); }, 1000);
-                }
+                if (result.success) setTimeout(() => { modal.classList.remove('active'); location.reload(); }, 1000);
             });
             document.getElementById('switchToRegister')?.addEventListener('click', (e) => { e.preventDefault(); openAuthModal('register'); });
         } else {
             document.getElementById('modalRegisterBtn')?.addEventListener('click', async () => {
-                const username = document.getElementById('modalRegUsername').value;
-                const password = document.getElementById('modalRegPassword').value;
-                const result = await register(username, password);
+                const result = await register(document.getElementById('modalRegUsername').value, document.getElementById('modalRegPassword').value);
                 const msg = document.getElementById('modalMessage');
                 msg.textContent = result.message;
                 if (result.success) setTimeout(() => openAuthModal('login'), 1500);
@@ -593,39 +668,45 @@
         const dropdown = document.getElementById('dropdownContent');
         if (!dropdown) return;
         if (currentUser) {
-            const isAdmin = currentUser === 'Varen';
-            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser} ${isAdmin ? '👑' : ''}</a><a id="dropdownLogout">🚪 Logout</a>`;
+            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser} ${getRoleBadges(currentUserRole)}</a>${isAdmin() ? '<a id="dropdownAdmin">⚙️ Panel Admin</a>' : ''}<a id="dropdownLogout">🚪 Logout</a>`;
             document.getElementById('dropdownLogout')?.addEventListener('click', logout);
+            document.getElementById('dropdownAdmin')?.addEventListener('click', () => showAdminPage());
         } else {
             dropdown.innerHTML = `<a id="dropdownLogin">🔐 Login / Daftar</a>`;
             document.getElementById('dropdownLogin')?.addEventListener('click', () => openAuthModal('login'));
         }
     }
 
+    // ==================== THEME TOGGLE ====================
+    function initTheme() {
+        const theme = localStorage.getItem('theme') || 'light';
+        if (theme === 'dark') document.body.classList.add('dark');
+        const btn = document.getElementById('themeToggle');
+        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        btn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            btn.textContent = isDark ? '☀️' : '🌙';
+        });
+    }
+
     // ==================== INIT ====================
     function init() {
         renderKomikGrid();
-        
         document.getElementById('backToHomeBtn')?.addEventListener('click', showHomePage);
         document.getElementById('backToChaptersBtn')?.addEventListener('click', showChaptersPage);
-        
+        document.getElementById('backToHomeFromAdminBtn')?.addEventListener('click', showHomePage);
         const accountBtn = document.getElementById('accountBtn');
         const dropdown = document.getElementById('userDropdown');
-        if (accountBtn) {
-            accountBtn.onclick = (e) => {
-                e.stopPropagation();
-                dropdown.classList.toggle('active');
-            };
-        }
+        if (accountBtn) accountBtn.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); };
         document.onclick = () => dropdown?.classList.remove('active');
-        
         const modal = document.getElementById('authModal');
         document.getElementById('closeModalBtn')?.addEventListener('click', () => modal.classList.remove('active'));
         modal?.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
-        
         updateUserDropdown();
+        initTheme();
     }
-    
     init();
 </script>
 </body>
