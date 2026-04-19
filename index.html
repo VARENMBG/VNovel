@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>VNovel - Baca Novel & Komik Online</title>
+    <title>VNovel - Archeon: The End Before Beginning</title>
     <style>
         * {
             margin: 0;
@@ -144,14 +144,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero {
@@ -404,7 +398,6 @@
             border-radius: 24px;
             max-width: 350px;
             width: 90%;
-            position: relative;
         }
 
         .modal-content h3 {
@@ -437,23 +430,6 @@
             cursor: pointer;
             width: 100%;
             font-size: 1rem;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 0.8rem;
-            right: 0.8rem;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            color: #999;
-            width: auto;
-            padding: 0;
-        }
-
-        .close-modal:hover {
-            color: #b87c4f;
         }
 
         .auth-switch {
@@ -493,16 +469,9 @@
         }
 
         @media (max-width: 600px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .komik-grid {
-                grid-template-columns: 1fr;
-            }
-            .reading-title {
-                font-size: 1.3rem;
-            }
+            .header { flex-direction: column; text-align: center; }
+            .komik-grid { grid-template-columns: 1fr; }
+            .reading-title { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -545,7 +514,6 @@
 
 <div id="authModal" class="modal">
     <div class="modal-content">
-        <button class="close-modal" id="closeModalBtn">✕</button>
         <div id="modalFormContainer"></div>
     </div>
 </div>
@@ -555,7 +523,7 @@
 </div>
 
 <script>
-    // ==================== DATA KOMIK (25 CHAPTER) ====================
+    // ==================== DATA KOMIK (25 CHAPTER LENGKAP) ====================
     const komikData = [
         {
             id: 1,
@@ -566,12 +534,40 @@
         }
     ];
 
-    // Generate 25 chapter
+    // ==================== GENERATE 25 CHAPTER DENGAN CERITA LENGKAP ====================
+    const chapterContents = {
+        1: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>`,
+        2: `<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. Pagi itu, Archeon duduk di atas bukit kecil di belakang desa. Lyria duduk di sampingnya. 'Kau kabur lagi ke sini?' 'Aku cuma ingin tenang.' Lyria tersenyum kecil. 'Berarti kau gugup.' Hari itu adalah Hari Pengukuran. <em>— Bab 2 selesai —</em></p>`,
+        3: `<p>Keheningan menyelimuti alun-alun desa. Setelah tangan Archeon terlepas dari Crystal of Origin, tak ada satu pun cahaya yang muncul. 'Kosong...' 'Benar-benar tidak punya mana...' 'Bahkan kristal menolaknya...' Ketua Rowan melangkah maju. 'Anak tanpa mana tidak bisa hidup di bawah perlindungan desa ini. Mulai hari ini, Archeon diasingkan dari desa.' Lyria melangkah maju. 'Kalau dia pergi... aku ikut.' Rhen, Mira, Kaien, dan Selene juga ikut. <em>— Bab 3 selesai —</em></p>`,
+        4: `<p>Malam pertama di luar desa terasa jauh lebih sunyi. Tidak ada suara lonceng malam. Tidak ada cahaya rumah. Yang ada hanya hutan gelap, angin dingin. Archeon duduk di dekat api kecil tanpa banyak bicara. Lyria duduk di sampingnya. 'Kau masih memikirkannya?' Archeon menatap api. 'Aku tidak tahu kenapa aku bisa mendengar suara itu.' Selene menatap gelapnya hutan. 'Besok... kita tidak sendirian.' <em>— Bab 4 selesai —</em></p>`,
+        5: `<p>Jalan batu tua itu membawa mereka keluar dari hutan. Di kejauhan, berdiri sebuah kota kecil dengan tembok batu rendah dan gerbang kayu besar. Di atas gerbang tertulis: Astera. Mira langsung tersenyum lebar. 'Akhirnya kita sampai!' Kaien hampir terlihat terharu. 'Aku mau makanan hangat. Sekarang.' Hanya Archeon yang diam. Ia menatap kota itu cukup lama. Lyria memperhatikan wajahnya. 'Kau baik?' 'Hanya terasa aneh.' <em>— Bab 5 selesai —</em></p>`,
+        6: `<p>Archeon terbangun dengan napas tertahan. Ia langsung bangkit dari tempat tidur dan menatap ke luar. Jalanan kota Astera sunyi. Pria berjubah abu-abu itu sudah menghilang. 'Kau tidak tidur?' Lyria sudah duduk di tepi ranjang. 'Ada apa?' Archeon menatap jendela. 'Dia ada di luar tadi.' Lyria berjalan mendekat. 'Kenapa dia cuma melihat?' 'Itu yang membuatku khawatir.' <em>— Bab 6 selesai —</em></p>`,
+        7: `<p>Suasana di dalam penginapan membeku. 'Origin.' Archeon menatap pria berjubah abu-abu itu. Rhen mengangkat pedangnya. 'Kau salah orang.' Pria itu menjawab, 'Aku tidak pernah salah.' Lyria berdiri lebih dekat. 'Kau siapa?' 'Seorang penjaga.' Pria itu menatap Archeon. 'Segel.' Archeon menatap telapak tangannya. Simbol lingkaran retak itu masih terlihat samar. <em>— Bab 7 selesai —</em></p>`,
+        8: `<p>Pagi di Astera terasa berbeda. Archeon berdiri di dekat jendela, menatap telapak tangannya. Simbol lingkaran retak itu masih ada. Lyria masuk. 'Kau belum tidur semalam?' Archeon bertanya, 'Kalau suatu hari aku berubah... apa kau masih percaya padaku?' Lyria menjawab tanpa ragu. 'Aku tidak pernah percaya pada kekuatanmu. Aku percaya padamu.' <em>— Bab 8 selesai —</em></p>`,
+        9: `<p>Pecahan Stone Hollow masih berserakan di tanah. 'Kau... bagaimana bisa tahu titik lemahnya?' Archeon masih melihat tangannya sendiri. 'Aku tidak tahu.' Lyria berjalan mendekat, lalu memegang tangannya. 'Kita belum selesai.' Di depan mereka, pintu batu besar yang sebelumnya tertutup rapat kini terbuka perlahan. <em>— Bab 9 selesai —</em></p>`,
+        10: `<p>Suara batu bergeser memenuhi lorong. Pintu kedua perlahan terbuka. Di tengah ruangan, berdiri sebuah altar hitam yang dipenuhi retakan bercahaya merah. Di atas altar, melayang sebuah pecahan kristal kecil yang sangat mirip dengan Crystal of Origin. Namun warnanya hitam. Archeon berjalan perlahan mendekat. <em>— Bab 10 selesai —</em></p>`,
+        11: `<p>Suara retakan memenuhi ruangan. Langit-langit batu mulai runtuh. Mira menjerit. 'Tempat ini runtuh!' Rhen langsung bangkit. 'Keluar sekarang!' Kaien membantu Mira berdiri. Lyria masih berdiri di depan Archeon. Sebuah batu besar jatuh dari atas. Refleks. Archeon menarik tubuh Lyria ke dalam pelukannya. <em>— Bab 11 selesai —</em></p>`,
+        12: `<p>Lorong batu itu kembali sunyi. Hanya suara napas Archeon dan Lyria yang terdengar. Di ujung lorong, pintu batu besar terbuka penuh. 'Pemilik telah kembali.' Lyria menggenggam tangan Archeon. 'Kita tidak harus masuk.' Archeon menatap pintu itu. 'Aku harus tahu.' <em>— Bab 12 selesai —</em></p>`,
+        13: `<p>Ruangan itu kembali sunyi. Archeon berlutut, tangannya gemetar. Lyria memeluknya. 'Archeon... dengar suaraku. Kau di sini. Bukan di masa lalu.' Archeon menatap wajahnya lama. Dan perlahan, suara di dalam kepalanya mereda. 'Kalau kau takut... maka takutlah bersama aku. Aku tidak akan pergi.' <em>— Bab 13 selesai —</em></p>`,
+        14: `<p>Debu masih memenuhi ruangan. Tiga sosok berjubah hitam berdiri di pintu reruntuhan. 'Subjek ditemukan. Eksekusi diizinkan.' Mereka menyerang. Kaien terpental. Rhen terluka. Archeon melihat semuanya. Sosok bertopeng mengangkat tangan. Rantai hitam muncul menuju Lyria. Archeon berlari mendorong Lyria. Rantai itu menghantam tubuh Archeon. <em>— Bab 14 selesai —</em></p>`,
+        15: `<p>Ruangan mendadak sunyi. Selene berdiri dengan mata perak menyala. 'Aku bilang... jangan sentuh dia.' Waktu mulai retak. Archeon masih berlutut. Simbol hitam di telapak tangannya berdenyut lebih keras. Lalu garis hitam baru muncul naik sampai pergelangan tangan. Simbol kedua. Lebih tajam. Lebih gelap. <em>— Bab 15 selesai —</em></p>`,
+        16: `<p>Ruangan reruntuhan masih dipenuhi debu. 'Master harus diberitahu.' Dari balik pohon, pria berjubah abu-abu muncul. 'Simbol kedua sudah bangkit.' Archeon menatap tajam. 'Siapa Master?' Pria itu diam sesaat. 'Azravel.' Nama itu membuat kepala Archeon berdenyut hebat. <em>— Bab 16 selesai —</em></p>`,
+        17: `<p>Malam mulai turun saat mereka kembali ke Astera. Begitu Archeon melangkah masuk, beberapa orang langsung berhenti bicara. Bisikan mulai terdengar. 'Itu dia...' 'Anak tanpa mana itu...' 'Katanya monster di utara mati karenanya...' Seorang ibu menarik anaknya menjauh. Lyria berjalan lebih dekat ke Archeon. <em>— Bab 17 selesai —</em></p>`,
+        18: `<p>Pagi di Astera terasa lebih sunyi. Archeon berdiri memegang pedang kayu. 'Aku tidak punya mana. Kalau begitu, aku harus punya sesuatu yang lain.' Beberapa jam berlalu. Keringat membasahi bajunya. Rhen mengangkat pedang. 'Cukup.' Archeon masih berdiri. 'Belum.' <em>— Bab 18 selesai —</em></p>`,
+        19: `<p>Angin malam berhembus pelan. Tiba-tiba ledakan besar mengguncang Astera. Di langit, lingkaran hitam besar muncul. Puluhan makhluk bayangan jatuh ke jalan-jalan kota. Warga berteriak panik. Makhluk raksasa mendarat di tengah kota. Azravel menatap makhluk itu. 'Silent Order... sudah gila.' <em>— Bab 19 selesai —</em></p>`,
+        20: `<p>Makhluk raksasa itu berdiri di tengah kota. 'Origin...' Makhluk itu menyerang. Rhen terpental. Kaien terlempar. Archeon jatuh berlutut. Lyria memeluknya. 'Archeon! Lihat aku!' Makhluk itu menyerang Lyria. Tanpa sadar, kata itu keluar: 'Berhenti.' Seluruh kota sunyi. Makhluk itu perlahan berlutut. 'Origin... telah kembali.' <em>— Bab 20 selesai —</em></p>`,
+        21: `<p>Malam di Astera mendadak sunyi. Puluhan monster bayangan berlutut di hadapan Archeon. Tak bergerak. Tak menyerang. Mira menatap dengan bibir gemetar. 'Ini... bukan lagi kebetulan.' Rhen berdiri sambil menahan luka. 'Archeon.' Monster raksasa mengangkat kepala. 'Perintah.' <em>— Bab 21 selesai —</em></p>`,
+        22: `<p>Malam di Astera belum berakhir. Orang-orang keluar dari tempat persembunyian. Mereka melihat Archeon. Bisikan mulai menyebar. 'Anak terkutuk...' 'Pembawa bencana...' 'Dia bukan manusia...' Lyria berdiri lebih dekat. Archeon melangkah menjauh. 'Mereka benar.' 'Aku sendiri sudah tidak tahu lagi.' <em>— Bab 22 selesai —</em></p>`,
+        23: `<p>Mereka memutuskan meninggalkan Astera. Selene menunjuk ke timur. 'Kita harus ke sana.' Perjalanan melelahkan. Hutan semakin gelap. Tapi Archeon terus melangkah. Lyria tetap di sampingnya. Di kejauhan, bayangan hitam mulai mengikuti mereka. <em>— Bab 23 selesai —</em></p>`,
+        24: `<p>Mereka sampai di sebuah desa kosong. Tidak ada suara. Tidak ada kehidupan. Hanya rumah-rumah kayu tua yang setengah rusak. Mira memeluk lengannya. 'Aku tidak suka ini.' Rhen menghunus pedang. 'Terlalu sepi.' Lyria menatap pintu-pintu rumah. 'Seperti semua orang pergi mendadak.' <em>— Bab 24 selesai —</em></p>`,
+        25: `<p>Di tengah desa, patung raksasa berlutut. Seorang anak kecil bermata merah berdiri di depan rumah tua. 'Aku yang tertinggal.' Patung raksasa mengangkat kepala. 'Desa ini... telah menunggumu.' Pintu-pintu rumah terbuka. Bayangan manusia muncul. Seorang wanita tua berkata, 'Kami menunggumu...' Lalu hancur menjadi abu. Anak kecil itu berbisik, 'Jangan terlambat kali ini.' <em>— Bab 25 selesai —</em></p>`
+    };
+
     for (let i = 1; i <= 25; i++) {
         komikData[0].chapters.push({
             id: i,
             title: `Bab ${i}`,
-            content: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab ${i} selesai —</em></p>`
+            content: chapterContents[i] || `<p>Cerita Bab ${i} dari novel Archeon... <em>— Bab ${i} selesai —</em></p>`
         });
     }
 
@@ -618,11 +614,6 @@
         currentUser = null;
         updateUserDropdown();
         showHomePage();
-    }
-
-    function isAdmin() {
-        const users = loadUsers();
-        return users[currentUser]?.role === 'owner';
     }
 
     // ==================== UI FUNCTIONS ====================
@@ -897,7 +888,6 @@
         });
         
         const modal = document.getElementById('authModal');
-        document.getElementById('closeModalBtn')?.addEventListener('click', () => modal.classList.remove('active'));
         modal?.addEventListener('click', (e) => {
             if (e.target === modal) modal.classList.remove('active');
         });
