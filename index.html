@@ -15,6 +15,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f0e8;
             color: #1a1a1a;
+            transition: all 0.3s;
         }
 
         body.dark {
@@ -22,7 +23,8 @@
             color: #e0e0e0;
         }
 
-        body.dark .header, body.dark .komik-card, body.dark .chapter-card, body.dark .reading-content, body.dark .modal-content {
+        body.dark .header, body.dark .komik-card, body.dark .chapter-card, 
+        body.dark .reading-content, body.dark .modal-content {
             background: #1e1e1e;
             border-color: #333;
         }
@@ -122,6 +124,12 @@
 
         .page.active {
             display: block;
+            animation: fade 0.3s;
+        }
+
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* GRID KOMIK */
@@ -202,7 +210,7 @@
             margin-top: 0.2rem;
         }
 
-        /* READING */
+        /* READING PAGE */
         .reading-content {
             background: white;
             border-radius: 12px;
@@ -242,8 +250,13 @@
             flex: 1;
         }
 
+        .nav-chapter button:hover:not(:disabled) {
+            background: #b87c4f;
+        }
+
         .nav-chapter button:disabled {
             opacity: 0.4;
+            cursor: not-allowed;
         }
 
         /* KOMENTAR */
@@ -289,6 +302,10 @@
             padding: 0.5rem;
             border-radius: 10px;
             margin-bottom: 0.5rem;
+        }
+
+        body.dark .comment {
+            background: #2a2a2a;
         }
 
         .comment-user {
@@ -359,6 +376,12 @@
             border-radius: 8px;
         }
 
+        body.dark .modal-content input {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
         .modal-content button {
             background: #b87c4f;
             border: none;
@@ -401,6 +424,7 @@
         @media (max-width: 600px) {
             .container { padding: 0.8rem; }
             .komik-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
         }
     </style>
 </head>
@@ -443,26 +467,15 @@
 </div>
 
 <div class="footer">
-    © 2026 VNovel
+    © 2026 VNovel — Archeon: The End Before Beginning
 </div>
 
 <script>
-    // ==================== DATA ====================
+    // ==================== DATA NOVEL LENGKAP ====================
     let currentUser = localStorage.getItem('currentUser') || null;
     let currentKomik = null;
     
-    // Data novel
-    let komikData = [
-        {
-            id: 1,
-            title: "Archeon: The End Before Beginning",
-            description: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
-            image: "archeonn.jpg",
-            chapters: []
-        }
-    ];
-
-    // Generate 25 chapter
+    // Judul bab
     const judulBab = [
         "Anak yang Lahir dalam Keheningan", "Hari yang Tidak Memilihnya", "Yang Dibuang Oleh Cahaya",
         "Langkah Pertama di Luar Cahaya", "Kota di Ujung Hutan", "Nama yang Dicari Kegelapan",
@@ -474,22 +487,35 @@
         "Mata di Dalam Bayangan", "Jalan ke Timur", "Kota Abu yang Sunyi", "Desa yang Mengingat"
     ];
 
+    // Isi cerita per bab (lebih panjang)
+    const isiCerita = `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. Sera menatap Elena, namun tidak berkata apa pun. Daren langsung memahami dari wajahnya. "Kosong?" bisiknya pelan. Sera hanya mengangguk kecil. Di dunia itu, bahkan bayi paling lemah tetap memiliki jejak mana. Tetapi bayi itu berbeda. Ia tidak terasa lemah. Ia terasa kosong. Seolah sesuatu di dalam dirinya belum bangun. Elena memeluk bayinya lebih erat. "Aku tidak peduli. Dia tetap anakku." Daren terdiam cukup lama sebelum akhirnya berkata pelan, "Namanya..." Elena menatap bayi itu. "Archeon." Malam itu berlalu seperti biasa. Tidak ada petir. Tidak ada cahaya. Tidak ada pertanda besar. Namun jauh di tengah desa, Crystal of Origin yang berdiri diam selama ratusan tahun mendadak meredup sesaat. Lalu kembali normal. Tak seorang pun melihatnya. Beberapa jam kemudian, di rumah lain tak jauh dari sana, seorang bayi perempuan lahir. Tangisnya lembut. Hangat. Menenangkan. Saat bayi itu membuka mata, bunga-bunga putih di halaman rumah mekar perlahan di tengah malam. Ibunya tersenyum sambil berbisik, "Lyria..." Dan sejak malam itu, dua anak lahir di bawah langit yang sama, membawa takdir yang bahkan dunia belum pahami.`;
+
+    // Data novel
+    let komikData = [{
+        id: 1,
+        title: "Archeon: The End Before Beginning",
+        description: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
+        image: "archeonn.jpg",
+        chapters: []
+    }];
+
+    // Generate 25 chapter
     for (let i = 0; i < 25; i++) {
         komikData[0].chapters.push({
             id: i + 1,
             title: judulBab[i],
-            content: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab ${i+1} selesai —</em></p>`
+            content: `<p>${isiCerita}</p><p style="margin-top:1rem;">Cerita berlanjut ke bab ${i+1}... Kisah Archeon dan Lyria terus berlanjut. Mereka menghadapi berbagai tantangan, mengungkap misteri Origin, dan berjuang melawan Silent Order. <em>— Bab ${i+1} selesai —</em></p>`
         });
     }
 
-    // ==================== FUNGSI ====================
+    // ==================== RENDER KOMIK ====================
     function renderKomik() {
         const grid = document.getElementById('komikGrid');
         if (!grid) return;
         grid.innerHTML = komikData.map(k => `
             <div class="komik-card" onclick="pilihKomik(${k.id})">
                 <div class="komik-image">
-                    <img src="${k.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Novel'">
+                    <img src="${k.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Archeon'">
                 </div>
                 <div class="komik-info">
                     <div class="komik-title">${k.title}</div>
@@ -517,6 +543,7 @@
         `).join('');
     }
 
+    // ==================== BACA BAB ====================
     window.bacaBab = function(chapterId) {
         const bab = currentKomik.chapters.find(ch => ch.id === chapterId);
         if (!bab) return;
@@ -525,9 +552,14 @@
         const comments = loadComments(currentKomik.id, chapterId);
         let htmlKomen = '';
         if (comments.length > 0) {
-            htmlKomen = comments.map(c => `<div class="comment"><div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div><div class="comment-text">${c.text}</div></div>`).join('');
+            htmlKomen = comments.map(c => `
+                <div class="comment">
+                    <div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div>
+                    <div class="comment-text">${c.text}</div>
+                </div>
+            `).join('');
         } else {
-            htmlKomen = '<p style="opacity:0.6;">Belum ada komentar.</p>';
+            htmlKomen = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
         }
         
         let formKomen = '';
@@ -547,11 +579,11 @@
                 <div class="reading-title">Bab ${bab.id} — ${bab.title}</div>
                 <div class="reading-text">${bab.content}</div>
                 <div class="nav-chapter">
-                    <button id="prevBtn" ${!prevBab ? 'disabled' : ''}>← Sebelumnya</button>
-                    <button id="nextBtn" ${!nextBab ? 'disabled' : ''}>Selanjutnya →</button>
+                    <button id="prevBtn" ${!prevBab ? 'disabled' : ''}>← Bab Sebelumnya</button>
+                    <button id="nextBtn" ${!nextBab ? 'disabled' : ''}>Bab Selanjutnya →</button>
                 </div>
                 <div class="comment-section">
-                    <h4>💬 Komentar (${comments.length})</h4>
+                    <h4>💬 Komentar Pembaca (${comments.length})</h4>
                     <div id="komenList">${htmlKomen}</div>
                     ${formKomen}
                 </div>
@@ -581,7 +613,7 @@
         return komen ? JSON.parse(komen) : [];
     }
 
-    // ==================== LOGIN ====================
+    // ==================== LOGIN SYSTEM ====================
     function loadUsers() {
         const users = localStorage.getItem('users');
         if (users) return JSON.parse(users);
@@ -592,7 +624,7 @@
 
     function register(username, password) {
         const users = loadUsers();
-        if (users[username]) return 'Username sudah ada!';
+        if (users[username]) return 'Username sudah digunakan!';
         if (username.length < 3) return 'Username minimal 3 karakter!';
         if (password.length < 4) return 'Password minimal 4 karakter!';
         users[username] = { password: password };
