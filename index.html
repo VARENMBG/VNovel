@@ -6,20 +6,13 @@
     <title>Kampus Komik | Baca Novel & Komik Online</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: #0a0a0a;
             color: #e0e0e0;
             line-height: 1.6;
         }
-
-        /* Header */
         .header {
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
             padding: 1rem 2rem;
@@ -33,23 +26,9 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            color: #b87c4f;
-        }
-
-        .logo p {
-            font-size: 0.7rem;
-            opacity: 0.7;
-        }
-
-        .user-area {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
+        .logo h1 { font-size: 1.5rem; color: #b87c4f; }
+        .logo p { font-size: 0.7rem; opacity: 0.7; }
+        .user-area { display: flex; gap: 0.5rem; align-items: center; }
         .icon-btn {
             background: #2a2a2a;
             border: none;
@@ -61,11 +40,7 @@
             font-size: 1.2rem;
             transition: 0.3s;
         }
-
-        .icon-btn:hover {
-            background: #b87c4f;
-        }
-
+        .icon-btn:hover { background: #b87c4f; }
         .user-dropdown {
             position: absolute;
             top: 70px;
@@ -77,11 +52,7 @@
             z-index: 200;
             border: 1px solid #2a2a2a;
         }
-
-        .user-dropdown.active {
-            display: block;
-        }
-
+        .user-dropdown.active { display: block; }
         .user-dropdown a {
             display: block;
             padding: 0.8rem 1rem;
@@ -89,39 +60,12 @@
             text-decoration: none;
             cursor: pointer;
         }
-
-        .user-dropdown a:hover {
-            background: #2a2a2a;
-        }
-
-        .user-dropdown .user-name {
-            color: #b87c4f;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Pages */
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Hero Section */
+        .user-dropdown a:hover { background: #2a2a2a; }
+        .user-dropdown .user-name { color: #b87c4f; border-bottom: 1px solid #2a2a2a; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .page { display: none; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hero {
             text-align: center;
             padding: 3rem 1rem;
@@ -129,28 +73,14 @@
             border-radius: 24px;
             margin-bottom: 2rem;
         }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            color: #b87c4f;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Grid Komik */
+        .hero h1 { font-size: 2.5rem; color: #b87c4f; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
         .komik-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
         }
-
         .komik-card {
             background: #1a1a1a;
             border-radius: 16px;
@@ -159,53 +89,18 @@
             transition: 0.3s;
             border: 1px solid #2a2a2a;
         }
-
-        .komik-card:hover {
-            transform: translateY(-5px);
-            border-color: #b87c4f;
-        }
-
-        .komik-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #2a2a2a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        .komik-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .komik-info {
-            padding: 1rem;
-        }
-
-        .komik-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #b87c4f;
-            margin-bottom: 0.3rem;
-        }
-
-        .komik-desc {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        /* Chapter Grid */
+        .komik-card:hover { transform: translateY(-5px); border-color: #b87c4f; }
+        .komik-image { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .komik-image img { width: 100%; height: 100%; object-fit: cover; }
+        .komik-info { padding: 1rem; }
+        .komik-title { font-size: 1.2rem; font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
+        .komik-desc { font-size: 0.8rem; opacity: 0.7; }
         .chapter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 0.8rem;
             margin-top: 1.5rem;
         }
-
         .chapter-card {
             background: #1a1a1a;
             border-radius: 12px;
@@ -215,50 +110,13 @@
             transition: 0.3s;
             border: 1px solid #2a2a2a;
         }
-
-        .chapter-card:hover {
-            border-color: #b87c4f;
-            background: #222;
-        }
-
-        .chapter-num {
-            color: #b87c4f;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .chapter-title {
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
-        }
-
-        /* Reading Page */
-        .reading-content {
-            background: #1a1a1a;
-            border-radius: 24px;
-            padding: 2rem;
-        }
-
-        .reading-title {
-            font-size: 2rem;
-            color: #b87c4f;
-            border-left: 4px solid #b87c4f;
-            padding-left: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .reading-text p {
-            margin-bottom: 1.5rem;
-            text-indent: 2em;
-        }
-
-        .nav-chapter {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-            gap: 1rem;
-        }
-
+        .chapter-card:hover { border-color: #b87c4f; background: #222; }
+        .chapter-num { color: #b87c4f; font-size: 0.8rem; font-weight: bold; }
+        .chapter-title { font-size: 0.9rem; margin-top: 0.3rem; }
+        .reading-content { background: #1a1a1a; border-radius: 24px; padding: 2rem; }
+        .reading-title { font-size: 2rem; color: #b87c4f; border-left: 4px solid #b87c4f; padding-left: 1rem; margin-bottom: 1.5rem; }
+        .reading-text p { margin-bottom: 1.5rem; text-indent: 2em; }
+        .nav-chapter { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
         .nav-chapter button {
             background: #2a2a2a;
             border: none;
@@ -268,34 +126,11 @@
             cursor: pointer;
             transition: 0.3s;
         }
-
-        .nav-chapter button:hover:not(:disabled) {
-            background: #b87c4f;
-        }
-
-        .nav-chapter button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* Comments */
-        .comment-section {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .comment-section h4 {
-            color: #b87c4f;
-            margin-bottom: 1rem;
-        }
-
-        .comment-input {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
+        .nav-chapter button:hover:not(:disabled) { background: #b87c4f; }
+        .nav-chapter button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .comment-section { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #2a2a2a; }
+        .comment-section h4 { color: #b87c4f; margin-bottom: 1rem; }
+        .comment-input { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
         .comment-input textarea {
             flex: 1;
             padding: 0.8rem;
@@ -306,7 +141,6 @@
             font-family: inherit;
             resize: vertical;
         }
-
         .comment-input button {
             background: #b87c4f;
             border: none;
@@ -315,39 +149,14 @@
             border-radius: 30px;
             cursor: pointer;
         }
-
         .comment {
             background: #2a2a2a;
             padding: 1rem;
             border-radius: 16px;
             margin-bottom: 0.8rem;
         }
-
-        .comment-user {
-            font-weight: bold;
-            color: #b87c4f;
-            margin-bottom: 0.3rem;
-        }
-
-        .comment-date {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            margin-left: 0.5rem;
-        }
-
-        .login-prompt {
-            text-align: center;
-            padding: 1rem;
-            background: #2a2a2a;
-            border-radius: 16px;
-        }
-
-        .login-prompt a {
-            color: #b87c4f;
-            cursor: pointer;
-        }
-
-        /* Modal */
+        .comment-user { font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
+        .comment-date { font-size: 0.7rem; opacity: 0.6; margin-left: 0.5rem; }
         .modal {
             display: none;
             position: fixed;
@@ -360,11 +169,7 @@
             align-items: center;
             z-index: 1000;
         }
-
-        .modal.active {
-            display: flex;
-        }
-
+        .modal.active { display: flex; }
         .modal-content {
             background: #1a1a1a;
             padding: 2rem;
@@ -373,13 +178,7 @@
             width: 90%;
             border: 1px solid #b87c4f;
         }
-
-        .modal-content h3 {
-            color: #b87c4f;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
+        .modal-content h3 { color: #b87c4f; margin-bottom: 1rem; text-align: center; }
         .modal-content input {
             width: 100%;
             padding: 0.8rem;
@@ -389,7 +188,6 @@
             border-radius: 12px;
             color: white;
         }
-
         .modal-content button {
             background: #b87c4f;
             border: none;
@@ -399,7 +197,6 @@
             cursor: pointer;
             width: 100%;
         }
-
         .close-modal {
             position: absolute;
             top: 1rem;
@@ -410,18 +207,8 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
-
-        .auth-switch {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.8rem;
-        }
-
-        .auth-switch a {
-            color: #b87c4f;
-            cursor: pointer;
-        }
-
+        .auth-switch { text-align: center; margin-top: 1rem; font-size: 0.8rem; }
+        .auth-switch a { color: #b87c4f; cursor: pointer; }
         .back-btn {
             background: #2a2a2a;
             border: none;
@@ -432,30 +219,12 @@
             margin-bottom: 1rem;
             display: inline-block;
         }
-
-        .back-btn:hover {
-            background: #b87c4f;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #2a2a2a;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
+        .back-btn:hover { background: #b87c4f; }
+        .footer { text-align: center; padding: 2rem; border-top: 1px solid #2a2a2a; font-size: 0.8rem; opacity: 0.7; }
         @media (max-width: 600px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .komik-grid {
-                grid-template-columns: 1fr;
-            }
-            .reading-title {
-                font-size: 1.5rem;
-            }
+            .header { flex-direction: column; text-align: center; }
+            .komik-grid { grid-template-columns: 1fr; }
+            .reading-title { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -475,7 +244,6 @@
 </div>
 
 <div class="container">
-    <!-- Halaman Utama (Daftar Komik) -->
     <div id="home" class="page active">
         <div class="hero">
             <h1>✨ Selamat Datang di Kampus Komik ✨</h1>
@@ -484,21 +252,18 @@
         <div class="komik-grid" id="komikGrid"></div>
     </div>
 
-    <!-- Halaman Daftar Bab -->
     <div id="chapters-page" class="page">
         <button class="back-btn" id="backToHomeBtn">← Kembali ke Daftar Komik</button>
         <h2 style="color: #b87c4f; margin: 1rem 0;" id="komikTitle"></h2>
         <div id="chapter-list-container" class="chapter-grid"></div>
     </div>
 
-    <!-- Halaman Baca -->
     <div id="reading-page" class="page">
         <button class="back-btn" id="backToChaptersBtn">← Kembali ke Daftar Bab</button>
         <div id="readingContainer"></div>
     </div>
 </div>
 
-<!-- Modal Login/Register -->
 <div id="authModal" class="modal">
     <div class="modal-content">
         <button class="close-modal" id="closeModalBtn">&times;</button>
@@ -512,31 +277,44 @@
 
 <script>
     // ==================== SUPABASE CONFIG ====================
-    // >>> GANTI DENGAN URL DAN ANON KEY DARI SUPABASE KAMU <<<
-    const SUPABASE_URL = 'https://lyhqlhqrazxhjpxxllqg.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5aHFsaHFyYXp4aGpweHhsbHFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NTk0NTMsImV4cCI6MjA5MjEzNTQ1M30.r4PXoKM15VBItcKH7VhmabzwwXPSVy9uN3nGB8b9rCQ';
+    const SUPABASE_URL = 'https://ambhjuonjkewrntehnbr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtYmhqdW9uamtld3JudGVobmJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODA4OTEsImV4cCI6MjA5MjE1Njg5MX0.uRCCoecAwPbeJyAsD3w6cC0RqGA83tOQnv0pKMKeSZA';
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ==================== DATA KOMIK ====================
+    // ==================== DATA KOMIK (25 CHAPTER LENGKAP) ====================
     const komikData = [
         {
             id: 1,
             title: "Archeon: The End Before Beginning",
             description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
             image: "archeon.jpg",
-            color: "#b87c4f",
             chapters: [
-                { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. <em>— Bab 1 selesai —</em></p>" },
-                { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. <em>— Bab 2 selesai —</em></p>" },
-                { id: 3, title: "Yang Dibuang Oleh Cahaya", content: "<p>Keheningan menyelimuti alun-alun desa. Setelah tangan Archeon terlepas dari Crystal of Origin, tak ada satu pun cahaya yang muncul. <em>— Bab 3 selesai —</em></p>" },
-                { id: 4, title: "Langkah Pertama di Luar Cahaya", content: "<p>Malam pertama di luar desa terasa jauh lebih sunyi. Tidak ada suara lonceng malam. <em>— Bab 4 selesai —</em></p>" },
-                { id: 5, title: "Kota di Ujung Hutan", content: "<p>Jalan batu tua itu membawa mereka keluar dari hutan. Setelah dua hari berjalan, pepohonan mulai menipis. <em>— Bab 5 selesai —</em></p>" },
-                { id: 6, title: "Nama yang Dicari Kegelapan", content: "<p>Archeon terbangun dengan napas tertahan. Cahaya bulan masih masuk melalui jendela. <em>— Bab 6 selesai —</em></p>" },
-                { id: 7, title: "Nama yang Bukan Miliknya", content: "<p>Suasana di dalam penginapan membeku. Tak ada yang bergerak. Tak ada yang berbicara. <em>— Bab 7 selesai —</em></p>" },
-                { id: 8, title: "Jejak yang Mulai Terbuka", content: "<p>Pagi di Astera terasa berbeda. Langit masih cerah. <em>— Bab 8 selesai —</em></p>" },
-                { id: 9, title: "Reruntuhan yang Mengenalnya", content: "<p>Pecahan Stone Hollow masih berserakan di tanah. Kabut tipis perlahan turun kembali. <em>— Bab 9 selesai —</em></p>" },
-                { id: 10, title: "Pintu Kedua", content: "<p>Suara batu bergeser memenuhi lorong. Di balik Guardian yang masih berlutut, pintu kedua perlahan terbuka. <em>— Bab 10 selesai —</em></p>" }
+                { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>" },
+                { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. Pagi itu, Archeon duduk di atas bukit kecil di belakang desa. Dari sana, ia bisa melihat seluruh Elaris. Lyria duduk di sampingnya. 'Kau kabur lagi ke sini.' 'Aku cuma ingin tenang.' Lyria tersenyum kecil. 'Berarti kau gugup.' Hari itu adalah Hari Pengukuran. <em>— Bab 2 selesai —</em></p>" },
+                { id: 3, title: "Yang Dibuang Oleh Cahaya", content: "<p>Keheningan menyelimuti alun-alun desa. Setelah tangan Archeon terlepas dari Crystal of Origin, tak ada satu pun cahaya yang muncul. 'Kosong...' 'Benar-benar tidak punya mana...' 'Bahkan kristal menolaknya...' Ketua Rowan melangkah maju. 'Anak tanpa mana tidak bisa hidup di bawah perlindungan desa ini. Mulai hari ini, Archeon diasingkan dari desa.' Lyria melangkah maju. 'Kalau dia pergi... aku ikut.' Rhen, Mira, Kaien, dan Selene juga ikut. <em>— Bab 3 selesai —</em></p>" },
+                { id: 4, title: "Langkah Pertama di Luar Cahaya", content: "<p>Malam pertama di luar desa terasa jauh lebih sunyi. Tidak ada suara lonceng malam. Tidak ada cahaya rumah. Yang ada hanya hutan gelap, angin dingin. Archeon duduk di dekat api kecil tanpa banyak bicara. Lyria duduk di sampingnya. 'Kau masih memikirkannya?' Archeon menatap api. 'Aku tidak tahu kenapa aku bisa mendengar suara itu.' Selene menatap gelapnya hutan. 'Besok... kita tidak sendirian.' <em>— Bab 4 selesai —</em></p>" },
+                { id: 5, title: "Kota di Ujung Hutan", content: "<p>Jalan batu tua itu membawa mereka keluar dari hutan. Di kejauhan, berdiri sebuah kota kecil dengan tembok batu rendah dan gerbang kayu besar. Di atas gerbang tertulis: Astera. Mira langsung tersenyum lebar. 'Akhirnya kita sampai!' Kaien hampir terlihat terharu. 'Aku mau makanan hangat. Sekarang.' Hanya Archeon yang diam. Ia menatap kota itu cukup lama. Lyria memperhatikan wajahnya. 'Kau baik?' 'Hanya terasa aneh.' <em>— Bab 5 selesai —</em></p>" },
+                { id: 6, title: "Nama yang Dicari Kegelapan", content: "<p>Archeon terbangun dengan napas tertahan. Ia langsung bangkit dari tempat tidur dan menatap ke luar. Jalanan kota Astera sunyi. Pria berjubah abu-abu itu sudah menghilang. 'Kau tidak tidur?' Lyria sudah duduk di tepi ranjang. 'Ada apa?' Archeon menatap jendela. 'Dia ada di luar tadi.' Lyria berjalan mendekat. 'Kenapa dia cuma melihat?' 'Itu yang membuatku khawatir.' <em>— Bab 6 selesai —</em></p>" },
+                { id: 7, title: "Nama yang Bukan Miliknya", content: "<p>Suasana di dalam penginapan membeku. 'Origin.' Archeon menatap pria berjubah abu-abu itu. Rhen mengangkat pedangnya. 'Kau salah orang.' Pria itu menjawab, 'Aku tidak pernah salah.' Lyria berdiri lebih dekat. 'Kau siapa?' 'Seorang penjaga.' Pria itu menatap Archeon. 'Segel.' Archeon menatap telapak tangannya. Simbol lingkaran retak itu masih terlihat samar. <em>— Bab 7 selesai —</em></p>" },
+                { id: 8, title: "Jejak yang Mulai Terbuka", content: "<p>Pagi di Astera terasa berbeda. Archeon berdiri di dekat jendela, menatap telapak tangannya. Simbol lingkaran retak itu masih ada. Lyria masuk. 'Kau belum tidur semalam?' Archeon bertanya, 'Kalau suatu hari aku berubah... apa kau masih percaya padaku?' Lyria menjawab tanpa ragu. 'Aku tidak pernah percaya pada kekuatanmu. Aku percaya padamu.' <em>— Bab 8 selesai —</em></p>" },
+                { id: 9, title: "Reruntuhan yang Mengenalnya", content: "<p>Pecahan Stone Hollow masih berserakan di tanah. 'Kau... bagaimana bisa tahu titik lemahnya?' Archeon masih melihat tangannya sendiri. 'Aku tidak tahu.' Lyria berjalan mendekat, lalu memegang tangannya. 'Kita belum selesai.' Di depan mereka, pintu batu besar yang sebelumnya tertutup rapat kini terbuka perlahan. <em>— Bab 9 selesai —</em></p>" },
+                { id: 10, title: "Pintu Kedua", content: "<p>Suara batu bergeser memenuhi lorong. Pintu kedua perlahan terbuka. Di tengah ruangan, berdiri sebuah altar hitam yang dipenuhi retakan bercahaya merah. Di atas altar, melayang sebuah pecahan kristal kecil yang sangat mirip dengan Crystal of Origin. Namun warnanya hitam. Archeon berjalan perlahan mendekat. <em>— Bab 10 selesai —</em></p>" },
+                { id: 11, title: "Runtuhan yang Memilih", content: "<p>Suara retakan memenuhi ruangan. Langit-langit batu mulai runtuh. Mira menjerit. 'Tempat ini runtuh!' Rhen langsung bangkit. 'Keluar sekarang!' Kaien membantu Mira berdiri. Lyria masih berdiri di depan Archeon. Sebuah batu besar jatuh dari atas. Refleks. Archeon menarik tubuh Lyria ke dalam pelukannya. <em>— Bab 11 selesai —</em></p>" },
+                { id: 12, title: "Suara dari Dalam Diri", content: "<p>Lorong batu itu kembali sunyi. Hanya suara napas Archeon dan Lyria yang terdengar. Di ujung lorong, pintu batu besar terbuka penuh. 'Pemilik telah kembali.' Lyria menggenggam tangan Archeon. 'Kita tidak harus masuk.' Archeon menatap pintu itu. 'Aku harus tahu.' <em>— Bab 12 selesai —</em></p>" },
+                { id: 13, title: "Cahaya yang Tetap Tinggal", content: "<p>Ruangan itu kembali sunyi. Archeon berlutut, tangannya gemetar. Lyria memeluknya. 'Archeon... dengar suaraku. Kau di sini. Bukan di masa lalu.' Archeon menatap wajahnya lama. Dan perlahan, suara di dalam kepalanya mereda. 'Kalau kau takut... maka takutlah bersama aku. Aku tidak akan pergi.' <em>— Bab 13 selesai —</em></p>" },
+                { id: 14, title: "Luka Pertama", content: "<p>Debu masih memenuhi ruangan. Tiga sosok berjubah hitam berdiri di pintu reruntuhan. 'Subjek ditemukan. Eksekusi diizinkan.' Mereka menyerang. Kaien terpental. Rhen terluka. Archeon melihat semuanya. Sosok bertopeng mengangkat tangan. Rantai hitam muncul menuju Lyria. Archeon berlari mendorong Lyria. Rantai itu menghantam tubuh Archeon. <em>— Bab 14 selesai —</em></p>" },
+                { id: 15, title: "Simbol Kedua", content: "<p>Ruangan mendadak sunyi. Selene berdiri dengan mata perak menyala. 'Aku bilang... jangan sentuh dia.' Waktu mulai retak. Archeon masih berlutut. Simbol hitam di telapak tangannya berdenyut lebih keras. Lalu garis hitam baru muncul naik sampai pergelangan tangan. Simbol kedua. Lebih tajam. Lebih gelap. <em>— Bab 15 selesai —</em></p>" },
+                { id: 16, title: "Nama yang Dibisikkan", content: "<p>Ruangan reruntuhan masih dipenuhi debu. 'Master harus diberitahu.' Dari balik pohon, pria berjubah abu-abu muncul. 'Simbol kedua sudah bangkit.' Archeon menatap tajam. 'Siapa Master?' Pria itu diam sesaat. 'Azravel.' Nama itu membuat kepala Archeon berdenyut hebat. <em>— Bab 16 selesai —</em></p>" },
+                { id: 17, title: "Kota yang Menolak", content: "<p>Malam mulai turun saat mereka kembali ke Astera. Begitu Archeon melangkah masuk, beberapa orang langsung berhenti bicara. Bisikan mulai terdengar. 'Itu dia...' 'Anak tanpa mana itu...' 'Katanya monster di utara mati karenanya...' Seorang ibu menarik anaknya menjauh. Lyria berjalan lebih dekat ke Archeon. <em>— Bab 17 selesai —</em></p>" },
+                { id: 18, title: "Pedang Tanpa Mana", content: "<p>Pagi di Astera terasa lebih sunyi. Archeon berdiri memegang pedang kayu. 'Aku tidak punya mana. Kalau begitu, aku harus punya sesuatu yang lain.' Beberapa jam berlalu. Keringat membasahi bajunya. Rhen mengangkat pedang. 'Cukup.' Archeon masih berdiri. 'Belum.' <em>— Bab 18 selesai —</em></p>" },
+                { id: 19, title: "Malam Berdarah Astera", content: "<p>Angin malam berhembus pelan. Tiba-tiba ledakan besar mengguncang Astera. Di langit, lingkaran hitam besar muncul. Puluhan makhluk bayangan jatuh ke jalan-jalan kota. Warga berteriak panik. Makhluk raksasa mendarat di tengah kota. Azravel menatap makhluk itu. 'Silent Order... sudah gila.' <em>— Bab 19 selesai —</em></p>" },
+                { id: 20, title: "Nama yang Mulai Bangkit", content: "<p>Makhluk raksasa itu berdiri di tengah kota. 'Origin...' Makhluk itu menyerang. Rhen terpental. Kaien terlempar. Archeon jatuh berlutut. Lyria memeluknya. 'Archeon! Lihat aku!' Makhluk itu menyerang Lyria. Tanpa sadar, kata itu keluar: 'Berhenti.' Seluruh kota sunyi. Makhluk itu perlahan berlutut. 'Origin... telah kembali.' <em>— Bab 20 selesai —</em></p>" },
+                { id: 21, title: "Setelah Nama Itu Bangkit", content: "<p>Malam di Astera mendadak sunyi. Puluhan monster bayangan berlutut di hadapan Archeon. Tak bergerak. Tak menyerang. Mira menatap dengan bibir gemetar. 'Ini... bukan lagi kebetulan.' Rhen berdiri sambil menahan luka. 'Archeon.' Monster raksasa mengangkat kepala. 'Perintah.' <em>— Bab 21 selesai —</em></p>" },
+                { id: 22, title: "Mata di Dalam Bayangan", content: "<p>Malam di Astera belum berakhir. Orang-orang keluar dari tempat persembunyian. Mereka melihat Archeon. Bisikan mulai menyebar. 'Anak terkutuk...' 'Pembawa bencana...' 'Dia bukan manusia...' Lyria berdiri lebih dekat. Archeon melangkah menjauh. 'Mereka benar.' 'Aku sendiri sudah tidak tahu lagi.' <em>— Bab 22 selesai —</em></p>" },
+                { id: 23, title: "Jalan ke Timur", content: "<p>Mereka memutuskan meninggalkan Astera. Selene menunjuk ke timur. 'Kita harus ke sana.' Perjalanan melelahkan. Hutan semakin gelap. Tapi Archeon terus melangkah. Lyria tetap di sampingnya. Di kejauhan, bayangan hitam mulai mengikuti mereka. <em>— Bab 23 selesai —</em></p>" },
+                { id: 24, title: "Kota Abu yang Sunyi", content: "<p>Mereka sampai di sebuah desa kosong. Tidak ada suara. Tidak ada kehidupan. Hanya rumah-rumah kayu tua yang setengah rusak. Mira memeluk lengannya. 'Aku tidak suka ini.' Rhen menghunus pedang. 'Terlalu sepi.' Lyria menatap pintu-pintu rumah. 'Seperti semua orang pergi mendadak.' <em>— Bab 24 selesai —</em></p>" },
+                { id: 25, title: "Desa yang Mengingat", content: "<p>Di tengah desa, patung raksasa berlutut. Seorang anak kecil bermata merah berdiri di depan rumah tua. 'Aku yang tertinggal.' Patung raksasa mengangkat kepala. 'Desa ini... telah menunggumu.' Pintu-pintu rumah terbuka. Bayangan manusia muncul. Seorang wanita tua berkata, 'Kami menunggumu...' Lalu hancur menjadi abu. Anak kecil itu berbisik, 'Jangan terlambat kali ini.' <em>— Bab 25 selesai —</em></p>" }
             ]
         }
     ];
