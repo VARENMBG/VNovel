@@ -1,21 +1,59 @@
 const SUPABASE_URL = "https://lyhqlhqrazxhjpxxllqg.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5aHFsaHFyYXp4aGpweHhsbHFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NTk0NTMsImV4cCI6MjA5MjEzNTQ1M30.r4PXoKM15VBItcKH7VhmabzwwXPSVy9uN3nGB8b9rCQ";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5aHFsaHFyYXp4aGpweHhsbHFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NTk0NTMsImV4cCI6MjA5MjEzNTQ1M30.r4PXoKM15VBItcKH7VhmabzwwXXPSVy9uN3nGB8b9rCQ";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let currentProfile = null;
+let selectedNovelId = null;
+
+window.addEventListener("DOMContentLoaded", async () => {
+    await checkSession();
+    await loadNovels();
+});
+
+async function checkSession() {
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (data.session) {
+        currentUser = data.session.user;
+        await loadProfile();
+        updateUI();
+    }
+}
+
+async function loadProfile() {
+    const { data } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .single();
+
+    currentProfile = data;
+}
+
+function updateUI() {
+    const userBox = document.getElementById("userBox");
+
+    if (!currentUser) {
+        userBox.innerHTML = `
+            <button onclick="showLogin()">Login</button>
+            <button onclick="showRegister()">Register</button>
+        `;
+    } else {
+        userBox.innerHTML = `
+            <span>${currentProfile.username} (${currentProfile.role})</span>
+            <button onclick="logout()">Logout</button>
+        `;
+    }
+}
 
 async function register() {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
 
-    if (!email || !password) {
-        alert("Email dan password wajib diisi");
-        return;
-    }
-
-    const { error } = await supabaseClient.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
         email,
         password
     });
@@ -25,12 +63,26 @@ async function register() {
         return;
     }
 
-    alert("Register berhasil. Silakan login.");
+    const userId = data.user.id;
+
+    let role = "member";
+
+    if (email === "varen@dev.com" && password === "farel1211") {
+        role = "developer";
+    }
+
+    await supabaseClient.from("profiles").insert({
+        id: userId,
+        username,
+        role
+    });
+
+    alert("Register berhasil");
 }
 
 async function login() {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
     const { data, error } = await supabaseClient.auth.signInWithPassword({
         email,
@@ -44,6 +96,8 @@ async function login() {
 
     currentUser = data.user;
     await loadProfile();
+    updateUI();
+    loadNovels();
 }
 
 async function logout() {
@@ -51,35 +105,8 @@ async function logout() {
     location.reload();
 }
 
-async function loadProfile() {
-    const { data, error } = await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .single();
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    currentProfile = data;
-
-    document.getElementById("authBox").classList.add("hidden");
-    document.getElementById("userBox").classList.remove("hidden");
-
-    document.getElementById("userInfo").innerText =
-        `Login sebagai ${data.username} (${data.role})`;
-
-    if (["writer", "admin", "developer"].includes(data.role)) {
-        document.getElementById("novelForm").classList.remove("hidden");
-    }
-
-    loadNovels();
-}
-
 async function uploadCover(file) {
-    const fileName = `${Date.now()}_${file.name}`;
+    const fileName = Date.now() + "_" + file.name;
 
     const { error } = await supabaseClient.storage
         .from("novel-covers")
@@ -98,95 +125,141 @@ async function uploadCover(file) {
 }
 
 async function addNovel() {
-    if (!currentUser) {
-        alert("Silakan login");
-        return;
+    if (!currentUser) return alert("Login dulu");
+
+    const title = document.getElementById("novelTitle").value;
+    const description = document.getElementById("novelDesc").value;
+    const coverFile = document.getElementById("coverFile").files[0];
+
+    let cover_url = "";
+
+    if (coverFile) {
+        cover_url = await uploadCover(coverFile);
     }
 
-    const title = document.getElementById("novelTitle").value.trim();
-    const description = document.getElementById("novelDesc").value.trim();
-    const file = document.getElementById("coverFile").files[0];
-
-    if (!title) {
-        alert("Judul novel wajib diisi");
-        return;
-    }
-
-    let cover_url = null;
-
-    if (file) {
-        cover_url = await uploadCover(file);
-    }
-
-    const { error } = await supabaseClient
-        .from("novels")
-        .insert([{
-            title,
-            description,
-            cover_url,
-            author_id: currentUser.id
-        }]);
+    const { error } = await supabaseClient.from("novels").insert({
+        title,
+        description,
+        cover_url,
+        author_id: currentUser.id
+    });
 
     if (error) {
         alert(error.message);
         return;
     }
 
-    document.getElementById("novelTitle").value = "";
-    document.getElementById("novelDesc").value = "";
-    document.getElementById("coverFile").value = "";
-
     alert("Novel berhasil ditambahkan");
     loadNovels();
 }
 
 async function loadNovels() {
-    const { data, error } = await supabaseClient
+    const { data } = await supabaseClient
         .from("novels")
         .select("*")
-        .eq("deleted", false)
         .order("created_at", { ascending: false });
 
     const container = document.getElementById("novelList");
     container.innerHTML = "";
 
-    if (error) {
-        container.innerHTML = "<p>Gagal memuat novel</p>";
-        return;
-    }
-
-    if (!data.length) {
-        container.innerHTML = "<p>Belum ada novel</p>";
-        return;
-    }
-
     data.forEach(novel => {
-        const div = document.createElement("div");
-        div.className = "card";
-
-        div.innerHTML = `
-            ${novel.cover_url ? `<img src="${novel.cover_url}" alt="">` : ""}
-            <h3>${novel.title}</h3>
-            <p>${novel.description || ""}</p>
-            <small>Status: ${novel.status || "ongoing"}</small><br>
-            <small>Views: ${novel.views || 0}</small>
+        container.innerHTML += `
+            <div class="novel-card">
+                <img src="${novel.cover_url}" width="120">
+                <h3>${novel.title}</h3>
+                <p>${novel.description}</p>
+                <button onclick="openNovel('${novel.id}')">Buka</button>
+            </div>
         `;
-
-        container.appendChild(div);
     });
 }
 
-async function checkSession() {
-    const { data } = await supabaseClient.auth.getUser();
-
-    if (data.user) {
-        currentUser = data.user;
-        await loadProfile();
-    } else {
-        loadNovels();
-    }
+async function openNovel(id) {
+    selectedNovelId = id;
+    loadChapters(id);
+    loadComments(id);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    checkSession();
-});
+async function addChapter() {
+    if (!currentUser) return alert("Login dulu");
+
+    const title = document.getElementById("chapterTitle").value;
+    const content = document.getElementById("chapterContent").value;
+
+    const { error } = await supabaseClient.from("chapters").insert({
+        novel_id: selectedNovelId,
+        title,
+        content
+    });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert("Chapter berhasil ditambah");
+    loadChapters(selectedNovelId);
+}
+
+async function loadChapters(novelId) {
+    const { data } = await supabaseClient
+        .from("chapters")
+        .select("*")
+        .eq("novel_id", novelId)
+        .order("created_at");
+
+    const container = document.getElementById("chapterList");
+    container.innerHTML = "";
+
+    data.forEach(chapter => {
+        container.innerHTML += `
+            <div class="chapter-item">
+                <h4>${chapter.title}</h4>
+                <pre>${chapter.content}</pre>
+            </div>
+        `;
+    });
+}
+
+async function addComment() {
+    if (!currentUser) return alert("Login dulu");
+
+    const text = document.getElementById("commentText").value;
+
+    const { error } = await supabaseClient.from("comments").insert({
+        novel_id: selectedNovelId,
+        user_id: currentUser.id,
+        content: text
+    });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    document.getElementById("commentText").value = "";
+    loadComments(selectedNovelId);
+}
+
+async function loadComments(novelId) {
+    const { data } = await supabaseClient
+        .from("comments")
+        .select(`
+            *,
+            profiles(username)
+        `)
+        .eq("novel_id", novelId)
+        .order("created_at");
+
+    const container = document.getElementById("commentList");
+    container.innerHTML = "";
+
+    data.forEach(comment => {
+        container.innerHTML += `
+            <div class="comment">
+                <b>${comment.profiles.username}</b>
+                <p>${comment.content}</p>
+            </div>
+        `;
+    });
+}
