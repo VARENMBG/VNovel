@@ -4,11 +4,11 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
-let currentNovel = null;
+let selectedNovel = null;
 
 window.onload = async () => {
   await checkSession();
-  loadNovels();
+  await loadNovels();
 };
 
 async function checkSession(){
@@ -26,16 +26,15 @@ async function register(){
   const username = document.getElementById("username").value;
 
   const { data,error } = await supabaseClient.auth.signUp({
-    email,
-    password
+    email,password
   });
 
   if(error) return alert(error.message);
 
   await supabaseClient.from("profiles").insert({
-    id: data.user.id,
-    username: username,
-    role: "member"
+    id:data.user.id,
+    username:username,
+    role:"member"
   });
 
   alert("Register berhasil");
@@ -43,8 +42,8 @@ async function register(){
 
 async function login(){
   const { error } = await supabaseClient.auth.signInWithPassword({
-    email: document.getElementById("email").value,
-    password: document.getElementById("password").value
+    email:document.getElementById("email").value,
+    password:document.getElementById("password").value
   });
 
   if(error) return alert(error.message);
@@ -58,20 +57,20 @@ async function logout(){
 }
 
 async function uploadCover(file){
-  const fileName = Date.now() + "_" + file.name;
+  const name = Date.now()+"_"+file.name;
 
   const { error } = await supabaseClient.storage
     .from("novel-covers")
-    .upload(fileName, file);
+    .upload(name,file);
 
   if(error){
     alert(error.message);
-    return null;
+    return "";
   }
 
   const { data } = supabaseClient.storage
     .from("novel-covers")
-    .getPublicUrl(fileName);
+    .getPublicUrl(name);
 
   return data.publicUrl;
 }
@@ -88,14 +87,12 @@ async function addNovel(){
     cover_url = await uploadCover(file);
   }
 
-  const { error } = await supabaseClient.from("novels").insert({
+  await supabaseClient.from("novels").insert({
     title,
     description,
     cover_url,
-    author_id: currentUser.id
+    author_id:currentUser.id
   });
-
-  if(error) return alert(error.message);
 
   loadNovels();
 }
@@ -104,7 +101,7 @@ async function loadNovels(){
   const { data } = await supabaseClient
     .from("novels")
     .select("*")
-    .order("created_at", { ascending:false });
+    .order("created_at",{ascending:false});
 
   const box = document.getElementById("novelList");
   box.innerHTML = "";
@@ -122,18 +119,18 @@ async function loadNovels(){
 }
 
 async function openNovel(id){
-  currentNovel = id;
+  selectedNovel = id;
   loadChapters();
   loadComments();
 }
 
 async function addChapter(){
-  if(!currentNovel) return alert("Pilih novel dulu");
+  if(!selectedNovel) return alert("Pilih novel dulu");
 
   await supabaseClient.from("chapters").insert({
-    novel_id: currentNovel,
-    title: document.getElementById("chapterTitle").value,
-    content: document.getElementById("chapterContent").value
+    novel_id:selectedNovel,
+    title:document.getElementById("chapterTitle").value,
+    content:document.getElementById("chapterContent").value
   });
 
   loadChapters();
@@ -143,7 +140,7 @@ async function loadChapters(){
   const { data } = await supabaseClient
     .from("chapters")
     .select("*")
-    .eq("novel_id", currentNovel)
+    .eq("novel_id",selectedNovel)
     .order("created_at");
 
   const box = document.getElementById("chapterList");
@@ -163,9 +160,9 @@ async function addComment(){
   if(!currentUser) return alert("Login dulu");
 
   await supabaseClient.from("comments").insert({
-    novel_id: currentNovel,
-    user_id: currentUser.id,
-    content: document.getElementById("commentText").value
+    novel_id:selectedNovel,
+    user_id:currentUser.id,
+    content:document.getElementById("commentText").value
   });
 
   loadComments();
@@ -174,18 +171,18 @@ async function addComment(){
 async function loadComments(){
   const { data } = await supabaseClient
     .from("comments")
-    .select("*, profiles(username)")
-    .eq("novel_id", currentNovel)
+    .select("*,profiles(username)")
+    .eq("novel_id",selectedNovel)
     .order("created_at");
 
   const box = document.getElementById("commentList");
   box.innerHTML = "";
 
-  data.forEach(c=>{
+  data.forEach(item=>{
     box.innerHTML += `
       <div class="comment">
-        <b>${c.profiles?.username || 'User'}</b>
-        <p>${c.content}</p>
+        <b>${item.profiles?.username || "User"}</b>
+        <p>${item.content}</p>
       </div>
     `;
   });
