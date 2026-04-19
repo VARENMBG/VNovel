@@ -2,279 +2,145 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Archeon Novel Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archeon - Reader</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#111;
-    color:#fff;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #111;
+    color: #fff;
 }
-header{
-    background:#1a1a1a;
-    text-align:center;
-    padding:15px;
-    font-size:24px;
-    color:#9d4edd;
+.chapter-box{
+    line-height: 1.8;
+    margin-bottom: 40px;
 }
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:20px;
-}
-.card{
-    background:#1f1f1f;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
-}
-input, textarea, button{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-    font-size:15px;
-}
-input, textarea{
-    background:#2a2a2a;
-    color:#fff;
+textarea{
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 10px;
 }
 button{
-    background:#7b2cbf;
-    color:#fff;
-    cursor:pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
-button:hover{
-    background:#9d4edd;
+.comment-box{
+    background: #222;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
 }
-.hidden{
-    display:none;
-}
-.novel{
-    background:#2b2b2b;
-    padding:15px;
-    border-radius:10px;
-    margin-top:15px;
-}
-.cover{
-    width:100%;
-    max-height:250px;
-    object-fit:cover;
-    border-radius:10px;
-}
-.chapter{
-    background:#181818;
-    padding:10px;
-    border-radius:8px;
-    margin-top:10px;
+small{
+    color: #aaa;
 }
 </style>
 </head>
 <body>
 
-<header>Archeon Novel Platform</header>
+<h1>Archeon</h1>
 
-<div class="container">
-
-<div class="card" id="authBox">
-<h2>Login</h2>
-<input type="text" id="username" placeholder="Username">
-<input type="password" id="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<div class="chapter-box" id="chapterContent">
+    <h2>Judul Chapter</h2>
+    <p>Isi chapter akan muncul di sini...</p>
 </div>
 
-<div class="card hidden" id="dashboard">
-<h2>Dashboard</h2>
-<p id="userInfo"></p>
-<button id="btnNovel" class="hidden" onclick="showNovelForm()">Tambah Novel</button>
-<button id="btnChapter" class="hidden" onclick="showChapterForm()">Tambah Chapter</button>
-<button onclick="logout()">Logout</button>
-</div>
+<hr>
 
-<div class="card hidden" id="novelForm">
-<h2>Tambah Novel</h2>
-<input type="text" id="novelTitle" placeholder="Judul Novel">
-<textarea id="novelDesc" placeholder="Deskripsi Novel"></textarea>
-<input type="file" id="novelCover" accept="image/*">
-<button onclick="addNovel()">Simpan Novel</button>
-</div>
+<h2>Komentar</h2>
 
-<div class="card hidden" id="chapterForm">
-<h2>Tambah Chapter</h2>
-<input type="number" id="chapterNovelId" placeholder="ID Novel">
-<input type="text" id="chapterTitle" placeholder="Judul Chapter">
-<textarea id="chapterContent" placeholder="Isi Chapter"></textarea>
-<button onclick="addChapter()">Simpan Chapter</button>
-</div>
+<textarea id="commentInput" placeholder="Tulis komentar..."></textarea>
+<button onclick="sendComment()">Kirim Komentar</button>
 
-<div class="card">
-<h2>Daftar Novel</h2>
-<div id="novelList"></div>
-</div>
-
-</div>
+<div id="commentList"></div>
 
 <script>
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://lyhqlhqrazxhjpxxllqg.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5aHFsaHFyYXp4aGpweHhsbHFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NTk0NTMsImV4cCI6MjA5MjEzNTQ1M30.r4PXoKM15VBItcKH7VhmabzwwXPSVy9uN3nGB8b9rCQ";
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentUser = null;
+// ID chapter aktif
+const chapterId = localStorage.getItem("currentChapterId") || "chapter-demo";
 
-const users = [
-    {
-        username:"Varen",
-        password:"farel1211",
-        role:"developer"
-    }
-];
+async function loadComments() {
+    const { data, error } = await supabaseClient
+        .from("comments")
+        .select(`
+            id,
+            message,
+            created_at,
+            profiles(username)
+        `)
+        .eq("chapter_id", chapterId)
+        .order("created_at", { ascending: true });
 
-function login(){
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    const user = users.find(
-        u => u.username === username && u.password === password
-    );
-
-    if(!user){
-        alert("Login gagal");
+    if (error) {
+        console.error("Load comments error:", error);
         return;
     }
 
-    currentUser = user;
+    const commentList = document.getElementById("commentList");
+    commentList.innerHTML = "";
 
-    document.getElementById("authBox").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-
-    document.getElementById("userInfo").innerText =
-        "Login sebagai " + user.username + " (" + user.role + ")";
-
-    if(["developer","admin","writer"].includes(user.role)){
-        document.getElementById("btnNovel").classList.remove("hidden");
-        document.getElementById("btnChapter").classList.remove("hidden");
-    }
-
-    loadNovels();
-}
-
-function logout(){
-    location.reload();
-}
-
-function showNovelForm(){
-    document.getElementById("novelForm").classList.remove("hidden");
-}
-
-function showChapterForm(){
-    document.getElementById("chapterForm").classList.remove("hidden");
-}
-
-async function addNovel(){
-    const title = document.getElementById("novelTitle").value;
-    const desc = document.getElementById("novelDesc").value;
-    const file = document.getElementById("novelCover").files[0];
-
-    let coverUrl = "";
-
-    if(file){
-        const fileName = Date.now() + "_" + file.name;
-
-        const { error:uploadError } = await db.storage
-            .from("novel-covers")
-            .upload(fileName, file);
-
-        if(uploadError){
-            alert(uploadError.message);
-            return;
-        }
-
-        const { data } = db.storage
-            .from("novel-covers")
-            .getPublicUrl(fileName);
-
-        coverUrl = data.publicUrl;
-    }
-
-    const { error } = await db.from("novels").insert([
-        {
-            title:title,
-            description:desc,
-            cover_url:coverUrl
-        }
-    ]);
-
-    if(error){
-        alert(error.message);
-        return;
-    }
-
-    alert("Novel berhasil ditambahkan");
-    loadNovels();
-}
-
-async function addChapter(){
-    const novelId = document.getElementById("chapterNovelId").value;
-    const title = document.getElementById("chapterTitle").value;
-    const content = document.getElementById("chapterContent").value;
-
-    const { error } = await db.from("chapters").insert([
-        {
-            novel_id:novelId,
-            title:title,
-            content:content
-        }
-    ]);
-
-    if(error){
-        alert(error.message);
-        return;
-    }
-
-    alert("Chapter berhasil ditambahkan");
-    loadNovels();
-}
-
-async function loadNovels(){
-    const { data:novels } = await db.from("novels").select("*").order("id");
-    const { data:chapters } = await db.from("chapters").select("*").order("id");
-
-    const list = document.getElementById("novelList");
-    list.innerHTML = "";
-
-    novels.forEach(novel => {
-        const chapterList = chapters.filter(c => c.novel_id == novel.id);
-
-        let html = `
-        <div class="novel">
-            ${novel.cover_url ? `<img src="${novel.cover_url}" class="cover">` : ""}
-            <h3>${novel.title}</h3>
-            <p>${novel.description}</p>
-            <small>ID Novel: ${novel.id}</small>
+    data.forEach(comment => {
+        const div = document.createElement("div");
+        div.className = "comment-box";
+        div.innerHTML = `
+            <b>${comment.profiles?.username || "User"}</b>
+            <p>${comment.message}</p>
+            <small>${new Date(comment.created_at).toLocaleString()}</small>
         `;
-
-        chapterList.forEach(ch => {
-            html += `
-            <div class="chapter">
-                <b>${ch.title}</b>
-                <p>${ch.content.substring(0,200)}...</p>
-            </div>
-            `;
-        });
-
-        html += `</div>`;
-
-        list.innerHTML += html;
+        commentList.appendChild(div);
     });
 }
 
-loadNovels();
+async function sendComment() {
+    const input = document.getElementById("commentInput");
+    const message = input.value.trim();
+
+    if (!message) {
+        alert("Komentar kosong");
+        return;
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        alert("Silakan login terlebih dahulu");
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("comments")
+        .insert([
+            {
+                chapter_id: chapterId,
+                user_id: user.id,
+                message: message
+            }
+        ]);
+
+    if (error) {
+        console.error("Insert error:", error);
+        alert("Gagal mengirim komentar");
+        return;
+    }
+
+    input.value = "";
+    loadComments();
+}
+
+loadComments();
 </script>
 
 </body>
