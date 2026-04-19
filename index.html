@@ -15,7 +15,7 @@
             font-family: Arial, sans-serif;
             background: #f5f0e8;
             color: #333;
-            padding: 20px;
+            padding: 15px;
         }
 
         .dark {
@@ -23,7 +23,7 @@
             color: #eee;
         }
 
-        .dark .card, .dark .chapter-card, .dark .modal-content {
+        .dark .card, .dark .chapter-card, .dark .modal-content, .dark .reading-box {
             background: #2a2a2a;
             color: #eee;
         }
@@ -40,66 +40,45 @@
 
         .logo h1 {
             color: #b87c4f;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         .btn-icon {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 8px 12px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
             margin-left: 5px;
         }
 
-        /* Card Novel */
-        .komik-grid {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
+        /* Card Novel (tanpa gambar) */
         .card {
             background: white;
             border-radius: 10px;
-            overflow: hidden;
+            padding: 20px;
             cursor: pointer;
-            width: 150px;
+            text-align: center;
             border: 1px solid #ddd;
-            transition: 0.2s;
+            width: 200px;
         }
 
         .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 225px;
-            background: #2a2a2a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-info {
-            padding: 8px;
+            background: #f0ebe4;
+            border-color: #b87c4f;
         }
 
         .card-title {
+            font-size: 18px;
             font-weight: bold;
-            font-size: 14px;
             color: #b87c4f;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            margin-top: 8px;
+            opacity: 0.7;
         }
 
         /* Chapter Grid */
@@ -321,10 +300,10 @@
     </div>
 </div>
 
-<div class="container" id="app">
+<div id="app">
     <!-- Halaman Home -->
     <div id="homePage">
-        <div class="komik-grid" id="komikList"></div>
+        <div id="novelList"></div>
     </div>
 
     <!-- Halaman Daftar Bab -->
@@ -357,15 +336,6 @@
     let currentUser = localStorage.getItem('currentUser') || null;
     let currentNovel = null;
     
-    // Data Novel
-    const novelData = {
-        id: 1,
-        title: "Archeon: The End Before Beginning",
-        desc: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
-        image: "archeonn.jpg",
-        chapters: []
-    };
-
     // Judul Bab
     const judulBab = [
         "Anak yang Lahir dalam Keheningan", "Hari yang Tidak Memilihnya", "Yang Dibuang Oleh Cahaya",
@@ -381,6 +351,14 @@
     // Isi cerita
     const isiCerita = `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <br><br>Cerita berlanjut...`;
 
+    // Data Novel
+    const novelData = {
+        id: 1,
+        title: "Archeon: The End Before Beginning",
+        desc: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
+        chapters: []
+    };
+
     // Generate 25 chapter
     for (let i = 0; i < 25; i++) {
         novelData.chapters.push({
@@ -390,7 +368,7 @@
         });
     }
 
-    // ==================== FUNGSI UI ====================
+    // ==================== FUNGSI ====================
     function showPage(page) {
         document.getElementById('homePage').classList.add('hidden');
         document.getElementById('chaptersPage').classList.add('hidden');
@@ -399,15 +377,11 @@
     }
 
     function renderHome() {
-        const container = document.getElementById('komikList');
+        const container = document.getElementById('novelList');
         container.innerHTML = `
             <div class="card" onclick="openNovel()">
-                <div class="card-image">
-                    <img src="${novelData.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Archeon'">
-                </div>
-                <div class="card-info">
-                    <div class="card-title">${novelData.title}</div>
-                </div>
+                <div class="card-title">📖 ${novelData.title}</div>
+                <div class="card-desc">${novelData.desc}</div>
             </div>
         `;
     }
@@ -435,29 +409,19 @@
         
         // Load komentar
         const comments = loadComments(chapterId);
-        let komenHtml = '';
-        if (comments.length > 0) {
-            komenHtml = comments.map(c => `
-                <div class="comment">
-                    <div class="comment-user">${c.user}</div>
-                    <div class="comment-text">${c.text}</div>
-                </div>
-            `).join('');
-        } else {
-            komenHtml = '<p>Belum ada komentar.</p>';
-        }
+        let komenHtml = comments.length > 0 ? comments.map(c => `
+            <div class="comment">
+                <div class="comment-user">${c.user}</div>
+                <div class="comment-text">${c.text}</div>
+            </div>
+        `).join('') : '<p>Belum ada komentar.</p>';
         
-        let formKomen = '';
-        if (currentUser) {
-            formKomen = `
-                <div class="comment-input">
-                    <textarea id="komenText" rows="2" placeholder="Tulis komentar..."></textarea>
-                    <button onclick="kirimKomen(${chapterId})">Kirim</button>
-                </div>
-            `;
-        } else {
-            formKomen = `<div class="login-prompt">🔐 <a onclick="openAuthModal('login')">Login</a> untuk berkomentar</div>`;
-        }
+        let formKomen = currentUser ? `
+            <div class="comment-input">
+                <textarea id="komenText" rows="2" placeholder="Tulis komentar..."></textarea>
+                <button onclick="kirimKomen(${chapterId})">Kirim</button>
+            </div>
+        ` : `<div class="login-prompt">🔐 <a onclick="openAuthModal('login')">Login</a> untuk berkomentar</div>`;
         
         const currentIdx = currentNovel.chapters.findIndex(ch => ch.id === chapterId);
         const prevBab = currentIdx > 0 ? currentNovel.chapters[currentIdx - 1] : null;
@@ -619,7 +583,6 @@
         document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
         document.getElementById('backChaptersBtn').onclick = () => showPage('chaptersPage');
         
-        // Tutup modal klik di luar
         const modal = document.getElementById('authModal');
         modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('show'); };
     }
