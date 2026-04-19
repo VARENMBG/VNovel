@@ -7,6 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Light Mode (Default) */
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: #f5f5f0;
@@ -14,6 +16,8 @@
             line-height: 1.6;
             transition: all 0.3s ease;
         }
+        
+        /* Dark Mode */
         body.dark {
             background: #0a0a0a;
             color: #e0e0e0;
@@ -24,6 +28,7 @@
         body.dark .comment { background: #2a2a2a; }
         body.dark .comment-input textarea, body.dark .modal-content input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
         body.dark .footer { border-top-color: #2a2a2a; }
+        
         .header {
             background: linear-gradient(135deg, #e8e0d5 0%, #f0ebe4 100%);
             padding: 1rem 2rem;
@@ -50,6 +55,9 @@
             cursor: pointer;
             font-size: 1.2rem;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .icon-btn:hover { opacity: 0.8; transform: scale(1.05); }
         .user-dropdown {
@@ -77,10 +85,12 @@
         .user-dropdown a:hover { background: #f0ebe4; }
         body.dark .user-dropdown a:hover { background: #2a2a2a; }
         .user-dropdown .user-name { color: #b87c4f; border-bottom: 1px solid #eee; font-weight: bold; }
+        
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
         .page { display: none; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         .hero {
             text-align: center;
             padding: 3rem 1rem;
@@ -90,6 +100,7 @@
         }
         .hero h1 { font-size: 2.5rem; color: #b87c4f; margin-bottom: 1rem; }
         .hero p { font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
+        
         .komik-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -111,6 +122,7 @@
         .komik-info { padding: 1rem; }
         .komik-title { font-size: 1.2rem; font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
         .komik-desc { font-size: 0.8rem; opacity: 0.7; }
+        
         .chapter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -129,9 +141,11 @@
         .chapter-card:hover { border-color: #b87c4f; background: #faf7f2; }
         .chapter-num { color: #b87c4f; font-size: 0.8rem; font-weight: bold; }
         .chapter-title { font-size: 0.9rem; margin-top: 0.3rem; }
+        
         .reading-content { background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .reading-title { font-size: 2rem; color: #b87c4f; border-left: 4px solid #b87c4f; padding-left: 1rem; margin-bottom: 1.5rem; }
         .reading-text p { margin-bottom: 1.5rem; text-indent: 2em; }
+        
         .nav-chapter { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
         .nav-chapter button {
             background: #2a2a2a;
@@ -144,6 +158,7 @@
         }
         .nav-chapter button:hover:not(:disabled) { background: #b87c4f; }
         .nav-chapter button:disabled { opacity: 0.4; cursor: not-allowed; }
+        
         .comment-section { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; }
         .comment-section h4 { color: #b87c4f; margin-bottom: 1rem; }
         .comment-input { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
@@ -177,6 +192,7 @@
         .role-admin { background: #4a90e2; color: white; }
         .role-writer { background: #27ae60; color: white; }
         .role-dev { background: #9b59b6; color: white; }
+        
         .modal {
             display: none;
             position: fixed;
@@ -232,6 +248,7 @@
         }
         .auth-switch { text-align: center; margin-top: 1rem; font-size: 0.8rem; }
         .auth-switch a { color: #b87c4f; cursor: pointer; }
+        
         .back-btn {
             background: #2a2a2a;
             border: none;
@@ -243,6 +260,7 @@
             display: inline-block;
         }
         .back-btn:hover { background: #b87c4f; }
+        
         .footer { text-align: center; padding: 2rem; border-top: 1px solid #ddd; font-size: 0.8rem; opacity: 0.7; }
         .admin-panel { margin-top: 2rem; padding: 1rem; background: #f5f5f0; border-radius: 16px; }
         body.dark .admin-panel { background: #1a1a1a; }
@@ -250,6 +268,7 @@
         .user-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; gap: 0.5rem; }
         .user-item select { width: auto; margin: 0; padding: 0.3rem; }
         .user-item button { width: auto; padding: 0.3rem 0.8rem; margin: 0; }
+        
         @media (max-width: 600px) {
             .header { flex-direction: column; text-align: center; }
             .komik-grid { grid-template-columns: 1fr; }
@@ -317,6 +336,7 @@
 
 <script>
     // ==================== SUPABASE CONFIG ====================
+    // GANTI DENGAN MILIKMU!
     const SUPABASE_URL = 'https://ambhjuonjkewrntehnbr.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtYmhqdW9uamtld3JudGVobmJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODA4OTEsImV4cCI6MjA5MjE1Njg5MX0.uRCCoecAwPbeJyAsD3w6cC0RqGA83tOQnv0pKMKeSZA';
     
@@ -329,33 +349,11 @@
             title: "Archeon: The End Before Beginning",
             description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
             image: "archeonn.jpg",
-            chapters: [
-                { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya... <em>— Bab 1 selesai —</em></p>" },
-                { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat... <em>— Bab 2 selesai —</em></p>" },
-                { id: 3, title: "Yang Dibuang Oleh Cahaya", content: "<p>Keheningan menyelimuti alun-alun desa... <em>— Bab 3 selesai —</em></p>" },
-                { id: 4, title: "Langkah Pertama di Luar Cahaya", content: "<p>Malam pertama di luar desa terasa jauh lebih sunyi... <em>— Bab 4 selesai —</em></p>" },
-                { id: 5, title: "Kota di Ujung Hutan", content: "<p>Jalan batu tua itu membawa mereka keluar dari hutan... <em>— Bab 5 selesai —</em></p>" },
-                { id: 6, title: "Nama yang Dicari Kegelapan", content: "<p>Archeon terbangun dengan napas tertahan... <em>— Bab 6 selesai —</em></p>" },
-                { id: 7, title: "Nama yang Bukan Miliknya", content: "<p>Suasana di dalam penginapan membeku... <em>— Bab 7 selesai —</em></p>" },
-                { id: 8, title: "Jejak yang Mulai Terbuka", content: "<p>Pagi di Astera terasa berbeda... <em>— Bab 8 selesai —</em></p>" },
-                { id: 9, title: "Reruntuhan yang Mengenalnya", content: "<p>Pecahan Stone Hollow masih berserakan di tanah... <em>— Bab 9 selesai —</em></p>" },
-                { id: 10, title: "Pintu Kedua", content: "<p>Suara batu bergeser memenuhi lorong... <em>— Bab 10 selesai —</em></p>" },
-                { id: 11, title: "Runtuhan yang Memilih", content: "<p>Suara retakan memenuhi ruangan... <em>— Bab 11 selesai —</em></p>" },
-                { id: 12, title: "Suara dari Dalam Diri", content: "<p>Lorong batu itu kembali sunyi... <em>— Bab 12 selesai —</em></p>" },
-                { id: 13, title: "Cahaya yang Tetap Tinggal", content: "<p>Ruangan itu kembali sunyi... <em>— Bab 13 selesai —</em></p>" },
-                { id: 14, title: "Luka Pertama", content: "<p>Debu masih memenuhi ruangan... <em>— Bab 14 selesai —</em></p>" },
-                { id: 15, title: "Simbol Kedua", content: "<p>Ruangan itu mendadak sunyi... <em>— Bab 15 selesai —</em></p>" },
-                { id: 16, title: "Nama yang Dibisikkan", content: "<p>Ruangan reruntuhan masih dipenuhi debu... <em>— Bab 16 selesai —</em></p>" },
-                { id: 17, title: "Kota yang Menolak", content: "<p>Malam mulai turun saat mereka kembali ke Astera... <em>— Bab 17 selesai —</em></p>" },
-                { id: 18, title: "Pedang Tanpa Mana", content: "<p>Pagi di Astera terasa lebih sunyi... <em>— Bab 18 selesai —</em></p>" },
-                { id: 19, title: "Malam Berdarah Astera", content: "<p>Angin malam berhembus pelan... <em>— Bab 19 selesai —</em></p>" },
-                { id: 20, title: "Nama yang Mulai Bangkit", content: "<p>Makhluk raksasa itu berdiri di tengah kota Astera... <em>— Bab 20 selesai —</em></p>" },
-                { id: 21, title: "Setelah Nama Itu Bangkit", content: "<p>Malam di Astera mendadak sunyi... <em>— Bab 21 selesai —</em></p>" },
-                { id: 22, title: "Mata di Dalam Bayangan", content: "<p>Malam di Astera belum benar-benar berakhir... <em>— Bab 22 selesai —</em></p>" },
-                { id: 23, title: "Jalan ke Timur", content: "<p>Mereka memutuskan meninggalkan Astera... <em>— Bab 23 selesai —</em></p>" },
-                { id: 24, title: "Kota Abu yang Sunyi", content: "<p>Mereka sampai di sebuah desa kosong... <em>— Bab 24 selesai —</em></p>" },
-                { id: 25, title: "Desa yang Mengingat", content: "<p>Di tengah desa, patung raksasa berlutut... <em>— Bab 25 selesai —</em></p>" }
-            ]
+            chapters: Array.from({ length: 25 }, (_, i) => ({
+                id: i + 1,
+                title: `Bab ${i + 1}`,
+                content: `<p>Isi bab ${i + 1} dari novel Archeon. Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya... <em>— Bab ${i + 1} selesai —</em></p>`
+            }))
         }
     ];
 
@@ -420,7 +418,6 @@
         localStorage.removeItem('currentUserRole');
         updateUserDropdown();
         showHomePage();
-        document.getElementById('admin-page').classList.remove('active');
     }
 
     function getRoleBadges(role) {
@@ -508,7 +505,7 @@
         } catch (e) { return false; }
     }
 
-    async function getUserRole(username) {
+    async function getUserRoleByUsername(username) {
         const { data } = await supabase.from('users').select('role').eq('username', username).single();
         return data ? data.role : 'user';
     }
@@ -561,7 +558,7 @@
         let commentsHtml = '';
         if (comments.length > 0) {
             for (const c of comments) {
-                const role = await getUserRole(c.user_name);
+                const role = await getUserRoleByUsername(c.user_name);
                 commentsHtml += `
                     <div class="comment">
                         <div class="comment-user">${c.user_name} ${getRoleBadges(role)}<span class="comment-date">${new Date(c.created_at).toLocaleString()}</span></div>
