@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VNovel - Archeon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>VNovel - Platform Novel Indonesia</title>
     <style>
         * {
             margin: 0;
@@ -12,202 +12,444 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f0e8;
-            color: #333;
-            padding: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            transition: all 0.3s;
         }
 
-        .dark {
-            background: #1a1a1a;
-            color: #eee;
+        body.dark {
+            background: #1a1a2e;
+            color: #e0e0e0;
         }
 
-        .dark .card, .dark .chapter-card, .dark .modal-content, .dark .reading-box {
-            background: #2a2a2a;
-            color: #eee;
+        body.dark .card, body.dark .chapter-card, body.dark .reading-box, 
+        body.dark .modal-content, body.dark .detail-card {
+            background: #16213e;
+            color: #e0e0e0;
+            border-color: #2a2a4a;
         }
 
         /* Header */
         .header {
+            background: white;
+            padding: 0.8rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
             border-bottom: 2px solid #b87c4f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        body.dark .header {
+            background: #0f0f1a;
         }
 
         .logo h1 {
             color: #b87c4f;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+        }
+
+        .right-area {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
         }
 
         .btn-icon {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
             cursor: pointer;
-            margin-left: 5px;
+            font-size: 1rem;
+            transition: 0.2s;
         }
 
-        /* Card Novel (tanpa gambar) */
+        .btn-icon:hover {
+            opacity: 0.85;
+            transform: scale(1.05);
+        }
+
+        /* User Dropdown */
+        .user-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            min-width: 160px;
+            display: none;
+            z-index: 200;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        body.dark .user-dropdown {
+            background: #16213e;
+            border-color: #2a2a4a;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #2c3e50;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        body.dark .user-dropdown a {
+            color: #e0e0e0;
+        }
+
+        .user-dropdown a:hover {
+            background: #f0ebe4;
+        }
+
+        body.dark .user-dropdown a:hover {
+            background: #2a2a4a;
+        }
+
+        .user-dropdown .user-name {
+            color: #b87c4f;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid Novel (Seperti Webnovel) */
+        .novel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
         .card {
             background: white;
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 12px;
+            overflow: hidden;
             cursor: pointer;
-            text-align: center;
-            border: 1px solid #ddd;
-            width: 200px;
+            transition: 0.3s;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .card:hover {
-            background: #f0ebe4;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             border-color: #b87c4f;
         }
 
+        /* Cover 2:3 */
+        .card-cover {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 0.8rem;
+        }
+
         .card-title {
-            font-size: 18px;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #b87c4f;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-rating {
+            font-size: 0.7rem;
+            color: #f39c12;
+            margin-bottom: 0.2rem;
         }
 
         .card-desc {
-            font-size: 12px;
-            margin-top: 8px;
+            font-size: 0.7rem;
             opacity: 0.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Detail Novel */
+        .detail-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .detail-header {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-cover {
+            width: 180px;
+            aspect-ratio: 2 / 3;
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .detail-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-info {
+            flex: 1;
+        }
+
+        .detail-title {
+            font-size: 1.8rem;
+            color: #b87c4f;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-author {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-rating {
+            color: #f39c12;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .detail-desc {
+            line-height: 1.6;
+            font-size: 0.9rem;
         }
 
         /* Chapter Grid */
         .chapter-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.7rem;
+            margin-top: 1rem;
         }
 
         .chapter-card {
             background: white;
-            padding: 10px;
             border-radius: 8px;
+            padding: 0.6rem;
             cursor: pointer;
             text-align: center;
-            width: 100px;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
+            transition: 0.2s;
         }
 
         .chapter-card:hover {
-            background: #f0ebe4;
             border-color: #b87c4f;
+            background: #faf7f2;
+            transform: translateY(-2px);
+        }
+
+        body.dark .chapter-card:hover {
+            background: #2a2a4a;
         }
 
         .chapter-num {
             color: #b87c4f;
-            font-size: 11px;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
         .chapter-title {
-            font-size: 11px;
-            margin-top: 5px;
+            font-size: 0.7rem;
+            margin-top: 0.2rem;
         }
 
-        /* Reading */
+        /* Reading Page */
         .reading-box {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
+            border-radius: 16px;
+            padding: 1.5rem;
         }
 
         .reading-title {
-            font-size: 20px;
+            font-size: 1.3rem;
             color: #b87c4f;
             border-left: 3px solid #b87c4f;
-            padding-left: 10px;
-            margin-bottom: 15px;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .reading-text p {
-            margin-bottom: 10px;
-            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            text-indent: 1.5em;
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
 
         .nav-chapter {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
-            gap: 10px;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
         }
 
         .nav-chapter button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 8px;
-            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
             cursor: pointer;
             flex: 1;
+            font-size: 0.8rem;
         }
 
         .nav-chapter button:disabled {
             opacity: 0.4;
+            cursor: not-allowed;
         }
 
         /* Komentar */
         .comment-section {
-            margin-top: 20px;
-            padding-top: 15px;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
             border-top: 1px solid #ddd;
         }
 
+        .comment-section h4 {
+            color: #b87c4f;
+            margin-bottom: 0.8rem;
+        }
+
         .comment {
-            background: #f0ebe4;
-            padding: 8px;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            background: #f0f2f5;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 0.7rem;
+        }
+
+        body.dark .comment {
+            background: #2a2a4a;
         }
 
         .comment-user {
             font-weight: bold;
             color: #b87c4f;
-            font-size: 12px;
+            font-size: 0.8rem;
+        }
+
+        .comment-date {
+            font-size: 0.6rem;
+            opacity: 0.6;
+            margin-left: 0.3rem;
         }
 
         .comment-text {
-            font-size: 13px;
-            margin-top: 3px;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
         }
 
         .comment-input {
             display: flex;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
         }
 
         .comment-input textarea {
             flex: 1;
-            padding: 8px;
-            border-radius: 8px;
+            padding: 0.6rem;
             border: 1px solid #ddd;
+            border-radius: 10px;
             font-family: inherit;
+            font-size: 0.8rem;
+            resize: vertical;
+        }
+
+        body.dark .comment-input textarea {
+            background: #2a2a4a;
+            border-color: #444;
+            color: white;
         }
 
         .comment-input button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
             cursor: pointer;
         }
 
         .login-prompt {
             text-align: center;
-            padding: 10px;
-            background: #f0ebe4;
-            border-radius: 8px;
+            padding: 1rem;
+            background: #f0f2f5;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        body.dark .login-prompt {
+            background: #2a2a4a;
+        }
+
+        .login-prompt a {
+            color: #b87c4f;
+            cursor: pointer;
         }
 
         /* Modal */
@@ -230,34 +472,45 @@
 
         .modal-content {
             background: white;
-            padding: 20px;
-            border-radius: 16px;
-            width: 280px;
+            padding: 1.5rem;
+            border-radius: 20px;
+            width: 300px;
             text-align: center;
+        }
+
+        .modal-content h3 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
         }
 
         .modal-content input {
             width: 100%;
-            padding: 8px;
-            margin: 8px 0;
+            padding: 0.6rem;
+            margin: 0.5rem 0;
             border: 1px solid #ddd;
             border-radius: 8px;
+        }
+
+        body.dark .modal-content input {
+            background: #2a2a4a;
+            border-color: #444;
+            color: white;
         }
 
         .modal-content button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 8px;
-            border-radius: 20px;
+            padding: 0.6rem;
+            border-radius: 25px;
             cursor: pointer;
             width: 100%;
-            margin-top: 5px;
+            margin-top: 0.5rem;
         }
 
         .switch-auth {
-            margin-top: 10px;
-            font-size: 12px;
+            margin-top: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .switch-auth a {
@@ -269,22 +522,28 @@
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
         }
 
         .footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 15px;
+            padding: 1.5rem;
             border-top: 1px solid #ddd;
-            font-size: 12px;
+            font-size: 0.7rem;
+            margin-top: 2rem;
         }
 
-        .hidden {
-            display: none;
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            .novel-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+            .detail-header { flex-direction: column; align-items: center; text-align: center; }
+            .detail-cover { width: 140px; }
+            .detail-title { font-size: 1.3rem; }
+            .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
         }
     </style>
 </head>
@@ -294,34 +553,38 @@
     <div class="logo">
         <h1>📚 VNOVEL</h1>
     </div>
-    <div>
+    <div class="right-area">
         <button class="btn-icon" id="darkModeBtn">🌙</button>
         <button class="btn-icon" id="accountBtn">👤</button>
+        <div class="user-dropdown" id="userDropdown">
+            <div id="dropdownContent"></div>
+        </div>
     </div>
 </div>
 
-<div id="app">
-    <!-- Halaman Home -->
-    <div id="homePage">
-        <div id="novelList"></div>
+<div class="container">
+    <!-- Halaman Utama (Grid Novel) -->
+    <div id="homePage" class="page active">
+        <div class="novel-grid" id="novelGrid"></div>
     </div>
 
-    <!-- Halaman Daftar Bab -->
-    <div id="chaptersPage" class="hidden">
-        <button class="back-btn" id="backHomeBtn">← Kembali</button>
-        <h2 id="novelTitle" style="color:#b87c4f; margin:10px 0;"></h2>
+    <!-- Halaman Detail Novel -->
+    <div id="detailPage" class="page">
+        <button class="back-btn" id="backHomeBtn">← Kembali ke Beranda</button>
+        <div id="detailContainer"></div>
+        <h3 style="color:#b87c4f; margin: 1rem 0 0.5rem;">📖 Daftar Bab</h3>
         <div id="chapterList" class="chapter-grid"></div>
     </div>
 
     <!-- Halaman Baca -->
-    <div id="readPage" class="hidden">
-        <button class="back-btn" id="backChaptersBtn">← Daftar Bab</button>
-        <div id="readingArea"></div>
+    <div id="readPage" class="page">
+        <button class="back-btn" id="backDetailBtn">← Kembali ke Detail</button>
+        <div id="readingContainer"></div>
     </div>
 </div>
 
 <div class="footer">
-    © 2026 VNovel — Archeon: The End Before Beginning
+    © 2026 VNovel — Platform Novel Indonesia
 </div>
 
 <!-- Modal Login -->
@@ -332,10 +595,26 @@
 </div>
 
 <script>
-    // ==================== DATA ====================
+    // ==================== DATA NOVEL ====================
     let currentUser = localStorage.getItem('currentUser') || null;
     let currentNovel = null;
-    
+    let currentChapter = null;
+
+    // Data Novel (seperti di Webnovel)
+    const novels = [
+        {
+            id: 1,
+            title: "Archeon: The End Before Beginning",
+            author: "Muhammad Alfarel Hafizh",
+            rating: 4.8,
+            views: "125.5K",
+            chapters: 25,
+            description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya. Di desa Elaris, setiap anak yang lahir membawa mana — kecuali satu. Archeon lahir dalam keheningan, tanpa jejak sihir sedikit pun. Kosong. Tapi kehampaan itu mulai mengguncang dunia ketika Crystal of Origin, penjaga keseimbangan selama ribuan tahun, mulai retak tanpa suara.",
+            image: "archeonn.jpg",
+            chaptersList: []
+        }
+    ];
+
     // Judul Bab
     const judulBab = [
         "Anak yang Lahir dalam Keheningan", "Hari yang Tidak Memilihnya", "Yang Dibuang Oleh Cahaya",
@@ -351,51 +630,64 @@
     // Isi cerita
     const isiCerita = `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <br><br>Cerita berlanjut...`;
 
-    // Data Novel
-    const novelData = {
-        id: 1,
-        title: "Archeon: The End Before Beginning",
-        desc: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
-        chapters: []
-    };
-
     // Generate 25 chapter
     for (let i = 0; i < 25; i++) {
-        novelData.chapters.push({
+        novels[0].chaptersList.push({
             id: i + 1,
             title: judulBab[i],
             content: `<p>${isiCerita}</p><p><em>— Bab ${i+1} selesai —</em></p>`
         });
     }
 
-    // ==================== FUNGSI ====================
-    function showPage(page) {
-        document.getElementById('homePage').classList.add('hidden');
-        document.getElementById('chaptersPage').classList.add('hidden');
-        document.getElementById('readPage').classList.add('hidden');
-        document.getElementById(page).classList.remove('hidden');
+    // ==================== RENDER FUNGSI ====================
+    function renderHome() {
+        const grid = document.getElementById('novelGrid');
+        grid.innerHTML = novels.map(novel => `
+            <div class="card" onclick="openDetail(${novel.id})">
+                <div class="card-cover">
+                    <img src="${novel.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=${novel.title.substring(0,3)}'">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">${novel.title}</div>
+                    <div class="card-rating">⭐ ${novel.rating} | ${novel.views} dilihat</div>
+                    <div class="card-desc">${novel.description.substring(0, 60)}...</div>
+                </div>
+            </div>
+        `).join('');
     }
 
-    function renderHome() {
-        const container = document.getElementById('novelList');
-        container.innerHTML = `
-            <div class="card" onclick="openNovel()">
-                <div class="card-title">📖 ${novelData.title}</div>
-                <div class="card-desc">${novelData.desc}</div>
+    window.openDetail = function(id) {
+        currentNovel = novels.find(n => n.id === id);
+        if (!currentNovel) return;
+        
+        const detailContainer = document.getElementById('detailContainer');
+        detailContainer.innerHTML = `
+            <div class="detail-card">
+                <div class="detail-header">
+                    <div class="detail-cover">
+                        <img src="${currentNovel.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Novel'">
+                    </div>
+                    <div class="detail-info">
+                        <div class="detail-title">${currentNovel.title}</div>
+                        <div class="detail-author">✍️ ${currentNovel.author}</div>
+                        <div class="detail-rating">⭐ ${currentNovel.rating} (5 rating)</div>
+                        <div class="detail-stats">
+                            <span>📖 ${currentNovel.chapters} Bab</span>
+                            <span>👁️ ${currentNovel.views} dilihat</span>
+                        </div>
+                        <div class="detail-desc">${currentNovel.description}</div>
+                    </div>
+                </div>
             </div>
         `;
-    }
-
-    window.openNovel = function() {
-        currentNovel = novelData;
-        document.getElementById('novelTitle').innerHTML = currentNovel.title;
+        
         renderChapterList();
-        showPage('chaptersPage');
+        showPage('detailPage');
     }
 
     function renderChapterList() {
         const container = document.getElementById('chapterList');
-        container.innerHTML = currentNovel.chapters.map(ch => `
+        container.innerHTML = currentNovel.chaptersList.map(ch => `
             <div class="chapter-card" onclick="openChapter(${ch.id})">
                 <div class="chapter-num">Bab ${ch.id}</div>
                 <div class="chapter-title">${ch.title}</div>
@@ -404,37 +696,37 @@
     }
 
     window.openChapter = function(chapterId) {
-        const bab = currentNovel.chapters.find(ch => ch.id === chapterId);
-        if (!bab) return;
+        currentChapter = currentNovel.chaptersList.find(ch => ch.id === chapterId);
+        if (!currentChapter) return;
         
         // Load komentar
-        const comments = loadComments(chapterId);
+        const comments = loadComments(currentNovel.id, chapterId);
         let komenHtml = comments.length > 0 ? comments.map(c => `
             <div class="comment">
-                <div class="comment-user">${c.user}</div>
+                <div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div>
                 <div class="comment-text">${c.text}</div>
             </div>
-        `).join('') : '<p>Belum ada komentar.</p>';
+        `).join('') : '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
         
         let formKomen = currentUser ? `
             <div class="comment-input">
                 <textarea id="komenText" rows="2" placeholder="Tulis komentar..."></textarea>
-                <button onclick="kirimKomen(${chapterId})">Kirim</button>
+                <button onclick="kirimKomen(${currentNovel.id}, ${chapterId})">Kirim</button>
             </div>
         ` : `<div class="login-prompt">🔐 <a onclick="openAuthModal('login')">Login</a> untuk berkomentar</div>`;
         
-        const currentIdx = currentNovel.chapters.findIndex(ch => ch.id === chapterId);
-        const prevBab = currentIdx > 0 ? currentNovel.chapters[currentIdx - 1] : null;
-        const nextBab = currentIdx < currentNovel.chapters.length - 1 ? currentNovel.chapters[currentIdx + 1] : null;
+        const currentIdx = currentNovel.chaptersList.findIndex(ch => ch.id === chapterId);
+        const prevChapter = currentIdx > 0 ? currentNovel.chaptersList[currentIdx - 1] : null;
+        const nextChapter = currentIdx < currentNovel.chaptersList.length - 1 ? currentNovel.chaptersList[currentIdx + 1] : null;
         
-        const container = document.getElementById('readingArea');
+        const container = document.getElementById('readingContainer');
         container.innerHTML = `
             <div class="reading-box">
-                <div class="reading-title">Bab ${bab.id} — ${bab.title}</div>
-                <div class="reading-text">${bab.content}</div>
+                <div class="reading-title">Bab ${currentChapter.id} — ${currentChapter.title}</div>
+                <div class="reading-text">${currentChapter.content}</div>
                 <div class="nav-chapter">
-                    <button id="prevBtn" ${!prevBab ? 'disabled' : ''}>← Sebelumnya</button>
-                    <button id="nextBtn" ${!nextBab ? 'disabled' : ''}>Selanjutnya →</button>
+                    <button id="prevBtn" ${!prevChapter ? 'disabled' : ''}>← Bab Sebelumnya</button>
+                    <button id="nextBtn" ${!nextChapter ? 'disabled' : ''}>Bab Selanjutnya →</button>
                 </div>
                 <div class="comment-section">
                     <h4>💬 Komentar (${comments.length})</h4>
@@ -444,16 +736,16 @@
             </div>
         `;
         
-        document.getElementById('prevBtn')?.onclick = () => { if (prevBab) openChapter(prevBab.id); };
-        document.getElementById('nextBtn')?.onclick = () => { if (nextBab) openChapter(nextBab.id); };
+        document.getElementById('prevBtn')?.onclick = () => { if (prevChapter) openChapter(prevChapter.id); };
+        document.getElementById('nextBtn')?.onclick = () => { if (nextChapter) openChapter(nextChapter.id); };
         
         showPage('readPage');
     }
 
-    window.kirimKomen = function(chapterId) {
+    window.kirimKomen = function(novelId, chapterId) {
         const text = document.getElementById('komenText').value;
         if (!text.trim()) return;
-        const key = `komentar_${chapterId}`;
+        const key = `komentar_${novelId}_${chapterId}`;
         let komen = localStorage.getItem(key);
         komen = komen ? JSON.parse(komen) : [];
         komen.push({ user: currentUser, text: text, date: new Date().toLocaleString() });
@@ -461,8 +753,8 @@
         openChapter(chapterId);
     }
 
-    function loadComments(chapterId) {
-        const key = `komentar_${chapterId}`;
+    function loadComments(novelId, chapterId) {
+        const key = `komentar_${novelId}_${chapterId}`;
         const komen = localStorage.getItem(key);
         return komen ? JSON.parse(komen) : [];
     }
@@ -504,14 +796,15 @@
 
     function updateUserBtn() {
         const btn = document.getElementById('accountBtn');
+        const dropdown = document.getElementById('dropdownContent');
         if (currentUser) {
             btn.innerHTML = '👤';
-            btn.onclick = () => {
-                if (confirm(`Logout dari ${currentUser}?`)) logout();
-            };
+            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser}</a><a id="logoutBtn">🚪 Logout</a>`;
+            document.getElementById('logoutBtn')?.addEventListener('click', logout);
         } else {
             btn.innerHTML = '🔐';
-            btn.onclick = () => openAuthModal('login');
+            dropdown.innerHTML = `<a id="loginBtn">🔐 Login / Daftar</a>`;
+            document.getElementById('loginBtn')?.addEventListener('click', () => openAuthModal('login'));
         }
     }
 
@@ -560,6 +853,12 @@
         modal.classList.add('show');
     }
 
+    // ==================== NAVIGASI ====================
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
     // ==================== DARK MODE ====================
     function initDarkMode() {
         const dark = localStorage.getItem('dark') === 'true';
@@ -581,7 +880,12 @@
         initDarkMode();
         
         document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
-        document.getElementById('backChaptersBtn').onclick = () => showPage('chaptersPage');
+        document.getElementById('backDetailBtn').onclick = () => showPage('detailPage');
+        
+        const accountBtn = document.getElementById('accountBtn');
+        const dropdown = document.getElementById('userDropdown');
+        accountBtn.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); };
+        document.onclick = () => dropdown.classList.remove('active');
         
         const modal = document.getElementById('authModal');
         modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('show'); };
