@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>VNovel - Archeon: The End Before Beginning</title>
+    <title>VNovel - Archeon</title>
     <style>
         * {
             margin: 0;
@@ -12,27 +12,32 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            color: #2c3e50;
-            transition: all 0.3s;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f0e8;
+            color: #2c2c2c;
+            transition: all 0.3s ease;
         }
 
         body.dark {
-            background: #1a1a2e;
+            background: #121212;
             color: #e0e0e0;
         }
 
-        body.dark .card, body.dark .chapter-card, body.dark .reading-box, body.dark .detail-card {
-            background: #16213e;
-            color: #e0e0e0;
-            border-color: #2a2a4a;
+        body.dark .header,
+        body.dark .hero,
+        body.dark .komik-card,
+        body.dark .chapter-card,
+        body.dark .reading-content,
+        body.dark .modal-content,
+        body.dark .dashboard-panel {
+            background: #1e1e1e;
+            border-color: #333;
         }
 
-        /* Header */
+        /* HEADER - lebih kecil di HP */
         .header {
             background: white;
-            padding: 0.8rem 2rem;
+            padding: 0.8rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -41,45 +46,96 @@
             top: 0;
             z-index: 100;
             flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        body.dark .header {
-            background: #0f0f1a;
+            gap: 0.5rem;
         }
 
         .logo h1 {
             color: #b87c4f;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .logo p {
+            font-size: 0.6rem;
+            opacity: 0.7;
         }
 
         .right-area {
             display: flex;
             gap: 0.5rem;
+            align-items: center;
         }
 
-        .btn-icon {
+        .icon-btn {
             background: #b87c4f;
             border: none;
             color: white;
-            width: 38px;
-            height: 38px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 1rem;
             transition: 0.2s;
         }
 
-        /* Container */
+        .user-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background: white;
+            border-radius: 12px;
+            min-width: 150px;
+            display: none;
+            z-index: 200;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        body.dark .user-dropdown {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            color: #2c2c2c;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        body.dark .user-dropdown a {
+            color: #e0e0e0;
+        }
+
+        .user-dropdown a:hover {
+            background: #f0ebe4;
+        }
+
+        body.dark .user-dropdown a:hover {
+            background: #2a2a2a;
+        }
+
+        .user-dropdown .user-name {
+            color: #b87c4f;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+        }
+
+        /* CONTAINER */
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
         }
 
         .page {
             display: none;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.3s ease;
         }
 
         .page.active {
@@ -91,148 +147,102 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Grid Novel */
-        .novel-grid {
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 1.5rem;
+            color: #b87c4f;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* GRID KOMIK */
+        .komik-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
             margin-top: 1rem;
         }
 
-        .card {
+        .komik-card {
             background: white;
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             transition: 0.3s;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e0d5c8;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        .komik-card:hover {
+            transform: translateY(-3px);
             border-color: #b87c4f;
         }
 
-        .card-cover {
+        .komik-image {
             width: 100%;
-            aspect-ratio: 2 / 3;
-            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            height: 140px;
+            background: #2a2a2a;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
 
-        .card-cover img {
+        .komik-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .card-info {
-            padding: 0.8rem;
+        .komik-info {
+            padding: 0.7rem;
         }
 
-        .card-title {
+        .komik-title {
             font-size: 0.9rem;
             font-weight: bold;
             color: #b87c4f;
-            margin-bottom: 0.2rem;
         }
 
-        .card-desc {
+        .komik-desc {
             font-size: 0.7rem;
             opacity: 0.7;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-top: 0.2rem;
+            line-height: 1.3;
         }
 
-        /* Detail Novel */
-        .detail-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid #e0e0e0;
-        }
-
-        .detail-header {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .detail-cover {
-            width: 180px;
-            aspect-ratio: 2 / 3;
-            background: #2a2a2a;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .detail-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .detail-info {
-            flex: 1;
-        }
-
-        .detail-title {
-            font-size: 1.8rem;
-            color: #b87c4f;
-            margin-bottom: 0.5rem;
-        }
-
-        .detail-author {
-            color: #666;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .detail-stats {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
-        }
-
-        .detail-desc {
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
-
-        /* Chapter Grid */
+        /* GRID CHAPTER */
         .chapter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 0.7rem;
             margin-top: 1rem;
         }
 
         .chapter-card {
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 0.6rem;
             cursor: pointer;
             text-align: center;
-            border: 1px solid #e0e0e0;
-            transition: 0.2s;
+            transition: 0.3s;
+            border: 1px solid #e0d5c8;
         }
 
         .chapter-card:hover {
             border-color: #b87c4f;
             background: #faf7f2;
-            transform: translateY(-2px);
-        }
-
-        body.dark .chapter-card:hover {
-            background: #2a2a4a;
         }
 
         .chapter-num {
@@ -242,15 +252,16 @@
         }
 
         .chapter-title {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             margin-top: 0.2rem;
+            line-height: 1.3;
         }
 
-        /* Reading Page */
-        .reading-box {
+        /* READING PAGE */
+        .reading-content {
             background: white;
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
 
         .reading-title {
@@ -264,8 +275,8 @@
         .reading-text p {
             margin-bottom: 0.8rem;
             text-indent: 1.5em;
-            line-height: 1.7;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .nav-chapter {
@@ -276,14 +287,18 @@
         }
 
         .nav-chapter button {
-            background: #b87c4f;
+            background: #2a2a2a;
             border: none;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.8rem;
             border-radius: 25px;
             cursor: pointer;
+            font-size: 0.75rem;
             flex: 1;
-            font-size: 0.8rem;
+        }
+
+        .nav-chapter button:hover:not(:disabled) {
+            background: #b87c4f;
         }
 
         .nav-chapter button:disabled {
@@ -291,15 +306,197 @@
             cursor: not-allowed;
         }
 
-        .back-btn {
+        /* KOMENTAR */
+        .comment-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .comment-section h4 {
+            color: #b87c4f;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .comment-input textarea {
+            flex: 1;
+            padding: 0.7rem;
+            background: #f5f0e8;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-family: inherit;
+            resize: vertical;
+            font-size: 0.8rem;
+        }
+
+        body.dark .comment-input textarea {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
+        .comment-input button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1rem;
             border-radius: 25px;
             cursor: pointer;
-            margin-bottom: 1rem;
             font-size: 0.8rem;
+        }
+
+        .comment {
+            background: #f5f0e8;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-bottom: 0.7rem;
+        }
+
+        body.dark .comment {
+            background: #2a2a2a;
+        }
+
+        .comment-user {
+            font-weight: bold;
+            color: #b87c4f;
+            margin-bottom: 0.2rem;
+            font-size: 0.8rem;
+        }
+
+        .comment-date {
+            font-size: 0.6rem;
+            opacity: 0.6;
+            margin-left: 0.3rem;
+        }
+
+        .comment-text {
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+            line-height: 1.4;
+        }
+
+        .writer-badge {
+            background: #27ae60;
+            color: white;
+            padding: 0.1rem 0.4rem;
+            border-radius: 15px;
+            font-size: 0.6rem;
+            margin-left: 0.3rem;
+        }
+
+        .login-to-comment {
+            text-align: center;
+            padding: 0.8rem;
+            background: #f5f0e8;
+            border-radius: 12px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        body.dark .login-to-comment {
+            background: #2a2a2a;
+        }
+
+        .login-to-comment a {
+            color: #b87c4f;
+            cursor: pointer;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            max-width: 300px;
+            width: 85%;
+        }
+
+        .modal-content h3 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        body.dark .modal-content input {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
+        .modal-content button {
+            background: #b87c4f;
+            border: none;
+            color: white;
+            padding: 0.6rem;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 0.8rem;
+            font-size: 0.75rem;
+        }
+
+        .auth-switch a {
+            color: #b87c4f;
+            cursor: pointer;
+        }
+
+        .auth-message {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #b87c4f;
+        }
+
+        .back-btn {
+            background: #2a2a2a;
+            border: none;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .footer {
@@ -307,16 +504,122 @@
             padding: 1.5rem;
             border-top: 1px solid #ddd;
             font-size: 0.7rem;
-            margin-top: 2rem;
+            opacity: 0.7;
         }
 
-        @media (max-width: 600px) {
-            .container { padding: 1rem; }
-            .novel-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
-            .detail-header { flex-direction: column; align-items: center; text-align: center; }
-            .detail-cover { width: 140px; }
-            .detail-title { font-size: 1.3rem; }
+        /* DASHBOARD */
+        .dashboard-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .dashboard-panel h2 {
+            color: #b87c4f;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .dashboard-panel p {
+            font-size: 0.8rem;
+        }
+
+        .user-list {
+            margin-top: 0.8rem;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+        }
+
+        .role-owner {
+            background: #b87c4f;
+            color: white;
+            padding: 0.15rem 0.4rem;
+            border-radius: 15px;
+            font-size: 0.65rem;
+        }
+
+        .role-writer {
+            background: #27ae60;
+            color: white;
+            padding: 0.15rem 0.4rem;
+            border-radius: 15px;
+            font-size: 0.65rem;
+        }
+
+        .role-user {
+            background: #666;
+            color: white;
+            padding: 0.15rem 0.4rem;
+            border-radius: 15px;
+            font-size: 0.65rem;
+        }
+
+        .delete-user-btn {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .create-writer-form {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .create-writer-form h3 {
+            color: #b87c4f;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .create-writer-form input {
+            padding: 0.6rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: calc(50% - 0.5rem);
+            font-size: 0.8rem;
+        }
+
+        body.dark .create-writer-form input {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
+        .create-writer-form button {
+            background: #27ae60;
+            border: none;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0.8rem; }
+            .hero { padding: 1rem; }
+            .hero h1 { font-size: 1.2rem; }
+            .komik-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+            .reading-title { font-size: 1.1rem; }
+            .reading-text p { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -325,182 +628,66 @@
 <div class="header">
     <div class="logo">
         <h1>📚 VNOVEL</h1>
+        <p>Baca Novel & Komik Online</p>
     </div>
     <div class="right-area">
-        <button class="btn-icon" id="darkModeBtn">🌙</button>
+        <button class="icon-btn" id="themeToggle">🌙</button>
+        <button class="icon-btn" id="accountBtn">👤</button>
+        <div class="user-dropdown" id="userDropdown">
+            <div id="dropdownContent"></div>
+        </div>
     </div>
 </div>
 
 <div class="container">
-    <!-- Halaman Utama -->
-    <div id="homePage" class="page active">
-        <div class="novel-grid" id="novelGrid"></div>
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1>✨ VNovel ✨</h1>
+            <p>Baca novel favoritmu gratis! Login untuk berkomentar.</p>
+        </div>
+        <div class="komik-grid" id="komikGrid"></div>
     </div>
 
-    <!-- Halaman Detail -->
-    <div id="detailPage" class="page">
-        <button class="back-btn" id="backHomeBtn">← Kembali ke Beranda</button>
-        <div id="detailContainer"></div>
-        <h3 style="color:#b87c4f; margin: 1rem 0 0.5rem;">📖 Daftar Bab</h3>
-        <div id="chapterList" class="chapter-grid"></div>
+    <div id="chapters-page" class="page">
+        <button class="back-btn" id="backToHomeBtn">← Kembali</button>
+        <h2 style="color: #b87c4f; margin: 0.5rem 0; font-size: 1rem;" id="komikTitle"></h2>
+        <div id="chapter-list-container" class="chapter-grid"></div>
     </div>
 
-    <!-- Halaman Baca -->
-    <div id="readPage" class="page">
-        <button class="back-btn" id="backDetailBtn">← Kembali ke Detail</button>
+    <div id="reading-page" class="page">
+        <button class="back-btn" id="backToChaptersBtn">← Daftar Bab</button>
         <div id="readingContainer"></div>
+    </div>
+
+    <div id="dashboard-page" class="page">
+        <button class="back-btn" id="backToHomeFromDashboardBtn">← Beranda</button>
+        <div class="dashboard-panel">
+            <h2>👑 Dashboard Owner</h2>
+            <p>Kelola akun penulis</p>
+            <div id="userListContainer" class="user-list"></div>
+            <div class="create-writer-form">
+                <h3>📝 Buat Akun Penulis</h3>
+                <input type="text" id="newWriterUsername" placeholder="Username">
+                <input type="password" id="newWriterPassword" placeholder="Password">
+                <button id="createWriterBtn">+ Tambah Penulis</button>
+                <div id="createWriterMessage" class="auth-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <div id="modalFormContainer"></div>
     </div>
 </div>
 
 <div class="footer">
-    © 2026 VNovel — Archeon: The End Before Beginning
+    © 2026 VNovel — Muhammad Alfarel Hafizh
 </div>
 
 <script>
-    // ==================== DATA NOVEL ====================
-    let currentNovel = null;
-    let currentChapter = null;
-
-    const judulBab = [
-        "Anak yang Lahir dalam Keheningan", "Hari yang Tidak Memilihnya", "Yang Dibuang Oleh Cahaya",
-        "Langkah Pertama di Luar Cahaya", "Kota di Ujung Hutan", "Nama yang Dicari Kegelapan",
-        "Nama yang Bukan Miliknya", "Jejak yang Mulai Terbuka", "Reruntuhan yang Mengenalnya",
-        "Pintu Kedua", "Runtuhan yang Memilih", "Suara dari Dalam Diri",
-        "Cahaya yang Tetap Tinggal", "Luka Pertama", "Simbol Kedua",
-        "Nama yang Dibisikkan", "Kota yang Menolak", "Pedang Tanpa Mana",
-        "Malam Berdarah Astera", "Nama yang Mulai Bangkit", "Setelah Nama Itu Bangkit",
-        "Mata di Dalam Bayangan", "Jalan ke Timur", "Kota Abu yang Sunyi", "Desa yang Mengingat"
-    ];
-
-    const isiCerita = `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <br><br>Cerita berlanjut...`;
-
-    const novel = {
-        id: 1,
-        title: "Archeon: The End Before Beginning",
-        author: "Muhammad Alfarel Hafizh",
-        views: "125.5K",
-        chapters: 25,
-        description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya. Di desa Elaris, setiap anak yang lahir membawa mana — kecuali satu. Archeon lahir dalam keheningan, tanpa jejak sihir sedikit pun. Kosong. Tapi kehampaan itu mulai mengguncang dunia ketika Crystal of Origin, penjaga keseimbangan selama ribuan tahun, mulai retak tanpa suara.",
-        image: "archeonn.jpg",
-        chaptersList: []
-    };
-
-    // Generate 25 chapter
-    for (let i = 0; i < 25; i++) {
-        novel.chaptersList.push({
-            id: i + 1,
-            title: judulBab[i],
-            content: `<p>${isiCerita}</p><p><em>— Bab ${i+1} selesai —</em></p>`
-        });
-    }
-
-    // ==================== RENDER ====================
-    function renderHome() {
-        const grid = document.getElementById('novelGrid');
-        grid.innerHTML = `
-            <div class="card" onclick="openDetail()">
-                <div class="card-cover">
-                    <img src="${novel.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Archeon'">
-                </div>
-                <div class="card-info">
-                    <div class="card-title">${novel.title}</div>
-                    <div class="card-desc">${novel.description.substring(0, 60)}...</div>
-                </div>
-            </div>
-        `;
-    }
-
-    window.openDetail = function() {
-        currentNovel = novel;
-        
-        document.getElementById('detailContainer').innerHTML = `
-            <div class="detail-card">
-                <div class="detail-header">
-                    <div class="detail-cover">
-                        <img src="${novel.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Archeon'">
-                    </div>
-                    <div class="detail-info">
-                        <div class="detail-title">${novel.title}</div>
-                        <div class="detail-author">✍️ ${novel.author}</div>
-                        <div class="detail-stats">
-                            <span>📖 ${novel.chapters} Bab</span>
-                            <span>👁️ ${novel.views} dilihat</span>
-                        </div>
-                        <div class="detail-desc">${novel.description}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        renderChapterList();
-        showPage('detailPage');
-    }
-
-    function renderChapterList() {
-        const container = document.getElementById('chapterList');
-        container.innerHTML = novel.chaptersList.map(ch => `
-            <div class="chapter-card" onclick="openChapter(${ch.id})">
-                <div class="chapter-num">Bab ${ch.id}</div>
-                <div class="chapter-title">${ch.title}</div>
-            </div>
-        `).join('');
-    }
-
-    window.openChapter = function(chapterId) {
-        currentChapter = novel.chaptersList.find(ch => ch.id === chapterId);
-        if (!currentChapter) return;
-        
-        const currentIdx = novel.chaptersList.findIndex(ch => ch.id === chapterId);
-        const prevChapter = currentIdx > 0 ? novel.chaptersList[currentIdx - 1] : null;
-        const nextChapter = currentIdx < novel.chaptersList.length - 1 ? novel.chaptersList[currentIdx + 1] : null;
-        
-        document.getElementById('readingContainer').innerHTML = `
-            <div class="reading-box">
-                <div class="reading-title">Bab ${currentChapter.id} — ${currentChapter.title}</div>
-                <div class="reading-text">${currentChapter.content}</div>
-                <div class="nav-chapter">
-                    <button id="prevBtn" ${!prevChapter ? 'disabled' : ''}>← Bab Sebelumnya</button>
-                    <button id="nextBtn" ${!nextChapter ? 'disabled' : ''}>Bab Selanjutnya →</button>
-                </div>
-            </div>
-        `;
-        
-        document.getElementById('prevBtn')?.onclick = () => { if (prevChapter) openChapter(prevChapter.id); };
-        document.getElementById('nextBtn')?.onclick = () => { if (nextChapter) openChapter(nextChapter.id); };
-        
-        showPage('readPage');
-    }
-
-    // ==================== NAVIGASI ====================
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-    }
-
-    // ==================== DARK MODE ====================
-    function initDarkMode() {
-        const dark = localStorage.getItem('dark') === 'true';
-        if (dark) document.body.classList.add('dark');
-        const btn = document.getElementById('darkModeBtn');
-        btn.textContent = dark ? '☀️' : '🌙';
-        btn.onclick = () => {
-            document.body.classList.toggle('dark');
-            const isDark = document.body.classList.contains('dark');
-            localStorage.setItem('dark', isDark);
-            btn.textContent = isDark ? '☀️' : '🌙';
-        };
-    }
-
-    // ==================== INIT ====================
-    function init() {
-        renderHome();
-        initDarkMode();
-        
-        document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
-        document.getElementById('backDetailBtn').onclick = () => showPage('detailPage');
-    }
-    
-    init();
-</script>
-</body>
-</html>
+    // ==================== DATA KOMIK ====================
+    const chapterJudul = {
+        1: "Anak yang Lahir dalam Keheningan", 2: "Hari yang Tidak Memilihnya", 3: "Yang Dibuang Oleh Cahaya",
+        4: "Langkah Pert
