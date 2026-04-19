@@ -2,299 +2,378 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VNovel</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#111;
-  --card:#1a1a1a;
-  --text:#fff;
-  --muted:#aaa;
-  --accent:#ff8a00;
-  --border:#2b2b2b;
+    --bg:#0f1117;
+    --card:#161b22;
+    --text:#ffffff;
+    --muted:#9ca3af;
+    --border:#2a2f3a;
+    --accent:#8b0000;
 }
 body.light{
-  --bg:#f6f6f6;
-  --card:#fff;
-  --text:#111;
-  --muted:#666;
-  --border:#ddd;
+    --bg:#f8f9fa;
+    --card:#ffffff;
+    --text:#111827;
+    --muted:#6b7280;
+    --border:#e5e7eb;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,sans-serif;
-  transition:.3s;
+    background:var(--bg);
+    color:var(--text);
 }
 header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 24px;
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  background:var(--bg);
-  z-index:10;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 28px;
+    border-bottom:1px solid var(--border);
 }
 .logo{
-  font-size:24px;
-  font-weight:700;
-  color:var(--accent);
+    font-size:28px;
+    font-weight:700;
 }
-.header-right{
-  display:flex;
-  gap:12px;
-  align-items:center;
+.top-buttons{
+    display:flex;
+    gap:10px;
 }
-.search-box{
-  padding:10px 14px;
-  width:220px;
-  border:none;
-  border-radius:10px;
-  background:var(--card);
-  color:var(--text);
+button{
+    border:none;
+    background:var(--card);
+    color:var(--text);
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
 }
-.btn{
-  background:var(--card);
-  color:var(--text);
-  border:none;
-  padding:10px 14px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.hero{
-  padding:24px;
+.container{
+    padding:30px;
 }
 .section-title{
-  font-size:22px;
-  margin-bottom:16px;
-  font-weight:700;
+    font-size:24px;
+    margin-bottom:20px;
 }
-.slider{
-  display:flex;
-  gap:18px;
-  overflow-x:auto;
-  padding-bottom:10px;
+.novel-row{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
 }
-.slider::-webkit-scrollbar{
-  height:8px;
+.novel-card{
+    width:180px;
+    background:var(--card);
+    border-radius:16px;
+    overflow:hidden;
+    cursor:pointer;
 }
-.slider::-webkit-scrollbar-thumb{
-  background:#555;
-  border-radius:10px;
+.novel-card img{
+    width:100%;
+    aspect-ratio:2/3;
+    object-fit:cover;
 }
-.card{
-  min-width:160px;
-  cursor:pointer;
+.novel-info{
+    padding:12px;
 }
-.cover{
-  width:160px;
-  aspect-ratio:2/3;
-  border-radius:12px;
-  object-fit:cover;
-  display:block;
+.novel-title{
+    font-weight:600;
+    margin-bottom:8px;
 }
-.title{
-  margin-top:10px;
-  font-weight:600;
-  font-size:14px;
+.genre-list{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
 }
 .genre{
-  font-size:12px;
-  color:var(--muted);
+    background:var(--accent);
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:11px;
 }
-.empty{
-  min-width:160px;
-  aspect-ratio:2/3;
-  border-radius:12px;
-  border:2px dashed var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--muted);
+.reader-layout{
+    display:none;
+    min-height:100vh;
+}
+.sidebar{
+    width:280px;
+    background:var(--card);
+    border-right:1px solid var(--border);
+    padding:20px;
+    overflow-y:auto;
+    height:100vh;
+    position:sticky;
+    top:0;
+}
+.sidebar-title{
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+.chapter-item{
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-bottom:8px;
+    color:var(--muted);
+}
+.chapter-item:hover{
+    background:#222;
+}
+.chapter-item.active{
+    background:var(--accent);
+    color:white;
 }
 .reader{
-  display:none;
-  max-width:900px;
-  margin:auto;
-  padding:40px 22px;
+    flex:1;
+    max-width:900px;
+    margin:auto;
+    padding:40px;
 }
-.reader-title{
-  font-size:32px;
-  margin-bottom:8px;
+.chapter-title{
+    font-size:30px;
+    margin-bottom:30px;
 }
-.reader-sub{
-  color:var(--muted);
-  margin-bottom:30px;
+.chapter-content{
+    white-space:pre-line;
+    line-height:2;
+    font-size:17px;
 }
-.chapter{
-  font-family:Merriweather,serif;
-  line-height:2;
-  font-size:18px;
-  white-space:pre-line;
-}
-.back-btn{
-  margin-bottom:24px;
+.navigation{
+    display:flex;
+    justify-content:space-between;
+    margin-top:40px;
 }
 .modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.75);
-  justify-content:center;
-  align-items:center;
-  z-index:100;
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    justify-content:center;
+    align-items:center;
 }
 .modal-content{
-  width:90%;
-  max-width:500px;
-  background:var(--card);
-  padding:25px;
-  border-radius:18px;
+    background:var(--card);
+    padding:25px;
+    border-radius:16px;
+    max-width:450px;
 }
-.modal h2{
-  margin-bottom:15px;
+.modal-content h2{
+    margin-bottom:15px;
 }
-.social a{
-  color:var(--accent);
-  text-decoration:none;
-  display:block;
-  margin:8px 0;
+.modal-content p{
+    color:var(--muted);
+    line-height:1.8;
 }
-@media(max-width:768px){
-  .search-box{width:120px}
-  .cover,.empty{width:130px}
-  .card{min-width:130px}
+@media(max-width:900px){
+    .reader-layout{
+        flex-direction:column;
+    }
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
 }
 </style>
 </head>
 <body>
 
+<div id="homePage">
 <header>
-  <div class="logo">VNovel</div>
-  <div class="header-right">
-    <input type="text" id="search" class="search-box" placeholder="Search novel...">
-    <button class="btn" onclick="toggleTheme()">☀️</button>
-    <button class="btn" onclick="openAbout()">⚙️</button>
-  </div>
+    <div class="logo">VNovel</div>
+    <div class="top-buttons">
+        <button onclick="toggleTheme()">Mode</button>
+        <button onclick="openAbout()">Tentang</button>
+    </div>
 </header>
 
-<div id="homePage">
-
-<div class="hero">
-  <div class="section-title">Fantasy</div>
-  <div class="slider" id="novelList">
-
-    <div class="card" onclick="openNovel()">
-      <img src="images/archeon.jpg" class="cover" alt="Archeon">
-      <div class="title">Archeon</div>
-      <div class="genre">Fantasy</div>
+<div class="container">
+    <h2 class="section-title">Fantasy</h2>
+    <div class="novel-row">
+        <div class="novel-card" onclick="openNovel()">
+            <img src="archeon.png" alt="Archeon">
+            <div class="novel-info">
+                <div class="novel-title">Archeon</div>
+                <div class="genre-list">
+                    <span class="genre">Fantasy</span>
+                    <span class="genre">Romance</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="empty">Soon</div>
-    <div class="empty">Soon</div>
-    <div class="empty">Soon</div>
-    <div class="empty">Soon</div>
-
-  </div>
-</div>
-
-<div class="hero">
-  <div class="section-title">Romance</div>
-  <div class="slider">
-    <div class="empty">Soon</div>
-    <div class="empty">Soon</div>
-    <div class="empty">Soon</div>
-    <div class="empty">Soon</div>
-  </div>
-</div>
-
-</div>
-
-<div id="readerPage" class="reader">
-  <button class="btn back-btn" onclick="goHome()">← Kembali</button>
-  <div class="reader-title">Archeon</div>
-  <div class="reader-sub">Chapter 1 - Malam Retakan</div>
-  <div class="chapter">
-Hujan turun pelan di atas Desa Elarion.
-
-Butiran air jatuh dari atap-atap kayu tua, mengalir melewati jalan batu sempit yang membelah desa kecil di kaki gunung itu. Malam terasa lebih sunyi dari biasanya, seolah seluruh dunia menahan napas menunggu sesuatu yang tidak diketahui.
-
-Di tengah desa, berdiri sebuah kristal besar setinggi dua manusia.
-
-Kristal penjaga.
-
-Cahaya birunya yang lembut selalu menjadi jantung Elarion.
-Selama ratusan tahun, kristal itu tak pernah berubah.
-Tak pernah redup.
-Tak pernah rusak.
-
-Namun malam itu berbeda.
-
-Di sebuah rumah kecil di pinggir desa, suara tangis bayi memecah sunyi.
-
-Seorang wanita muda memeluk anak yang baru lahir di lengannya, napasnya masih gemetar setelah perjuangan panjang. Air mata perlahan jatuh di pipinya saat ia menatap wajah bayi itu.
-
-Seorang anak laki-laki.
-
-Mata hitam.
-Rambut gelap.
-Dan tatapan yang terlalu tenang untuk bayi yang baru melihat dunia.
-
-Sebelum wanita itu sempat tersenyum—
-
-crack.
-
-Suara retakan terdengar dari luar.
-  </div>
-</div>
-
-<div id="aboutModal" class="modal">
-  <div class="modal-content">
-    <h2>Tentang Website</h2>
-    <p>VNovel adalah website novel buatan pribadi untuk membaca cerita original. Website ini dibuat sekadar iseng untuk koleksi novel digital pribadi.</p>
-    <br>
-    <strong>Muhammad Alfarel Hafizh</strong>
-    <div class="social">
-      <a href="https://instagram.com/varenemci" target="_blank">Instagram: @varenemci</a>
-      <a href="https://tiktok.com/@varenpenikmatmbg" target="_blank">TikTok: @varenpenikmatmbg</a>
+    <h2 class="section-title" style="margin-top:40px;">Romance</h2>
+    <div class="novel-row">
+        <div class="novel-card" onclick="openNovel()">
+            <img src="archeon.png" alt="Archeon">
+            <div class="novel-info">
+                <div class="novel-title">Archeon</div>
+                <div class="genre-list">
+                    <span class="genre">Fantasy</span>
+                    <span class="genre">Romance</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <br>
-    <button class="btn" onclick="closeAbout()">Tutup</button>
-  </div>
+</div>
+</div>
+
+<div id="readerPage" class="reader-layout">
+    <aside class="sidebar">
+        <div class="sidebar-title">Daftar Bab</div>
+        <div id="chapterList"></div>
+    </aside>
+
+    <main class="reader">
+        <button onclick="goHome()">← Kembali</button>
+        <h1 id="chapterTitle" class="chapter-title"></h1>
+        <div id="chapterContent" class="chapter-content"></div>
+
+        <div class="navigation">
+            <button onclick="prevChapter()">← Previous</button>
+            <button onclick="nextChapter()">Next →</button>
+        </div>
+    </main>
+</div>
+
+<div id="aboutModal" class="modal" onclick="closeAbout()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h2>Tentang Website</h2>
+        <p>
+            Website ini dibuat oleh <b>Muhammad Alfarel Hafizh</b>.<br><br>
+            Ini adalah website novel pribadi yang dibuat sekadar iseng untuk membaca novel dengan tampilan modern.<br><br>
+            TikTok: @varenpenikmatmbg<br>
+            Instagram: @varenemci
+        </p>
+    </div>
 </div>
 
 <script>
+const chapters = [
+{
+number:1,
+name:"Malam Retakan",
+text:`Hujan turun pelan di atas Desa Elarion.
+
+Malam terasa lebih sunyi dari biasanya.
+
+Di tengah desa berdiri kristal penjaga.
+
+Selama ratusan tahun kristal itu tak pernah retak.
+
+Namun malam itu sebuah suara kecil terdengar.
+
+Retakan pertama muncul.
+
+Dan seorang bayi lahir.
+
+Namanya Archeon.`
+},
+{
+number:2,
+name:"Anak yang Berbeda",
+text:`Archeon tumbuh seperti anak-anak lain.
+
+Namun ketika anak lain mulai menunjukkan mana,
+Archeon tidak memiliki apa pun.
+
+Ia dianggap kosong.
+
+Namun jauh di dalam dirinya,
+sesuatu sedang menunggu.`
+},
+{
+number:3,
+name:"Hari Pengukuran",
+text:`Hari pengukuran mana akhirnya datang.
+
+Semua anak menunjukkan warna.
+
+Saat Archeon menyentuh kristal,
+tidak ada cahaya.
+
+Tidak ada warna.
+
+Dan seluruh aula menjadi hening.`
+}
+];
+
+let currentChapter = parseInt(localStorage.getItem("archeon_progress")) || 0;
+
+function renderChapters(){
+    const list = document.getElementById("chapterList");
+    list.innerHTML = "";
+
+    chapters.forEach((chapter,index)=>{
+        const div = document.createElement("div");
+        div.className = "chapter-item" + (index===currentChapter ? " active":"");
+        div.textContent = "Bab " + chapter.number + " — " + chapter.name;
+        div.onclick = ()=>{
+            currentChapter = index;
+            showChapter();
+        };
+        list.appendChild(div);
+    });
+}
+
+function showChapter(){
+    const chapter = chapters[currentChapter];
+
+    document.getElementById("chapterTitle").textContent =
+        "Chapter " + chapter.number + " — " + chapter.name;
+
+    document.getElementById("chapterContent").textContent =
+        chapter.text;
+
+    localStorage.setItem("archeon_progress", currentChapter);
+    renderChapters();
+    window.scrollTo(0,0);
+}
+
 function openNovel(){
-  document.getElementById('homePage').style.display='none';
-  document.getElementById('readerPage').style.display='block';
-  window.scrollTo(0,0);
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("readerPage").style.display="flex";
+    showChapter();
 }
+
 function goHome(){
-  document.getElementById('readerPage').style.display='none';
-  document.getElementById('homePage').style.display='block';
+    document.getElementById("homePage").style.display="block";
+    document.getElementById("readerPage").style.display="none";
 }
+
+function nextChapter(){
+    if(currentChapter < chapters.length-1){
+        currentChapter++;
+        showChapter();
+    }
+}
+
+function prevChapter(){
+    if(currentChapter > 0){
+        currentChapter--;
+        showChapter();
+    }
+}
+
 function toggleTheme(){
-  document.body.classList.toggle('light');
+    document.body.classList.toggle("light");
 }
+
 function openAbout(){
-  document.getElementById('aboutModal').style.display='flex';
+    document.getElementById("aboutModal").style.display="flex";
 }
+
 function closeAbout(){
-  document.getElementById('aboutModal').style.display='none';
+    document.getElementById("aboutModal").style.display="none";
 }
-document.getElementById('search').addEventListener('input', function(){
-  const val=this.value.toLowerCase();
-  document.querySelectorAll('#novelList .card').forEach(card=>{
-    const title=card.querySelector('.title').innerText.toLowerCase();
-    card.style.display=title.includes(val)?'block':'none';
-  });
-});
 </script>
 
 </body>
