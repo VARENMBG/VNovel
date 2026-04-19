@@ -6,29 +6,38 @@
     <title>VNovel - Platform Novel & Komik</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', 'Segoe UI', sans-serif;
             background: #faf7f2;
             color: #1a1a1a;
             transition: all 0.3s ease;
         }
-        .novel-title, .reading-title, .komik-title, .chapter-title {
-            font-family: 'Playfair Display', Georgia, serif;
-        }
+
         body.dark {
             background: #121212;
             color: #e0e0e0;
         }
-        body.dark .header, body.dark .hero, body.dark .komik-card, body.dark .chapter-card,
-        body.dark .reading-content, body.dark .modal-content, body.dark .dashboard-panel,
-        body.dark .form-panel {
+
+        body.dark .header,
+        body.dark .komik-card,
+        body.dark .chapter-card,
+        body.dark .reading-content,
+        body.dark .modal-content,
+        body.dark .dashboard-panel {
             background: #1e1e1e;
             border-color: #333;
         }
+
+        /* HEADER */
         .header {
             background: white;
-            padding: 0.8rem 1rem;
+            padding: 0.8rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,104 +46,219 @@
             top: 0;
             z-index: 100;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
-        .logo h1 { color: #b87c4f; font-size: 1.3rem; font-family: 'Playfair Display', serif; }
-        .logo p { font-size: 0.6rem; opacity: 0.7; }
-        .right-area { display: flex; gap: 0.5rem; align-items: center; }
+
+        .logo h1 {
+            color: #b87c4f;
+            font-size: 1.3rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo p {
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+
+        .right-area {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
         .icon-btn {
             background: #b87c4f;
             border: none;
             color: white;
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 1rem;
+            transition: 0.2s;
         }
+
+        .icon-btn:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        /* DROPDOWN USER */
         .user-dropdown {
             position: absolute;
             top: 60px;
-            right: 10px;
+            right: 20px;
             background: white;
             border-radius: 12px;
-            min-width: 160px;
+            min-width: 170px;
             display: none;
             z-index: 200;
             border: 1px solid #ddd;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        body.dark .user-dropdown { background: #1e1e1e; border-color: #333; }
-        .user-dropdown.active { display: block; }
+
+        body.dark .user-dropdown {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
         .user-dropdown a {
             display: block;
-            padding: 0.6rem 0.8rem;
+            padding: 0.7rem 1rem;
             color: #2c2c2c;
             text-decoration: none;
             cursor: pointer;
             font-size: 0.85rem;
         }
-        body.dark .user-dropdown a { color: #e0e0e0; }
-        .user-dropdown a:hover { background: #f0ebe4; }
-        body.dark .user-dropdown a:hover { background: #2a2a2a; }
-        .user-dropdown .user-name { color: #b87c4f; border-bottom: 1px solid #eee; font-weight: bold; }
-        .container { max-width: 100%; margin: 0 auto; padding: 1rem; }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .hero { text-align: center; padding: 1rem; background: white; border-radius: 20px; margin-bottom: 1.5rem; }
-        .hero p { font-size: 0.85rem; opacity: 0.7; }
+
+        body.dark .user-dropdown a {
+            color: #e0e0e0;
+        }
+
+        .user-dropdown a:hover {
+            background: #f0ebe4;
+        }
+
+        body.dark .user-dropdown a:hover {
+            background: #2a2a2a;
+        }
+
+        .user-dropdown .user-name {
+            color: #b87c4f;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* GRID KOMIK - seperti website komik */
         .komik-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1rem;
+            gap: 1.5rem;
             margin-top: 1rem;
         }
+
         .komik-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
             transition: 0.3s;
             border: 1px solid #e0d5c8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .komik-card:hover { transform: translateY(-3px); border-color: #b87c4f; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .komik-image { width: 100%; height: 140px; background: #2a2a2a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .komik-image img { width: 100%; height: 100%; object-fit: cover; }
-        .komik-info { padding: 0.7rem; }
-        .komik-title { font-size: 0.9rem; font-weight: 600; color: #b87c4f; font-family: 'Playfair Display', serif; }
-        .komik-desc { font-size: 0.7rem; opacity: 0.7; margin-top: 0.2rem; line-height: 1.3; }
-        .edit-badge {
-            display: inline-block;
-            background: #b87c4f;
-            color: white;
-            font-size: 0.6rem;
-            padding: 0.1rem 0.4rem;
-            border-radius: 10px;
-            margin-left: 0.3rem;
+
+        .komik-card:hover {
+            transform: translateY(-5px);
+            border-color: #b87c4f;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
+
+        /* GAMBAR RASIO 2:3 */
+        .komik-image {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .komik-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .komik-info {
+            padding: 0.8rem;
+        }
+
+        .komik-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #b87c4f;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.3;
+        }
+
+        .komik-desc {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* GRID CHAPTER */
         .chapter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 0.7rem;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.8rem;
             margin-top: 1rem;
         }
+
         .chapter-card {
             background: white;
             border-radius: 10px;
-            padding: 0.6rem;
+            padding: 0.7rem;
             cursor: pointer;
             text-align: center;
             transition: 0.3s;
             border: 1px solid #e0d5c8;
             position: relative;
         }
-        .chapter-card:hover { border-color: #b87c4f; background: #faf7f2; transform: translateY(-2px); }
-        .chapter-num { color: #b87c4f; font-size: 0.7rem; font-weight: 600; }
-        .chapter-title { font-size: 0.75rem; margin-top: 0.2rem; line-height: 1.3; font-family: 'Playfair Display', serif; }
+
+        .chapter-card:hover {
+            border-color: #b87c4f;
+            background: #faf7f2;
+            transform: translateY(-2px);
+        }
+
+        .chapter-num {
+            color: #b87c4f;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .chapter-title {
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+            line-height: 1.3;
+            font-family: 'Playfair Display', serif;
+        }
+
         .chapter-edit-btn {
             position: absolute;
-            top: 2px;
+            top: 3px;
             right: 5px;
             background: none;
             border: none;
@@ -142,28 +266,162 @@
             cursor: pointer;
             font-size: 0.7rem;
         }
-        .chapter-edit-btn:hover { color: #b87c4f; }
-        .reading-content { background: white; border-radius: 16px; padding: 1.2rem; }
-        .reading-title { font-size: 1.3rem; color: #b87c4f; border-left: 3px solid #b87c4f; padding-left: 0.8rem; margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
-        .reading-text p { margin-bottom: 0.8rem; text-indent: 1.5em; font-size: 0.9rem; line-height: 1.7; }
-        .nav-chapter { display: flex; justify-content: space-between; margin-top: 1.5rem; gap: 0.5rem; }
-        .nav-chapter button { background: #2a2a2a; border: none; color: white; padding: 0.5rem 0.8rem; border-radius: 25px; cursor: pointer; font-size: 0.75rem; flex: 1; }
-        .nav-chapter button:hover:not(:disabled) { background: #b87c4f; }
-        .nav-chapter button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .comment-section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #ddd; }
-        .comment-section h4 { color: #b87c4f; margin-bottom: 0.8rem; font-size: 1rem; }
-        .comment-input { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .comment-input textarea { flex: 1; padding: 0.7rem; background: #f5f0e8; border: 1px solid #ddd; border-radius: 12px; font-family: inherit; resize: vertical; font-size: 0.8rem; }
-        body.dark .comment-input textarea { background: #2a2a2a; border-color: #444; color: white; }
-        .comment-input button { background: #b87c4f; border: none; color: white; padding: 0.5rem 1rem; border-radius: 25px; cursor: pointer; font-size: 0.8rem; }
-        .comment { background: #f5f0e8; padding: 0.8rem; border-radius: 12px; margin-bottom: 0.7rem; }
-        body.dark .comment { background: #2a2a2a; }
-        .comment-user { font-weight: bold; color: #b87c4f; margin-bottom: 0.2rem; font-size: 0.8rem; }
-        .comment-date { font-size: 0.6rem; opacity: 0.6; margin-left: 0.3rem; }
-        .comment-text { font-size: 0.8rem; margin-top: 0.2rem; line-height: 1.4; }
-        .writer-badge { background: #27ae60; color: white; padding: 0.1rem 0.4rem; border-radius: 15px; font-size: 0.6rem; margin-left: 0.3rem; }
-        .login-to-comment { text-align: center; padding: 0.8rem; background: #f5f0e8; border-radius: 12px; color: #666; font-size: 0.8rem; }
-        .login-to-comment a { color: #b87c4f; cursor: pointer; }
+
+        .chapter-edit-btn:hover {
+            color: #b87c4f;
+        }
+
+        /* READING PAGE */
+        .reading-content {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .reading-title {
+            font-size: 1.4rem;
+            color: #b87c4f;
+            border-left: 3px solid #b87c4f;
+            padding-left: 0.8rem;
+            margin-bottom: 1.2rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .reading-text p {
+            margin-bottom: 1rem;
+            text-indent: 1.5em;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .nav-chapter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .nav-chapter button {
+            background: #2a2a2a;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            flex: 1;
+        }
+
+        .nav-chapter button:hover:not(:disabled) {
+            background: #b87c4f;
+        }
+
+        .nav-chapter button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* KOMENTAR */
+        .comment-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .comment-section h4 {
+            color: #b87c4f;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .comment-input textarea {
+            flex: 1;
+            padding: 0.7rem;
+            background: #f5f0e8;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-family: inherit;
+            resize: vertical;
+            font-size: 0.85rem;
+        }
+
+        body.dark .comment-input textarea {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
+        .comment-input button {
+            background: #b87c4f;
+            border: none;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .comment {
+            background: #f5f0e8;
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-bottom: 0.7rem;
+        }
+
+        body.dark .comment {
+            background: #2a2a2a;
+        }
+
+        .comment-user {
+            font-weight: bold;
+            color: #b87c4f;
+            margin-bottom: 0.2rem;
+            font-size: 0.85rem;
+        }
+
+        .comment-date {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-left: 0.3rem;
+        }
+
+        .comment-text {
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+            line-height: 1.4;
+        }
+
+        .writer-badge {
+            background: #27ae60;
+            color: white;
+            padding: 0.1rem 0.4rem;
+            border-radius: 15px;
+            font-size: 0.6rem;
+            margin-left: 0.3rem;
+        }
+
+        .login-to-comment {
+            text-align: center;
+            padding: 1rem;
+            background: #f5f0e8;
+            border-radius: 12px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .login-to-comment a {
+            color: #b87c4f;
+            cursor: pointer;
+        }
+
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -176,18 +434,31 @@
             align-items: center;
             z-index: 1000;
         }
-        .modal.active { display: flex; }
+
+        .modal.active {
+            display: flex;
+        }
+
         .modal-content {
             background: white;
             padding: 1.5rem;
             border-radius: 20px;
-            max-width: 350px;
+            max-width: 400px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
         }
-        .modal-content h3 { color: #b87c4f; margin-bottom: 1rem; text-align: center; font-size: 1.2rem; }
-        .modal-content input, .modal-content textarea, .modal-content select {
+
+        .modal-content h3 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
             width: 100%;
             padding: 0.7rem;
             margin-bottom: 0.8rem;
@@ -196,12 +467,19 @@
             font-family: inherit;
             font-size: 0.85rem;
         }
-        .modal-content textarea { resize: vertical; }
-        body.dark .modal-content input, body.dark .modal-content textarea, body.dark .modal-content select {
+
+        .modal-content textarea {
+            resize: vertical;
+        }
+
+        body.dark .modal-content input,
+        body.dark .modal-content textarea,
+        body.dark .modal-content select {
             background: #2a2a2a;
             border-color: #444;
             color: white;
         }
+
         .modal-content button {
             background: #b87c4f;
             border: none;
@@ -213,30 +491,90 @@
             font-size: 0.9rem;
             margin-top: 0.5rem;
         }
-        .modal-content button.cancel { background: #666; }
-        .auth-switch { text-align: center; margin-top: 0.8rem; font-size: 0.75rem; }
-        .auth-switch a { color: #b87c4f; cursor: pointer; }
-        .auth-message { margin-top: 0.5rem; font-size: 0.75rem; text-align: center; color: #b87c4f; }
-        .back-btn { background: #2a2a2a; border: none; color: white; padding: 0.4rem 0.8rem; border-radius: 25px; cursor: pointer; margin-bottom: 0.8rem; font-size: 0.75rem; }
-        .footer { text-align: center; padding: 1.5rem; border-top: 1px solid #ddd; font-size: 0.7rem; opacity: 0.7; }
-        .dashboard-panel, .form-panel { background: white; border-radius: 16px; padding: 1.2rem; margin-top: 0.5rem; }
-        .dashboard-panel h2, .form-panel h3 { color: #b87c4f; margin-bottom: 0.8rem; font-size: 1.1rem; }
-        .dashboard-panel p { font-size: 0.8rem; }
-        .user-list { margin-top: 0.8rem; }
-        .user-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; gap: 0.3rem; font-size: 0.8rem; }
-        .role-owner { background: #b87c4f; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.65rem; }
-        .role-writer { background: #27ae60; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.65rem; }
-        .role-user { background: #666; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.65rem; }
-        .delete-user-btn, .delete-novel-btn, .delete-chapter-btn {
-            background: #e74c3c;
+
+        .modal-content button.cancel {
+            background: #666;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .auth-switch a {
+            color: #b87c4f;
+            cursor: pointer;
+        }
+
+        .auth-message {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #b87c4f;
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            background: #2a2a2a;
             border: none;
             color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 15px;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 0.7rem;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            display: inline-block;
         }
-        .edit-novel-btn, .edit-chapter-btn {
+
+        .back-btn:hover {
+            background: #b87c4f;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            border-top: 1px solid #ddd;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 1rem;
+        }
+
+        /* DASHBOARD */
+        .dashboard-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .dashboard-panel h2 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .user-list, .novel-list {
+            margin-top: 0.8rem;
+        }
+
+        .user-item, .novel-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .role-owner { background: #b87c4f; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.7rem; }
+        .role-writer { background: #27ae60; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.7rem; }
+        .role-user { background: #666; color: white; padding: 0.15rem 0.4rem; border-radius: 15px; font-size: 0.7rem; }
+
+        .edit-user-btn, .edit-novel-btn {
             background: #3498db;
             border: none;
             color: white;
@@ -246,34 +584,61 @@
             font-size: 0.7rem;
             margin-right: 0.3rem;
         }
-        .create-form { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #ddd; }
-        .create-form input, .create-form textarea { width: 100%; padding: 0.6rem; margin-bottom: 0.5rem; border: 1px solid #ddd; border-radius: 10px; font-size: 0.8rem; }
-        body.dark .create-form input, body.dark .create-form textarea { background: #2a2a2a; border-color: #444; color: white; }
-        .create-form button { background: #27ae60; border: none; color: white; padding: 0.6rem 1rem; border-radius: 25px; cursor: pointer; font-size: 0.8rem; }
-        .novel-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+
+        .delete-user-btn, .delete-novel-btn {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.7rem;
         }
-        .chapter-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem;
-            border-bottom: 1px solid #eee;
-            flex-wrap: wrap;
-            gap: 0.3rem;
+
+        .create-form {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
         }
-        @media (max-width: 480px) {
-            .container { padding: 0.8rem; }
-            .komik-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
-            .reading-title { font-size: 1.1rem; }
-            .reading-text p { font-size: 0.85rem; }
+
+        .create-form h3 {
+            color: #b87c4f;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .create-form input, .create-form textarea {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        body.dark .create-form input, body.dark .create-form textarea {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
+        .create-form button {
+            background: #27ae60;
+            border: none;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            .komik-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+            .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .reading-title { font-size: 1.2rem; }
+            .reading-text p { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -282,7 +647,7 @@
 <div class="header">
     <div class="logo">
         <h1>📚 VNOVEL</h1>
-        <p>Baca Novel & Komik Online</p>
+        <p>Baca Novel & Komik</p>
     </div>
     <div class="right-area">
         <button class="icon-btn" id="themeToggle">🌙</button>
@@ -295,16 +660,13 @@
 
 <div class="container">
     <div id="home" class="page active">
-        <div class="hero">
-            <p>Baca novel favoritmu gratis! Login untuk berkomentar atau membuat novel.</p>
-        </div>
         <div class="komik-grid" id="komikGrid"></div>
     </div>
 
     <div id="chapters-page" class="page">
         <button class="back-btn" id="backToHomeBtn">← Kembali</button>
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-            <h2 style="color: #b87c4f; font-size: 1rem;" id="komikTitle"></h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <h2 style="color: #b87c4f; font-size: 1.1rem;" id="komikTitle"></h2>
             <button id="addChapterBtn" style="display:none; background:#27ae60; border:none; color:white; padding:0.3rem 0.8rem; border-radius:20px; font-size:0.7rem;">+ Tambah Bab</button>
         </div>
         <div id="chapter-list-container" class="chapter-grid"></div>
@@ -322,9 +684,9 @@
             <p>Kelola akun pengguna</p>
             <div id="userListContainer" class="user-list"></div>
         </div>
-        <div class="dashboard-panel" id="novelManagementPanel" style="margin-top:1rem;">
+        <div class="dashboard-panel" style="margin-top:1rem;">
             <h2>📚 Manajemen Novel</h2>
-            <div id="novelListContainer" class="user-list"></div>
+            <div id="novelListContainer" class="novel-list"></div>
             <div class="create-form">
                 <h3>📝 Buat Novel Baru</h3>
                 <input type="text" id="newNovelTitle" placeholder="Judul Novel">
@@ -354,7 +716,7 @@
 </div>
 
 <div class="footer">
-    © 2026 VNovel — Muhammad Alfarel Hafizh
+    © 2026 VNovel
 </div>
 
 <script>
@@ -366,30 +728,23 @@
     let editingChapterId = null;
     let editingNovelId = null;
 
-    // ==================== LOAD/SAVE DATA ====================
     function loadData() {
         const saved = localStorage.getItem('vnovel_data');
         if (saved) {
             komikData = JSON.parse(saved);
         } else {
-            // Data default novel Archeon
             komikData = [{
                 id: 1,
                 title: "Archeon: The End Before Beginning",
                 description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
                 image: "archeonn.jpg",
                 chapters: [
-                    { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>" },
-                    { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. Pagi itu, Archeon duduk di atas bukit kecil di belakang desa. Lyria duduk di sampingnya. 'Kau kabur lagi ke sini?' 'Aku cuma ingin tenang.' Lyria tersenyum kecil. 'Berarti kau gugup.' Hari itu adalah Hari Pengukuran. <em>— Bab 2 selesai —</em></p>" }
+                    { id: 1, title: "Anak yang Lahir dalam Keheningan", content: "<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab 1 selesai —</em></p>" },
+                    { id: 2, title: "Hari yang Tidak Memilihnya", content: "<p>Tahun-tahun berlalu dengan cepat. Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun. Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana. <em>— Bab 2 selesai —</em></p>" }
                 ]
             }];
-            // Tambah bab 3-25
             for (let i = 3; i <= 25; i++) {
-                komikData[0].chapters.push({
-                    id: i,
-                    title: `Bab ${i}`,
-                    content: `<p>Cerita berlanjut ke bab ${i}... <em>— Bab ${i} selesai —</em></p>`
-                });
+                komikData[0].chapters.push({ id: i, title: `Bab ${i}`, content: `<p>Cerita berlanjut ke bab ${i}... <em>— Bab ${i} selesai —</em></p>` });
             }
             saveData();
         }
@@ -453,13 +808,7 @@
     function createNovel(title, description, image) {
         if (!isWriter()) return false;
         const newId = Date.now();
-        komikData.push({
-            id: newId,
-            title: title,
-            description: description,
-            image: image || 'default.jpg',
-            chapters: []
-        });
+        komikData.push({ id: newId, title: title, description: description, image: image || 'default.jpg', chapters: [] });
         saveData();
         renderKomikGrid();
         if (isOwner()) renderNovelList();
@@ -496,9 +845,7 @@
             const newId = novel.chapters.length > 0 ? Math.max(...novel.chapters.map(c => c.id)) + 1 : 1;
             novel.chapters.push({ id: newId, title: title, content: content });
             saveData();
-            if (currentKomik && currentKomik.id == novelId) {
-                renderChapterList();
-            }
+            if (currentKomik && currentKomik.id == novelId) renderChapterList();
             if (isOwner()) renderNovelList();
         }
         return true;
@@ -513,9 +860,7 @@
                 chapter.title = title;
                 chapter.content = content;
                 saveData();
-                if (currentKomik && currentKomik.id == novelId) {
-                    renderChapterList();
-                }
+                if (currentKomik && currentKomik.id == novelId) renderChapterList();
             }
         }
         return true;
@@ -527,9 +872,7 @@
         if (novel) {
             novel.chapters = novel.chapters.filter(c => c.id != chapterId);
             saveData();
-            if (currentKomik && currentKomik.id == novelId) {
-                renderChapterList();
-            }
+            if (currentKomik && currentKomik.id == novelId) renderChapterList();
             if (isOwner()) renderNovelList();
         }
         return true;
@@ -542,11 +885,11 @@
         grid.innerHTML = komikData.map(komik => `
             <div class="komik-card" onclick="selectKomik(${komik.id})">
                 <div class="komik-image">
-                    <img src="${komik.image}" alt="${komik.title}" onerror="this.src='https://placehold.co/300x200/2a2a2a/b87c4f?text=Novel'">
+                    <img src="${komik.image}" alt="${komik.title}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Novel'">
                 </div>
                 <div class="komik-info">
                     <div class="komik-title">${komik.title}</div>
-                    <div class="komik-desc">${komik.description.substring(0, 60)}${komik.description.length > 60 ? '...' : ''}</div>
+                    <div class="komik-desc">${komik.description.substring(0, 80)}${komik.description.length > 80 ? '...' : ''}</div>
                 </div>
             </div>
         `).join('');
@@ -580,24 +923,9 @@
         if (!currentChapter) return;
         
         const comments = loadComments(currentKomik.id, chapterId);
-        let commentsHtml = '';
-        if (comments.length > 0) {
-            commentsHtml = comments.map(c => `
-                <div class="comment">
-                    <div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div>
-                    <div class="comment-text">${c.text}</div>
-                </div>
-            `).join('');
-        } else {
-            commentsHtml = '<p style="opacity:0.6;">Belum ada komentar.</p>';
-        }
+        let commentsHtml = comments.length > 0 ? comments.map(c => `<div class="comment"><div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div><div class="comment-text">${c.text}</div></div>`).join('') : '<p style="opacity:0.6;">Belum ada komentar.</p>';
         
-        let commentInputHtml = '';
-        if (currentUser) {
-            commentInputHtml = `<div class="comment-input"><textarea id="commentText" rows="2" placeholder="Tulis komentar..."></textarea><button id="submitCommentBtn">Kirim</button></div>`;
-        } else {
-            commentInputHtml = `<div class="login-to-comment">🔐 <a id="loginToCommentBtn">Login</a> untuk berkomentar</div>`;
-        }
+        let commentInputHtml = currentUser ? `<div class="comment-input"><textarea id="commentText" rows="2" placeholder="Tulis komentar..."></textarea><button id="submitCommentBtn">Kirim</button></div>` : `<div class="login-to-comment">🔐 <a id="loginToCommentBtn">Login</a> untuk berkomentar</div>`;
         
         const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
         const prevChapter = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
@@ -712,7 +1040,7 @@
         if (!isOwner()) return;
         const container = document.getElementById('novelListContainer');
         container.innerHTML = komikData.map(novel => `
-            <div class="novel-list-item">
+            <div class="novel-item">
                 <div><strong>${novel.title}</strong> (${novel.chapters.length} bab)</div>
                 <div>
                     <button class="edit-novel-btn" onclick="editNovel(${novel.id})">✏️ Edit</button>
@@ -733,9 +1061,7 @@
     }
 
     window.deleteNovelConfirm = function(novelId) {
-        if (confirm('Hapus novel ini? Semua bab akan hilang!')) {
-            deleteNovel(novelId);
-        }
+        if (confirm('Hapus novel ini? Semua bab akan hilang!')) deleteNovel(novelId);
     }
 
     // ==================== MODAL AUTH ====================
@@ -747,19 +1073,19 @@
         container.innerHTML = tab === 'login' ? loginForm : registerForm;
         modal.classList.add('active');
         if (tab === 'login') {
-            document.getElementById('doLoginBtn')?.onclick = () => {
+            document.getElementById('doLoginBtn').onclick = () => {
                 const result = login(document.getElementById('loginUsername').value, document.getElementById('loginPassword').value);
                 document.getElementById('loginMessage').textContent = result.message;
                 if (result.success) setTimeout(() => { modal.classList.remove('active'); location.reload(); }, 1000);
             };
-            document.getElementById('toRegister')?.onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
+            document.getElementById('toRegister').onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
         } else {
-            document.getElementById('doRegisterBtn')?.onclick = () => {
+            document.getElementById('doRegisterBtn').onclick = () => {
                 const result = register(document.getElementById('regUsername').value, document.getElementById('regPassword').value, 'user');
                 document.getElementById('registerMessage').textContent = result.message;
                 if (result.success) setTimeout(() => openAuthModal('login'), 1500);
             };
-            document.getElementById('toLogin')?.onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
+            document.getElementById('toLogin').onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
         }
     }
 
@@ -809,11 +1135,8 @@
         document.getElementById('saveChapterBtn')?.addEventListener('click', () => {
             const title = document.getElementById('chapterTitleInput').value;
             const content = `<p>${document.getElementById('chapterContentInput').value.replace(/\n/g, '</p><p>')}</p><em>— Bab selesai —</em>`;
-            if (editingChapterId) {
-                updateChapter(currentKomik.id, editingChapterId, title, content);
-            } else {
-                addChapter(currentKomik.id, title, content);
-            }
+            if (editingChapterId) updateChapter(currentKomik.id, editingChapterId, title, content);
+            else addChapter(currentKomik.id, title, content);
             document.getElementById('chapterModal').classList.remove('active');
             if (currentKomik) renderChapterList();
         });
@@ -830,9 +1153,7 @@
                 updateNovel(editingNovelId, title, desc, image);
                 editingNovelId = null;
                 document.getElementById('createNovelBtn').textContent = '+ Buat Novel';
-            } else {
-                createNovel(title, desc, image);
-            }
+            } else createNovel(title, desc, image);
             document.getElementById('newNovelTitle').value = '';
             document.getElementById('newNovelDesc').value = '';
             document.getElementById('newNovelImage').value = '';
