@@ -7,8 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Light Mode (Default) */
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: #f5f5f0;
@@ -16,20 +14,16 @@
             line-height: 1.6;
             transition: all 0.3s ease;
         }
-        
-        /* Dark Mode */
         body.dark {
             background: #0a0a0a;
             color: #e0e0e0;
         }
-        
         body.dark .header { background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%); border-bottom-color: #b87c4f; }
         body.dark .hero { background: linear-gradient(135deg, #1a1a1a, #0f0f0f); }
         body.dark .komik-card, body.dark .chapter-card, body.dark .reading-content, body.dark .modal-content { background: #1a1a1a; border-color: #2a2a2a; }
         body.dark .comment { background: #2a2a2a; }
         body.dark .comment-input textarea, body.dark .modal-content input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
         body.dark .footer { border-top-color: #2a2a2a; }
-        
         .header {
             background: linear-gradient(135deg, #e8e0d5 0%, #f0ebe4 100%);
             padding: 1rem 2rem;
@@ -47,7 +41,7 @@
         .logo p { font-size: 0.7rem; opacity: 0.7; }
         .right-area { display: flex; gap: 0.5rem; align-items: center; }
         .icon-btn {
-            background: #2a2a2a;
+            background: #b87c4f;
             border: none;
             color: white;
             width: 40px;
@@ -57,7 +51,6 @@
             font-size: 1.2rem;
             transition: 0.3s;
         }
-        body:not(.dark) .icon-btn { background: #b87c4f; color: white; }
         .icon-btn:hover { opacity: 0.8; transform: scale(1.05); }
         .user-dropdown {
             position: absolute;
@@ -65,10 +58,11 @@
             right: 20px;
             background: white;
             border-radius: 16px;
-            min-width: 180px;
+            min-width: 200px;
             display: none;
             z-index: 200;
             border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         body.dark .user-dropdown { background: #1a1a1a; border-color: #2a2a2a; }
         .user-dropdown.active { display: block; }
@@ -112,7 +106,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         .komik-card:hover { transform: translateY(-5px); border-color: #b87c4f; }
-        .komik-image { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .komik-image { width: 100%; height: 200px; background: #2a2a2a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .komik-image img { width: 100%; height: 100%; object-fit: cover; }
         .komik-info { padding: 1rem; }
         .komik-title { font-size: 1.2rem; font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
@@ -200,12 +194,13 @@
             background: white;
             padding: 2rem;
             border-radius: 24px;
-            max-width: 500px;
+            max-width: 400px;
             width: 90%;
             border: 1px solid #b87c4f;
         }
+        body.dark .modal-content { background: #1a1a1a; }
         .modal-content h3 { color: #b87c4f; margin-bottom: 1rem; text-align: center; }
-        .modal-content input, .modal-content select {
+        .modal-content input {
             width: 100%;
             padding: 0.8rem;
             margin-bottom: 1rem;
@@ -214,6 +209,7 @@
             border-radius: 12px;
             font-family: inherit;
         }
+        body.dark .modal-content input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
         .modal-content button {
             background: #b87c4f;
             border: none;
@@ -428,16 +424,10 @@
     }
 
     function getRoleBadges(role) {
-        let badges = '';
-        if (role === 'owner') badges = '<span class="role-badge role-owner">👑 Owner</span><span class="role-badge role-writer">✍️ Penulis</span><span class="role-badge role-dev">💻 Developer</span>';
-        else if (role === 'admin') badges = '<span class="role-badge role-admin">⭐ Admin</span>';
-        else if (role === 'writer') badges = '<span class="role-badge role-writer">✍️ Penulis</span>';
-        else badges = '<span class="role-badge" style="background:#666;">📖 Pembaca</span>';
-        return badges;
-    }
-
-    function isOwner() {
-        return currentUserRole === 'owner';
+        if (role === 'owner') return '<span class="role-badge role-owner">👑 Owner</span><span class="role-badge role-writer">✍️ Penulis</span><span class="role-badge role-dev">💻 Developer</span>';
+        if (role === 'admin') return '<span class="role-badge role-admin">⭐ Admin</span>';
+        if (role === 'writer') return '<span class="role-badge role-writer">✍️ Penulis</span>';
+        return '<span class="role-badge" style="background:#666;">📖 Pembaca</span>';
     }
 
     function isAdmin() {
@@ -471,7 +461,7 @@
         `).join('');
     }
 
-    async function updateUserRole(userId, username) {
+    window.updateUserRole = async function(userId, username) {
         const select = document.getElementById(`role-${userId}`);
         const newRole = select.value;
         
@@ -541,7 +531,7 @@
         `).join('');
     }
 
-    function selectKomik(komikId) {
+    window.selectKomik = function(komikId) {
         if (!currentUser) { openAuthModal('login'); return; }
         currentKomik = komikData.find(k => k.id === komikId);
         if (!currentKomik) return;
@@ -561,7 +551,7 @@
         `).join('');
     }
 
-    async function openChapter(chapterId) {
+    window.openChapter = async function(chapterId) {
         if (!currentUser) { openAuthModal('login'); return; }
         currentChapter = currentKomik.chapters.find(ch => ch.id === chapterId);
         if (!currentChapter) return;
@@ -641,21 +631,45 @@
         const modal = document.getElementById('authModal');
         const container = document.getElementById('modalFormContainer');
         container.innerHTML = '';
-        const loginForm = `<h3>🔐 Login</h3><input type="text" id="modalUsername" placeholder="Username"><input type="password" id="modalPassword" placeholder="Password"><button id="modalLoginBtn">Login</button><div class="auth-switch">Belum punya akun? <a id="switchToRegister">Daftar di sini</a></div><div id="modalMessage" class="auth-message"></div>`;
-        const registerForm = `<h3>📝 Daftar Akun Baru</h3><input type="text" id="modalRegUsername" placeholder="Username (min 3 karakter)"><input type="password" id="modalRegPassword" placeholder="Password (min 4 karakter)"><button id="modalRegisterBtn">Daftar</button><div class="auth-switch">Sudah punya akun? <a id="switchToLogin">Login di sini</a></div><div id="modalMessage" class="auth-message"></div>`;
+        
+        const loginForm = `
+            <h3>🔐 Login</h3>
+            <input type="text" id="modalUsername" placeholder="Username">
+            <input type="password" id="modalPassword" placeholder="Password">
+            <button id="modalLoginBtn">Login</button>
+            <div class="auth-switch">Belum punya akun? <a id="switchToRegister">Daftar di sini</a></div>
+            <div id="modalMessage" class="auth-message"></div>
+        `;
+        
+        const registerForm = `
+            <h3>📝 Daftar Akun Baru</h3>
+            <input type="text" id="modalRegUsername" placeholder="Username (min 3 karakter)">
+            <input type="password" id="modalRegPassword" placeholder="Password (min 4 karakter)">
+            <button id="modalRegisterBtn">Daftar</button>
+            <div class="auth-switch">Sudah punya akun? <a id="switchToLogin">Login di sini</a></div>
+            <div id="modalMessage" class="auth-message"></div>
+        `;
+        
         container.innerHTML = tab === 'login' ? loginForm : registerForm;
         modal.classList.add('active');
+        
         if (tab === 'login') {
             document.getElementById('modalLoginBtn')?.addEventListener('click', async () => {
-                const result = await login(document.getElementById('modalUsername').value, document.getElementById('modalPassword').value);
+                const username = document.getElementById('modalUsername').value;
+                const password = document.getElementById('modalPassword').value;
+                const result = await login(username, password);
                 const msg = document.getElementById('modalMessage');
                 msg.textContent = result.message;
-                if (result.success) setTimeout(() => { modal.classList.remove('active'); location.reload(); }, 1000);
+                if (result.success) {
+                    setTimeout(() => { modal.classList.remove('active'); location.reload(); }, 1000);
+                }
             });
             document.getElementById('switchToRegister')?.addEventListener('click', (e) => { e.preventDefault(); openAuthModal('register'); });
         } else {
             document.getElementById('modalRegisterBtn')?.addEventListener('click', async () => {
-                const result = await register(document.getElementById('modalRegUsername').value, document.getElementById('modalRegPassword').value);
+                const username = document.getElementById('modalRegUsername').value;
+                const password = document.getElementById('modalRegPassword').value;
+                const result = await register(username, password);
                 const msg = document.getElementById('modalMessage');
                 msg.textContent = result.message;
                 if (result.success) setTimeout(() => openAuthModal('login'), 1500);
@@ -694,19 +708,38 @@
     // ==================== INIT ====================
     function init() {
         renderKomikGrid();
+        
         document.getElementById('backToHomeBtn')?.addEventListener('click', showHomePage);
         document.getElementById('backToChaptersBtn')?.addEventListener('click', showChaptersPage);
         document.getElementById('backToHomeFromAdminBtn')?.addEventListener('click', showHomePage);
+        
         const accountBtn = document.getElementById('accountBtn');
         const dropdown = document.getElementById('userDropdown');
-        if (accountBtn) accountBtn.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); };
-        document.onclick = () => dropdown?.classList.remove('active');
+        if (accountBtn) {
+            accountBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('active');
+            });
+        }
+        document.addEventListener('click', () => {
+            dropdown.classList.remove('active');
+        });
+        
         const modal = document.getElementById('authModal');
-        document.getElementById('closeModalBtn')?.addEventListener('click', () => modal.classList.remove('active'));
-        modal?.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+        const closeBtn = document.getElementById('closeModalBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+        }
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        }
+        
         updateUserDropdown();
         initTheme();
     }
+    
     init();
 </script>
 </body>
