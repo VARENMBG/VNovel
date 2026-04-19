@@ -3,44 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>VNovel | Baca Novel & Komik Online</title>
+    <title>VNovel - Baca Novel & Komik Online</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background: #f5f5f0;
-            color: #1a1a1a;
-            line-height: 1.6;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f0e8;
+            color: #2c2c2c;
             transition: all 0.3s ease;
         }
+
         body.dark {
-            background: #0a0a0a;
+            background: #121212;
             color: #e0e0e0;
         }
-        body.dark .header { background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%); border-bottom-color: #b87c4f; }
-        body.dark .hero { background: linear-gradient(135deg, #1a1a1a, #0f0f0f); }
-        body.dark .komik-card, body.dark .chapter-card, body.dark .reading-content, body.dark .modal-content { background: #1a1a1a; border-color: #2a2a2a; }
-        body.dark .comment { background: #2a2a2a; }
-        body.dark .comment-input textarea, body.dark .modal-content input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
-        body.dark .footer { border-top-color: #2a2a2a; }
-        
+
+        body.dark .header,
+        body.dark .hero,
+        body.dark .komik-card,
+        body.dark .chapter-card,
+        body.dark .reading-content,
+        body.dark .modal-content {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
         .header {
-            background: linear-gradient(135deg, #e8e0d5 0%, #f0ebe4 100%);
+            background: white;
             padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid #b87c4f;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 2px solid #b87c4f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             flex-wrap: wrap;
             gap: 1rem;
         }
-        .logo h1 { font-size: 1.8rem; color: #b87c4f; letter-spacing: 1px; }
-        .logo p { font-size: 0.7rem; opacity: 0.7; }
-        .right-area { display: flex; gap: 0.5rem; align-items: center; }
+
+        .logo h1 {
+            color: #b87c4f;
+            font-size: 1.5rem;
+        }
+
+        .logo p {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .right-area {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
         .icon-btn {
             background: #b87c4f;
             border: none;
@@ -50,12 +72,14 @@
             border-radius: 50%;
             cursor: pointer;
             font-size: 1.2rem;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: 0.2s;
         }
-        .icon-btn:hover { opacity: 0.8; transform: scale(1.05); }
+
+        .icon-btn:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
         .user-dropdown {
             position: absolute;
             top: 70px;
@@ -68,41 +92,89 @@
             border: 1px solid #ddd;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        body.dark .user-dropdown { background: #1a1a1a; border-color: #2a2a2a; }
-        .user-dropdown.active { display: block; }
+
+        body.dark .user-dropdown {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
         .user-dropdown a {
             display: block;
             padding: 0.8rem 1rem;
-            color: #1a1a1a;
+            color: #2c2c2c;
             text-decoration: none;
             cursor: pointer;
         }
-        body.dark .user-dropdown a { color: white; }
-        .user-dropdown a:hover { background: #f0ebe4; }
-        body.dark .user-dropdown a:hover { background: #2a2a2a; }
-        .user-dropdown .user-name { color: #b87c4f; border-bottom: 1px solid #eee; font-weight: bold; }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
+
+        body.dark .user-dropdown a {
+            color: #e0e0e0;
+        }
+
+        .user-dropdown a:hover {
+            background: #f0ebe4;
+        }
+
+        body.dark .user-dropdown a:hover {
+            background: #2a2a2a;
+        }
+
+        .user-dropdown .user-name {
+            color: #b87c4f;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .hero {
             text-align: center;
-            padding: 3rem 1rem;
-            background: linear-gradient(135deg, #e8e0d5, #f0ebe4);
+            padding: 3rem;
+            background: white;
             border-radius: 24px;
             margin-bottom: 2rem;
         }
-        .hero h1 { font-size: 2.5rem; color: #b87c4f; margin-bottom: 1rem; }
-        .hero p { font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
-        
+
+        .hero h1 {
+            font-size: 2rem;
+            color: #b87c4f;
+            margin-bottom: 1rem;
+        }
+
         .komik-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
         }
+
         .komik-card {
             background: white;
             border-radius: 16px;
@@ -110,21 +182,52 @@
             cursor: pointer;
             transition: 0.3s;
             border: 1px solid #e0d5c8;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .komik-card:hover { transform: translateY(-5px); border-color: #b87c4f; }
-        .komik-image { width: 100%; height: 200px; background: #2a2a2a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .komik-image img { width: 100%; height: 100%; object-fit: cover; }
-        .komik-info { padding: 1rem; }
-        .komik-title { font-size: 1.2rem; font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
-        .komik-desc { font-size: 0.8rem; opacity: 0.7; }
-        
+
+        .komik-card:hover {
+            transform: translateY(-5px);
+            border-color: #b87c4f;
+        }
+
+        .komik-image {
+            width: 100%;
+            height: 200px;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .komik-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .komik-info {
+            padding: 1rem;
+        }
+
+        .komik-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #b87c4f;
+        }
+
+        .komik-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+
         .chapter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 0.8rem;
             margin-top: 1.5rem;
         }
+
         .chapter-card {
             background: white;
             border-radius: 12px;
@@ -134,15 +237,49 @@
             transition: 0.3s;
             border: 1px solid #e0d5c8;
         }
-        .chapter-card:hover { border-color: #b87c4f; background: #faf7f2; }
-        .chapter-num { color: #b87c4f; font-size: 0.8rem; font-weight: bold; }
-        .chapter-title { font-size: 0.9rem; margin-top: 0.3rem; }
-        
-        .reading-content { background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .reading-title { font-size: 2rem; color: #b87c4f; border-left: 4px solid #b87c4f; padding-left: 1rem; margin-bottom: 1.5rem; }
-        .reading-text p { margin-bottom: 1.5rem; text-indent: 2em; }
-        
-        .nav-chapter { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
+
+        .chapter-card:hover {
+            border-color: #b87c4f;
+            background: #faf7f2;
+        }
+
+        .chapter-num {
+            color: #b87c4f;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .chapter-title {
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        .reading-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .reading-title {
+            font-size: 1.8rem;
+            color: #b87c4f;
+            border-left: 4px solid #b87c4f;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .reading-text p {
+            margin-bottom: 1rem;
+            text-indent: 2em;
+        }
+
+        .nav-chapter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
         .nav-chapter button {
             background: #2a2a2a;
             border: none;
@@ -150,41 +287,92 @@
             padding: 0.6rem 1.2rem;
             border-radius: 30px;
             cursor: pointer;
-            transition: 0.3s;
         }
-        .nav-chapter button:hover:not(:disabled) { background: #b87c4f; }
-        .nav-chapter button:disabled { opacity: 0.4; cursor: not-allowed; }
-        
-        .comment-section { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; }
-        .comment-section h4 { color: #b87c4f; margin-bottom: 1rem; }
-        .comment-input { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+
+        .nav-chapter button:hover:not(:disabled) {
+            background: #b87c4f;
+        }
+
+        .nav-chapter button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .comment-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .comment-section h4 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
         .comment-input textarea {
             flex: 1;
             padding: 0.8rem;
-            background: #f5f5f0;
+            background: #f5f0e8;
             border: 1px solid #ddd;
             border-radius: 16px;
             font-family: inherit;
             resize: vertical;
         }
+
+        body.dark .comment-input textarea {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
         .comment-input button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1.5rem;
             border-radius: 30px;
             cursor: pointer;
         }
+
         .comment {
-            background: #f5f5f0;
+            background: #f5f0e8;
             padding: 1rem;
             border-radius: 16px;
             margin-bottom: 0.8rem;
         }
-        .comment-user { font-weight: bold; color: #b87c4f; margin-bottom: 0.3rem; }
-        .comment-date { font-size: 0.7rem; opacity: 0.6; margin-left: 0.5rem; }
-        .admin-badge { background: #b87c4f; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; margin-left: 0.5rem; }
-        
+
+        body.dark .comment {
+            background: #2a2a2a;
+        }
+
+        .comment-user {
+            font-weight: bold;
+            color: #b87c4f;
+            margin-bottom: 0.3rem;
+        }
+
+        .comment-date {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            margin-left: 0.5rem;
+        }
+
+        .admin-badge {
+            background: #b87c4f;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -192,32 +380,46 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
-        .modal.active { display: flex; }
+
+        .modal.active {
+            display: flex;
+        }
+
         .modal-content {
             background: white;
             padding: 2rem;
             border-radius: 24px;
-            max-width: 400px;
+            max-width: 350px;
             width: 90%;
             position: relative;
         }
-        body.dark .modal-content { background: #1a1a1a; }
-        .modal-content h3 { color: #b87c4f; margin-bottom: 1rem; text-align: center; }
+
+        .modal-content h3 {
+            color: #b87c4f;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
         .modal-content input {
             width: 100%;
             padding: 0.8rem;
             margin-bottom: 1rem;
-            background: #f5f5f0;
             border: 1px solid #ddd;
             border-radius: 12px;
             font-family: inherit;
         }
-        body.dark .modal-content input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
+
+        body.dark .modal-content input {
+            background: #2a2a2a;
+            border-color: #444;
+            color: white;
+        }
+
         .modal-content button {
             background: #b87c4f;
             border: none;
@@ -228,22 +430,36 @@
             width: 100%;
             font-size: 1rem;
         }
+
         .close-modal {
             position: absolute;
             top: 0.5rem;
             right: 0.8rem;
             background: none;
             border: none;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
             color: #999;
-            width: auto;
         }
-        .close-modal:hover { color: #b87c4f; }
-        .auth-switch { text-align: center; margin-top: 1rem; font-size: 0.8rem; }
-        .auth-switch a { color: #b87c4f; cursor: pointer; text-decoration: none; }
-        .auth-message { margin-top: 0.5rem; font-size: 0.8rem; text-align: center; }
-        
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .auth-switch a {
+            color: #b87c4f;
+            cursor: pointer;
+        }
+
+        .auth-message {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #b87c4f;
+        }
+
         .back-btn {
             background: #2a2a2a;
             border: none;
@@ -252,17 +468,27 @@
             border-radius: 30px;
             cursor: pointer;
             margin-bottom: 1rem;
-            display: inline-block;
         }
-        .back-btn:hover { background: #b87c4f; }
-        
-        .footer { text-align: center; padding: 2rem; border-top: 1px solid #ddd; font-size: 0.8rem; opacity: 0.7; }
-        
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #ddd;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
         @media (max-width: 600px) {
-            .header { flex-direction: column; text-align: center; }
-            .komik-grid { grid-template-columns: 1fr; }
-            .reading-title { font-size: 1.5rem; }
-            .logo h1 { font-size: 1.4rem; }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .komik-grid {
+                grid-template-columns: 1fr;
+            }
+            .reading-title {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -286,7 +512,7 @@
     <div id="home" class="page active">
         <div class="hero">
             <h1>✨ Selamat Datang di VNovel ✨</h1>
-            <p>Baca novel dan komik favoritmu gratis! Login dulu ya sebelum baca.</p>
+            <p>Baca novel favoritmu gratis! Login dulu ya sebelum baca.</p>
         </div>
         <div class="komik-grid" id="komikGrid"></div>
     </div>
@@ -315,83 +541,56 @@
 </div>
 
 <script>
-    // ==================== JSONBIN.IO CONFIG ====================
-    const JSONBIN_API_KEY = '$2a$10$YGt9SVEtH/qZp0.V/T8dMelv0c4kSSeetnPMBJFV4g43t5Mzmtwqi';
-    const JSONBIN_BIN_ID = '69e4ab0b856a6821894d4efb';
-    
-    // ==================== DATA KOMIK ====================
+    // ==================== KONFIGURASI ====================
+    // Data komik (25 chapter)
     const komikData = [
         {
             id: 1,
             title: "Archeon: The End Before Beginning",
             description: "Seorang anak yang lahir tanpa mana, tapi menyimpan kekuatan yang bahkan para dewa takut membangunkannya.",
             image: "archeonn.jpg",
-            chapters: Array.from({ length: 25 }, (_, i) => ({
-                id: i + 1,
-                title: `Bab ${i + 1}`,
-                content: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. <em>— Bab ${i + 1} selesai —</em></p>`
-            }))
+            chapters: []
         }
     ];
 
-    // ==================== GLOBAL VARIABLES ====================
+    // Generate 25 chapter
+    for (let i = 1; i <= 25; i++) {
+        komikData[0].chapters.push({
+            id: i,
+            title: `Bab ${i}`,
+            content: `<p>Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <em>— Bab ${i} selesai —</em></p>`
+        });
+    }
+
+    // ==================== LOGIN SYSTEM (LocalStorage) ====================
     let currentUser = localStorage.getItem('currentUser') || null;
-    let currentKomik = null;
-    let currentChapter = null;
 
-    // ==================== JSONBIN.IO FUNCTIONS ====================
-    async function loadData() {
-        try {
-            const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                headers: { 'X-Master-Key': JSONBIN_API_KEY }
-            });
-            const data = await response.json();
-            return data.record || { users: {}, comments: {} };
-        } catch (e) {
-            console.error('Gagal load data:', e);
-            return { users: {}, comments: {} };
-        }
+    function loadUsers() {
+        const users = localStorage.getItem('users');
+        if (users) return JSON.parse(users);
+        const defaultUsers = { 'Varen': { password: 'farelgg1211', role: 'owner' } };
+        saveUsers(defaultUsers);
+        return defaultUsers;
     }
 
-    async function saveData(data) {
-        try {
-            await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': JSONBIN_API_KEY
-                },
-                body: JSON.stringify(data)
-            });
-            return true;
-        } catch (e) {
-            console.error('Gagal save data:', e);
-            return false;
-        }
+    function saveUsers(users) {
+        localStorage.setItem('users', JSON.stringify(users));
     }
 
-    // ==================== AUTH FUNCTIONS ====================
-    async function register(username, password) {
+    function register(username, password) {
+        const users = loadUsers();
+        if (users[username]) return { success: false, message: 'Username sudah digunakan!' };
         if (username.length < 3) return { success: false, message: 'Username minimal 3 karakter!' };
         if (password.length < 4) return { success: false, message: 'Password minimal 4 karakter!' };
         
-        const data = await loadData();
-        if (data.users[username]) return { success: false, message: 'Username sudah digunakan!' };
-        
-        data.users[username] = { 
-            password: password, 
-            role: username === 'Varen' ? 'owner' : 'user',
-            createdAt: new Date().toISOString()
-        };
-        
-        await saveData(data);
+        users[username] = { password: password, role: 'user' };
+        saveUsers(users);
         return { success: true, message: 'Registrasi berhasil! Silakan login.' };
     }
 
-    async function login(username, password) {
-        const data = await loadData();
-        const user = data.users[username];
-        
+    function login(username, password) {
+        const users = loadUsers();
+        const user = users[username];
         if (!user) return { success: false, message: 'Username tidak ditemukan!' };
         if (user.password !== password) return { success: false, message: 'Password salah!' };
         
@@ -408,41 +607,9 @@
         showHomePage();
     }
 
-    async function isAdmin() {
-        if (!currentUser) return false;
-        const data = await loadData();
-        return data.users[currentUser]?.role === 'owner';
-    }
-
-    async function getRoleBadge(username) {
-        const data = await loadData();
-        const role = data.users[username]?.role;
-        if (role === 'owner') return '<span class="admin-badge">👑 Owner ✍️ Penulis 💻 Dev</span>';
-        return '';
-    }
-
-    // ==================== COMMENTS FUNCTIONS ====================
-    async function addComment(komikId, chapterId, content) {
-        if (!currentUser || !content.trim()) return false;
-        
-        const data = await loadData();
-        const key = `${komikId}_${chapterId}`;
-        if (!data.comments[key]) data.comments[key] = [];
-        
-        data.comments[key].push({
-            id: Date.now(),
-            user: currentUser,
-            text: content.trim(),
-            date: new Date().toLocaleString()
-        });
-        
-        return await saveData(data);
-    }
-
-    async function getComments(komikId, chapterId) {
-        const data = await loadData();
-        const key = `${komikId}_${chapterId}`;
-        return data.comments[key] || [];
+    function isAdmin() {
+        const users = loadUsers();
+        return users[currentUser]?.role === 'owner';
     }
 
     // ==================== UI FUNCTIONS ====================
@@ -453,18 +620,21 @@
         grid.innerHTML = komikData.map(komik => `
             <div class="komik-card" onclick="selectKomik(${komik.id})">
                 <div class="komik-image">
-                    <img src="${komik.image}" alt="${komik.title}" onerror="this.src='https://placehold.co/300x200/2a2a2a/b87c4f?text=${encodeURIComponent(komik.title.substring(0,20))}'">
+                    <img src="${komik.image}" alt="${komik.title}" onerror="this.src='https://placehold.co/300x200/2a2a2a/b87c4f?text=Archeon'">
                 </div>
                 <div class="komik-info">
                     <div class="komik-title">${komik.title}</div>
-                    <div class="komik-desc">${komik.description.substring(0, 80)}${komik.description.length > 80 ? '...' : ''}</div>
+                    <div class="komik-desc">${komik.description}</div>
                 </div>
             </div>
         `).join('');
     }
 
     window.selectKomik = function(komikId) {
-        if (!currentUser) { openAuthModal('login'); return; }
+        if (!currentUser) {
+            openAuthModal('login');
+            return;
+        }
         currentKomik = komikData.find(k => k.id === komikId);
         if (!currentKomik) return;
         document.getElementById('komikTitle').innerHTML = `📖 ${currentKomik.title}`;
@@ -475,6 +645,7 @@
     function renderChapterList() {
         const container = document.getElementById('chapter-list-container');
         if (!container || !currentKomik) return;
+        
         container.innerHTML = currentKomik.chapters.map(ch => `
             <div class="chapter-card" onclick="openChapter(${ch.id})">
                 <div class="chapter-num">Bab ${ch.id}</div>
@@ -483,25 +654,31 @@
         `).join('');
     }
 
-    window.openChapter = async function(chapterId) {
-        if (!currentUser) { openAuthModal('login'); return; }
+    let currentKomik = null;
+    let currentChapter = null;
+
+    window.openChapter = function(chapterId) {
+        if (!currentUser) {
+            openAuthModal('login');
+            return;
+        }
         currentChapter = currentKomik.chapters.find(ch => ch.id === chapterId);
         if (!currentChapter) return;
         
-        const comments = await getComments(currentKomik.id, chapterId);
+        // Load komentar dari localStorage
+        const comments = loadComments(currentKomik.id, chapterId);
         
         let commentsHtml = '';
         if (comments.length > 0) {
-            for (const c of comments) {
-                const badge = await getRoleBadge(c.user);
-                commentsHtml += `
-                    <div class="comment">
-                        <div class="comment-user">${c.user} ${badge}<span class="comment-date">${c.date}</span></div>
-                        <div class="comment-text">${c.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
-                    </div>
-                `;
-            }
-        } else { commentsHtml = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>'; }
+            commentsHtml = comments.map(c => `
+                <div class="comment">
+                    <div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div>
+                    <div class="comment-text">${c.text}</div>
+                </div>
+            `).join('');
+        } else {
+            commentsHtml = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
+        }
         
         const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
         const prevChapter = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
@@ -521,22 +698,52 @@
                     <div id="commentsList">${commentsHtml}</div>
                     <div class="comment-input">
                         <textarea id="commentText" rows="2" placeholder="Tulis komentar..."></textarea>
-                        <button id="submitCommentBtn">Kirim</button>
+                        <button id="submitCommentBtn">Kirim Komentar</button>
                     </div>
                 </div>
             </div>
         `;
         
-        document.getElementById('prevChapterBtn')?.onclick = () => { if (prevChapter) openChapter(prevChapter.id); };
-        document.getElementById('nextChapterBtn')?.onclick = () => { if (nextChapter) openChapter(nextChapter.id); };
-        document.getElementById('submitCommentBtn')?.onclick = async () => {
+        document.getElementById('prevChapterBtn')?.addEventListener('click', () => {
+            if (prevChapter) openChapter(prevChapter.id);
+        });
+        document.getElementById('nextChapterBtn')?.addEventListener('click', () => {
+            if (nextChapter) openChapter(nextChapter.id);
+        });
+        document.getElementById('submitCommentBtn')?.addEventListener('click', () => {
             const text = document.getElementById('commentText').value;
-            if (await addComment(currentKomik.id, chapterId, text)) {
+            if (addComment(currentKomik.id, chapterId, text)) {
                 document.getElementById('commentText').value = '';
                 openChapter(chapterId);
             }
-        };
+        });
         showReadingPage();
+    }
+
+    // ==================== KOMENTAR (LocalStorage) ====================
+    function loadComments(komikId, chapterId) {
+        const key = `comments_${komikId}_${chapterId}`;
+        const comments = localStorage.getItem(key);
+        return comments ? JSON.parse(comments) : [];
+    }
+
+    function saveComments(komikId, chapterId, comments) {
+        const key = `comments_${komikId}_${chapterId}`;
+        localStorage.setItem(key, JSON.stringify(comments));
+    }
+
+    function addComment(komikId, chapterId, text) {
+        if (!currentUser || !text.trim()) return false;
+        
+        const comments = loadComments(komikId, chapterId);
+        comments.push({
+            id: Date.now(),
+            user: currentUser,
+            text: text.trim(),
+            date: new Date().toLocaleString()
+        });
+        saveComments(komikId, chapterId, comments);
+        return true;
     }
 
     // ==================== PAGE NAVIGATION ====================
@@ -544,10 +751,12 @@
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('home').classList.add('active');
     }
+
     function showChaptersPage() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('chapters-page').classList.add('active');
     }
+
     function showReadingPage() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('reading-page').classList.add('active');
@@ -580,38 +789,38 @@
         modal.classList.add('active');
         
         if (tab === 'login') {
-            const loginBtn = document.getElementById('doLoginBtn');
-            if (loginBtn) {
-                loginBtn.onclick = async () => {
-                    const username = document.getElementById('loginUsername').value;
-                    const password = document.getElementById('loginPassword').value;
-                    const result = await login(username, password);
-                    const msgDiv = document.getElementById('loginMessage');
-                    msgDiv.textContent = result.message;
-                    if (result.success) {
-                        setTimeout(() => {
-                            modal.classList.remove('active');
-                            location.reload();
-                        }, 1000);
-                    }
-                };
-            }
-            const toRegister = document.getElementById('toRegister');
-            if (toRegister) toRegister.onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
+            document.getElementById('doLoginBtn')?.addEventListener('click', () => {
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+                const result = login(username, password);
+                const msg = document.getElementById('loginMessage');
+                msg.textContent = result.message;
+                if (result.success) {
+                    setTimeout(() => {
+                        modal.classList.remove('active');
+                        location.reload();
+                    }, 1000);
+                }
+            });
+            document.getElementById('toRegister')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                openAuthModal('register');
+            });
         } else {
-            const registerBtn = document.getElementById('doRegisterBtn');
-            if (registerBtn) {
-                registerBtn.onclick = async () => {
-                    const username = document.getElementById('regUsername').value;
-                    const password = document.getElementById('regPassword').value;
-                    const result = await register(username, password);
-                    const msgDiv = document.getElementById('registerMessage');
-                    msgDiv.textContent = result.message;
-                    if (result.success) setTimeout(() => openAuthModal('login'), 1500);
-                };
-            }
-            const toLogin = document.getElementById('toLogin');
-            if (toLogin) toLogin.onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
+            document.getElementById('doRegisterBtn')?.addEventListener('click', () => {
+                const username = document.getElementById('regUsername').value;
+                const password = document.getElementById('regPassword').value;
+                const result = register(username, password);
+                const msg = document.getElementById('registerMessage');
+                msg.textContent = result.message;
+                if (result.success) {
+                    setTimeout(() => openAuthModal('login'), 1500);
+                }
+            });
+            document.getElementById('toLogin')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                openAuthModal('login');
+            });
         }
     }
 
@@ -620,27 +829,25 @@
         if (!dropdown) return;
         if (currentUser) {
             dropdown.innerHTML = `<a class="user-name">👤 ${currentUser}</a><a id="dropdownLogout">🚪 Logout</a>`;
-            const logoutBtn = document.getElementById('dropdownLogout');
-            if (logoutBtn) logoutBtn.onclick = logout;
+            document.getElementById('dropdownLogout')?.addEventListener('click', logout);
         } else {
             dropdown.innerHTML = `<a id="dropdownLogin">🔐 Login / Daftar</a>`;
-            const loginBtn = document.getElementById('dropdownLogin');
-            if (loginBtn) loginBtn.onclick = () => openAuthModal('login');
+            document.getElementById('dropdownLogin')?.addEventListener('click', () => openAuthModal('login'));
         }
     }
 
-    // ==================== THEME TOGGLE ====================
+    // ==================== DARK MODE ====================
     function initTheme() {
         const theme = localStorage.getItem('theme') || 'light';
         if (theme === 'dark') document.body.classList.add('dark');
         const btn = document.getElementById('themeToggle');
         btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        btn.onclick = () => {
+        btn.addEventListener('click', () => {
             document.body.classList.toggle('dark');
             const isDark = document.body.classList.contains('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             btn.textContent = isDark ? '☀️' : '🌙';
-        };
+        });
     }
 
     // ==================== INIT ====================
@@ -652,18 +859,19 @@
         
         const accountBtn = document.getElementById('accountBtn');
         const dropdown = document.getElementById('userDropdown');
-        if (accountBtn) {
-            accountBtn.onclick = (e) => {
-                e.stopPropagation();
-                dropdown.classList.toggle('active');
-            };
-        }
-        document.onclick = () => { if (dropdown) dropdown.classList.remove('active'); };
+        accountBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', () => {
+            dropdown.classList.remove('active');
+        });
         
         const modal = document.getElementById('authModal');
-        const closeBtn = document.getElementById('closeModalBtn');
-        if (closeBtn) closeBtn.onclick = () => modal.classList.remove('active');
-        if (modal) modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+        document.getElementById('closeModalBtn')?.addEventListener('click', () => modal.classList.remove('active'));
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
         
         updateUserDropdown();
         initTheme();
