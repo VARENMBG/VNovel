@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VNovel - Archeon</title>
     <style>
         * {
@@ -12,332 +12,226 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             background: #f5f0e8;
-            color: #1a1a1a;
-            transition: all 0.3s;
+            color: #333;
+            padding: 20px;
         }
 
-        body.dark {
-            background: #121212;
-            color: #e0e0e0;
+        .dark {
+            background: #1a1a1a;
+            color: #eee;
         }
 
-        body.dark .header, body.dark .komik-card, body.dark .chapter-card, 
-        body.dark .reading-content, body.dark .modal-content {
-            background: #1e1e1e;
-            border-color: #333;
+        .dark .card, .dark .chapter-card, .dark .modal-content {
+            background: #2a2a2a;
+            color: #eee;
         }
 
-        /* HEADER */
+        /* Header */
         .header {
-            background: white;
-            padding: 0.8rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #b87c4f;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo h1 {
             color: #b87c4f;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
         }
 
-        .right-area {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .icon-btn {
+        .btn-icon {
             background: #b87c4f;
             border: none;
             color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+            padding: 8px 12px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem;
+            margin-left: 5px;
         }
 
-        .user-dropdown {
-            position: absolute;
-            top: 55px;
-            right: 10px;
-            background: white;
-            border-radius: 12px;
-            min-width: 150px;
-            display: none;
-            z-index: 200;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        body.dark .user-dropdown {
-            background: #1e1e1e;
-            border-color: #333;
-        }
-
-        .user-dropdown.active {
-            display: block;
-        }
-
-        .user-dropdown a {
-            display: block;
-            padding: 0.5rem 0.8rem;
-            color: #2c2c2c;
-            text-decoration: none;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        body.dark .user-dropdown a {
-            color: #e0e0e0;
-        }
-
-        .user-dropdown a:hover {
-            background: #f0ebe4;
-        }
-
-        body.dark .user-dropdown a:hover {
-            background: #2a2a2a;
-        }
-
-        .user-dropdown .user-name {
-            color: #b87c4f;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-            animation: fade 0.3s;
-        }
-
-        @keyframes fade {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* GRID KOMIK */
+        /* Card Novel */
         .komik-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
-        .komik-card {
+        .card {
             background: white;
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            border: 1px solid #e0d5c8;
+            width: 150px;
+            border: 1px solid #ddd;
             transition: 0.2s;
         }
 
-        .komik-card:hover {
+        .card:hover {
             transform: translateY(-3px);
-            border-color: #b87c4f;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* GAMBAR RASIO 2:3 */
-        .komik-image {
+        .card-image {
             width: 100%;
-            aspect-ratio: 2 / 3;
+            height: 225px;
             background: #2a2a2a;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
         }
 
-        .komik-image img {
+        .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .komik-info {
-            padding: 0.5rem;
+        .card-info {
+            padding: 8px;
         }
 
-        .komik-title {
-            font-size: 0.85rem;
+        .card-title {
             font-weight: bold;
+            font-size: 14px;
             color: #b87c4f;
         }
 
-        /* CHAPTER GRID */
+        /* Chapter Grid */
         .chapter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 0.7rem;
-            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .chapter-card {
             background: white;
+            padding: 10px;
             border-radius: 8px;
-            padding: 0.5rem;
             cursor: pointer;
             text-align: center;
-            border: 1px solid #e0d5c8;
+            width: 100px;
+            border: 1px solid #ddd;
         }
 
         .chapter-card:hover {
+            background: #f0ebe4;
             border-color: #b87c4f;
-            background: #faf7f2;
         }
 
         .chapter-num {
             color: #b87c4f;
-            font-size: 0.7rem;
+            font-size: 11px;
         }
 
         .chapter-title {
-            font-size: 0.7rem;
-            margin-top: 0.2rem;
+            font-size: 11px;
+            margin-top: 5px;
         }
 
-        /* READING PAGE */
-        .reading-content {
+        /* Reading */
+        .reading-box {
             background: white;
+            padding: 20px;
             border-radius: 12px;
-            padding: 1rem;
         }
 
         .reading-title {
-            font-size: 1.2rem;
+            font-size: 20px;
             color: #b87c4f;
             border-left: 3px solid #b87c4f;
-            padding-left: 0.5rem;
-            margin-bottom: 1rem;
+            padding-left: 10px;
+            margin-bottom: 15px;
         }
 
         .reading-text p {
-            margin-bottom: 0.8rem;
-            text-indent: 1.5em;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
             line-height: 1.6;
         }
 
         .nav-chapter {
             display: flex;
             justify-content: space-between;
-            margin-top: 1rem;
-            gap: 0.5rem;
+            margin-top: 20px;
+            gap: 10px;
         }
 
         .nav-chapter button {
-            background: #2a2a2a;
+            background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.4rem 0.8rem;
+            padding: 8px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.75rem;
             flex: 1;
-        }
-
-        .nav-chapter button:hover:not(:disabled) {
-            background: #b87c4f;
         }
 
         .nav-chapter button:disabled {
             opacity: 0.4;
-            cursor: not-allowed;
         }
 
-        /* KOMENTAR */
+        /* Komentar */
         .comment-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #ddd;
         }
 
-        .comment-section h4 {
+        .comment {
+            background: #f0ebe4;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .comment-user {
+            font-weight: bold;
             color: #b87c4f;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 12px;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            margin-top: 3px;
         }
 
         .comment-input {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.8rem;
+            gap: 8px;
+            margin-top: 10px;
         }
 
         .comment-input textarea {
             flex: 1;
-            padding: 0.5rem;
+            padding: 8px;
+            border-radius: 8px;
             border: 1px solid #ddd;
-            border-radius: 10px;
             font-family: inherit;
-            font-size: 0.8rem;
-            resize: vertical;
         }
 
         .comment-input button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
         }
 
-        .comment {
-            background: #f5f0e8;
-            padding: 0.5rem;
-            border-radius: 10px;
-            margin-bottom: 0.5rem;
-        }
-
-        body.dark .comment {
-            background: #2a2a2a;
-        }
-
-        .comment-user {
-            font-weight: bold;
-            color: #b87c4f;
-            font-size: 0.8rem;
-        }
-
-        .comment-date {
-            font-size: 0.6rem;
-            opacity: 0.6;
-        }
-
-        .comment-text {
-            font-size: 0.8rem;
-            margin-top: 0.2rem;
-        }
-
-        .login-to-comment {
+        .login-prompt {
             text-align: center;
-            padding: 0.8rem;
-            background: #f5f0e8;
-            border-radius: 10px;
-            font-size: 0.8rem;
+            padding: 10px;
+            background: #f0ebe4;
+            border-radius: 8px;
         }
 
-        .login-to-comment a {
-            color: #b87c4f;
-            cursor: pointer;
-        }
-
-        /* MODAL */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -345,86 +239,73 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
-        .modal.active {
+        .modal.show {
             display: flex;
         }
 
         .modal-content {
             background: white;
-            padding: 1.5rem;
+            padding: 20px;
             border-radius: 16px;
             width: 280px;
             text-align: center;
         }
 
-        .modal-content h3 {
-            color: #b87c4f;
-            margin-bottom: 1rem;
-        }
-
         .modal-content input {
             width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 0.8rem;
+            padding: 8px;
+            margin: 8px 0;
             border: 1px solid #ddd;
             border-radius: 8px;
-        }
-
-        body.dark .modal-content input {
-            background: #2a2a2a;
-            border-color: #444;
-            color: white;
         }
 
         .modal-content button {
             background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.5rem;
+            padding: 8px;
             border-radius: 20px;
             cursor: pointer;
             width: 100%;
+            margin-top: 5px;
         }
 
-        .auth-switch {
-            margin-top: 0.8rem;
-            font-size: 0.7rem;
+        .switch-auth {
+            margin-top: 10px;
+            font-size: 12px;
         }
 
-        .auth-switch a {
+        .switch-auth a {
             color: #b87c4f;
             cursor: pointer;
         }
 
         .back-btn {
-            background: #2a2a2a;
+            background: #b87c4f;
             border: none;
             color: white;
-            padding: 0.3rem 0.8rem;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
-            margin-bottom: 0.8rem;
-            font-size: 0.7rem;
+            margin-bottom: 15px;
         }
 
         .footer {
             text-align: center;
-            padding: 1rem;
-            font-size: 0.7rem;
+            margin-top: 30px;
+            padding-top: 15px;
             border-top: 1px solid #ddd;
-            margin-top: 1rem;
+            font-size: 12px;
         }
 
-        @media (max-width: 600px) {
-            .container { padding: 0.8rem; }
-            .komik-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-            .chapter-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -434,35 +315,29 @@
     <div class="logo">
         <h1>📚 VNOVEL</h1>
     </div>
-    <div class="right-area">
-        <button class="icon-btn" id="themeBtn">🌙</button>
-        <button class="icon-btn" id="accountBtn">👤</button>
-        <div class="user-dropdown" id="userDropdown">
-            <div id="dropdownContent"></div>
-        </div>
+    <div>
+        <button class="btn-icon" id="darkModeBtn">🌙</button>
+        <button class="btn-icon" id="accountBtn">👤</button>
     </div>
 </div>
 
-<div class="container">
-    <div id="home" class="page active">
-        <div class="komik-grid" id="komikGrid"></div>
+<div class="container" id="app">
+    <!-- Halaman Home -->
+    <div id="homePage">
+        <div class="komik-grid" id="komikList"></div>
     </div>
 
-    <div id="chaptersPage" class="page">
+    <!-- Halaman Daftar Bab -->
+    <div id="chaptersPage" class="hidden">
         <button class="back-btn" id="backHomeBtn">← Kembali</button>
-        <h2 style="color:#b87c4f; margin:0.5rem 0; font-size:1rem;" id="komikTitle"></h2>
+        <h2 id="novelTitle" style="color:#b87c4f; margin:10px 0;"></h2>
         <div id="chapterList" class="chapter-grid"></div>
     </div>
 
-    <div id="readPage" class="page">
+    <!-- Halaman Baca -->
+    <div id="readPage" class="hidden">
         <button class="back-btn" id="backChaptersBtn">← Daftar Bab</button>
-        <div id="readContainer"></div>
-    </div>
-</div>
-
-<div id="authModal" class="modal">
-    <div class="modal-content">
-        <div id="authForm"></div>
+        <div id="readingArea"></div>
     </div>
 </div>
 
@@ -470,12 +345,28 @@
     © 2026 VNovel — Archeon: The End Before Beginning
 </div>
 
+<!-- Modal Login -->
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <div id="authForm"></div>
+    </div>
+</div>
+
 <script>
-    // ==================== DATA NOVEL LENGKAP ====================
+    // ==================== DATA ====================
     let currentUser = localStorage.getItem('currentUser') || null;
-    let currentKomik = null;
+    let currentNovel = null;
     
-    // Judul bab
+    // Data Novel
+    const novelData = {
+        id: 1,
+        title: "Archeon: The End Before Beginning",
+        desc: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
+        image: "archeonn.jpg",
+        chapters: []
+    };
+
+    // Judul Bab
     const judulBab = [
         "Anak yang Lahir dalam Keheningan", "Hari yang Tidak Memilihnya", "Yang Dibuang Oleh Cahaya",
         "Langkah Pertama di Luar Cahaya", "Kota di Ujung Hutan", "Nama yang Dicari Kegelapan",
@@ -487,133 +378,132 @@
         "Mata di Dalam Bayangan", "Jalan ke Timur", "Kota Abu yang Sunyi", "Desa yang Mengingat"
     ];
 
-    // Isi cerita per bab (lebih panjang)
-    const isiCerita = `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. Sera menatap Elena, namun tidak berkata apa pun. Daren langsung memahami dari wajahnya. "Kosong?" bisiknya pelan. Sera hanya mengangguk kecil. Di dunia itu, bahkan bayi paling lemah tetap memiliki jejak mana. Tetapi bayi itu berbeda. Ia tidak terasa lemah. Ia terasa kosong. Seolah sesuatu di dalam dirinya belum bangun. Elena memeluk bayinya lebih erat. "Aku tidak peduli. Dia tetap anakku." Daren terdiam cukup lama sebelum akhirnya berkata pelan, "Namanya..." Elena menatap bayi itu. "Archeon." Malam itu berlalu seperti biasa. Tidak ada petir. Tidak ada cahaya. Tidak ada pertanda besar. Namun jauh di tengah desa, Crystal of Origin yang berdiri diam selama ratusan tahun mendadak meredup sesaat. Lalu kembali normal. Tak seorang pun melihatnya. Beberapa jam kemudian, di rumah lain tak jauh dari sana, seorang bayi perempuan lahir. Tangisnya lembut. Hangat. Menenangkan. Saat bayi itu membuka mata, bunga-bunga putih di halaman rumah mekar perlahan di tengah malam. Ibunya tersenyum sambil berbisik, "Lyria..." Dan sejak malam itu, dua anak lahir di bawah langit yang sama, membawa takdir yang bahkan dunia belum pahami.`;
-
-    // Data novel
-    let komikData = [{
-        id: 1,
-        title: "Archeon: The End Before Beginning",
-        description: "Kisah anak tanpa mana yang menyimpan kekuatan dewa.",
-        image: "archeonn.jpg",
-        chapters: []
-    }];
+    // Isi cerita
+    const isiCerita = `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya. Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu. Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar. Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang. Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar. Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi. <strong>Tidak ada.</strong> Tidak ada mana. Sama sekali. <br><br>Cerita berlanjut...`;
 
     // Generate 25 chapter
     for (let i = 0; i < 25; i++) {
-        komikData[0].chapters.push({
+        novelData.chapters.push({
             id: i + 1,
             title: judulBab[i],
-            content: `<p>${isiCerita}</p><p style="margin-top:1rem;">Cerita berlanjut ke bab ${i+1}... Kisah Archeon dan Lyria terus berlanjut. Mereka menghadapi berbagai tantangan, mengungkap misteri Origin, dan berjuang melawan Silent Order. <em>— Bab ${i+1} selesai —</em></p>`
+            content: `<p>${isiCerita}</p><p><em>— Bab ${i+1} selesai —</em></p>`
         });
     }
 
-    // ==================== RENDER KOMIK ====================
-    function renderKomik() {
-        const grid = document.getElementById('komikGrid');
-        if (!grid) return;
-        grid.innerHTML = komikData.map(k => `
-            <div class="komik-card" onclick="pilihKomik(${k.id})">
-                <div class="komik-image">
-                    <img src="${k.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Archeon'">
-                </div>
-                <div class="komik-info">
-                    <div class="komik-title">${k.title}</div>
-                </div>
-            </div>
-        `).join('');
+    // ==================== FUNGSI UI ====================
+    function showPage(page) {
+        document.getElementById('homePage').classList.add('hidden');
+        document.getElementById('chaptersPage').classList.add('hidden');
+        document.getElementById('readPage').classList.add('hidden');
+        document.getElementById(page).classList.remove('hidden');
     }
 
-    window.pilihKomik = function(id) {
-        currentKomik = komikData.find(k => k.id === id);
-        if (!currentKomik) return;
-        document.getElementById('komikTitle').innerHTML = currentKomik.title;
+    function renderHome() {
+        const container = document.getElementById('komikList');
+        container.innerHTML = `
+            <div class="card" onclick="openNovel()">
+                <div class="card-image">
+                    <img src="${novelData.image}" onerror="this.src='https://placehold.co/300x450/2a2a2a/b87c4f?text=Archeon'">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">${novelData.title}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    window.openNovel = function() {
+        currentNovel = novelData;
+        document.getElementById('novelTitle').innerHTML = currentNovel.title;
         renderChapterList();
         showPage('chaptersPage');
     }
 
     function renderChapterList() {
         const container = document.getElementById('chapterList');
-        if (!container || !currentKomik) return;
-        container.innerHTML = currentKomik.chapters.map(ch => `
-            <div class="chapter-card" onclick="bacaBab(${ch.id})">
+        container.innerHTML = currentNovel.chapters.map(ch => `
+            <div class="chapter-card" onclick="openChapter(${ch.id})">
                 <div class="chapter-num">Bab ${ch.id}</div>
                 <div class="chapter-title">${ch.title}</div>
             </div>
         `).join('');
     }
 
-    // ==================== BACA BAB ====================
-    window.bacaBab = function(chapterId) {
-        const bab = currentKomik.chapters.find(ch => ch.id === chapterId);
+    window.openChapter = function(chapterId) {
+        const bab = currentNovel.chapters.find(ch => ch.id === chapterId);
         if (!bab) return;
         
         // Load komentar
-        const comments = loadComments(currentKomik.id, chapterId);
-        let htmlKomen = '';
+        const comments = loadComments(chapterId);
+        let komenHtml = '';
         if (comments.length > 0) {
-            htmlKomen = comments.map(c => `
+            komenHtml = comments.map(c => `
                 <div class="comment">
-                    <div class="comment-user">${c.user} <span class="comment-date">${c.date}</span></div>
+                    <div class="comment-user">${c.user}</div>
                     <div class="comment-text">${c.text}</div>
                 </div>
             `).join('');
         } else {
-            htmlKomen = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
+            komenHtml = '<p>Belum ada komentar.</p>';
         }
         
         let formKomen = '';
         if (currentUser) {
-            formKomen = `<div class="comment-input"><textarea id="komenText" rows="2" placeholder="Tulis komentar..."></textarea><button onclick="kirimKomen(${currentKomik.id}, ${chapterId})">Kirim</button></div>`;
+            formKomen = `
+                <div class="comment-input">
+                    <textarea id="komenText" rows="2" placeholder="Tulis komentar..."></textarea>
+                    <button onclick="kirimKomen(${chapterId})">Kirim</button>
+                </div>
+            `;
         } else {
-            formKomen = `<div class="login-to-comment">🔐 <a onclick="openAuthModal('login')">Login</a> untuk berkomentar</div>`;
+            formKomen = `<div class="login-prompt">🔐 <a onclick="openAuthModal('login')">Login</a> untuk berkomentar</div>`;
         }
         
-        const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
-        const prevBab = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
-        const nextBab = currentIndex < currentKomik.chapters.length - 1 ? currentKomik.chapters[currentIndex + 1] : null;
+        const currentIdx = currentNovel.chapters.findIndex(ch => ch.id === chapterId);
+        const prevBab = currentIdx > 0 ? currentNovel.chapters[currentIdx - 1] : null;
+        const nextBab = currentIdx < currentNovel.chapters.length - 1 ? currentNovel.chapters[currentIdx + 1] : null;
         
-        const container = document.getElementById('readContainer');
+        const container = document.getElementById('readingArea');
         container.innerHTML = `
-            <div class="reading-content">
+            <div class="reading-box">
                 <div class="reading-title">Bab ${bab.id} — ${bab.title}</div>
                 <div class="reading-text">${bab.content}</div>
                 <div class="nav-chapter">
-                    <button id="prevBtn" ${!prevBab ? 'disabled' : ''}>← Bab Sebelumnya</button>
-                    <button id="nextBtn" ${!nextBab ? 'disabled' : ''}>Bab Selanjutnya →</button>
+                    <button id="prevBtn" ${!prevBab ? 'disabled' : ''}>← Sebelumnya</button>
+                    <button id="nextBtn" ${!nextBab ? 'disabled' : ''}>Selanjutnya →</button>
                 </div>
                 <div class="comment-section">
-                    <h4>💬 Komentar Pembaca (${comments.length})</h4>
-                    <div id="komenList">${htmlKomen}</div>
+                    <h4>💬 Komentar (${comments.length})</h4>
+                    <div id="komenList">${komenHtml}</div>
                     ${formKomen}
                 </div>
             </div>
         `;
         
-        document.getElementById('prevBtn')?.onclick = () => { if (prevBab) bacaBab(prevBab.id); };
-        document.getElementById('nextBtn')?.onclick = () => { if (nextBab) bacaBab(nextBab.id); };
+        document.getElementById('prevBtn')?.onclick = () => { if (prevBab) openChapter(prevBab.id); };
+        document.getElementById('nextBtn')?.onclick = () => { if (nextBab) openChapter(nextBab.id); };
         
         showPage('readPage');
     }
 
-    window.kirimKomen = function(komikId, chapterId) {
+    window.kirimKomen = function(chapterId) {
         const text = document.getElementById('komenText').value;
         if (!text.trim()) return;
-        const key = `komentar_${komikId}_${chapterId}`;
+        const key = `komentar_${chapterId}`;
         let komen = localStorage.getItem(key);
         komen = komen ? JSON.parse(komen) : [];
         komen.push({ user: currentUser, text: text, date: new Date().toLocaleString() });
         localStorage.setItem(key, JSON.stringify(komen));
-        bacaBab(chapterId);
+        openChapter(chapterId);
     }
 
-    function loadComments(komikId, chapterId) {
-        const key = `komentar_${komikId}_${chapterId}`;
+    function loadComments(chapterId) {
+        const key = `komentar_${chapterId}`;
         const komen = localStorage.getItem(key);
         return komen ? JSON.parse(komen) : [];
     }
 
-    // ==================== LOGIN SYSTEM ====================
+    // ==================== LOGIN ====================
     function loadUsers() {
         const users = localStorage.getItem('users');
         if (users) return JSON.parse(users);
@@ -639,26 +529,25 @@
         if (user.password !== password) return 'Password salah!';
         localStorage.setItem('currentUser', username);
         currentUser = username;
-        updateDropdown();
         return 'success';
     }
 
     function logout() {
         localStorage.removeItem('currentUser');
         currentUser = null;
-        updateDropdown();
-        showPage('home');
+        location.reload();
     }
 
-    function updateDropdown() {
-        const dropdown = document.getElementById('dropdownContent');
-        if (!dropdown) return;
+    function updateUserBtn() {
+        const btn = document.getElementById('accountBtn');
         if (currentUser) {
-            dropdown.innerHTML = `<a class="user-name">👤 ${currentUser}</a><a id="logoutBtn">🚪 Logout</a>`;
-            document.getElementById('logoutBtn')?.addEventListener('click', logout);
+            btn.innerHTML = '👤';
+            btn.onclick = () => {
+                if (confirm(`Logout dari ${currentUser}?`)) logout();
+            };
         } else {
-            dropdown.innerHTML = `<a id="loginBtn">🔐 Login / Daftar</a>`;
-            document.getElementById('loginBtn')?.addEventListener('click', () => openAuthModal('login'));
+            btn.innerHTML = '🔐';
+            btn.onclick = () => openAuthModal('login');
         }
     }
 
@@ -672,29 +561,29 @@
                 <input type="text" id="loginUser" placeholder="Username">
                 <input type="password" id="loginPass" placeholder="Password">
                 <button id="loginAction">Login</button>
-                <div class="auth-switch">Belum punya akun? <a id="toReg">Daftar</a></div>
-                <div id="authMsg" style="color:#b87c4f; font-size:0.7rem; margin-top:0.5rem;"></div>
+                <div class="switch-auth">Belum punya akun? <a id="toReg">Daftar</a></div>
+                <div id="authMsg" style="color:#b87c4f; margin-top:8px;"></div>
             `;
-            document.getElementById('loginAction')?.onclick = () => {
+            document.getElementById('loginAction').onclick = () => {
                 const result = login(document.getElementById('loginUser').value, document.getElementById('loginPass').value);
                 if (result === 'success') {
-                    modal.classList.remove('active');
+                    modal.classList.remove('show');
                     location.reload();
                 } else {
                     document.getElementById('authMsg').innerText = result;
                 }
             };
-            document.getElementById('toReg')?.onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
+            document.getElementById('toReg').onclick = (e) => { e.preventDefault(); openAuthModal('register'); };
         } else {
             form.innerHTML = `
                 <h3>📝 DAFTAR</h3>
                 <input type="text" id="regUser" placeholder="Username (min 3)">
                 <input type="password" id="regPass" placeholder="Password (min 4)">
                 <button id="regAction">Daftar</button>
-                <div class="auth-switch">Sudah punya akun? <a id="toLogin">Login</a></div>
-                <div id="authMsg" style="color:#b87c4f; font-size:0.7rem; margin-top:0.5rem;"></div>
+                <div class="switch-auth">Sudah punya akun? <a id="toLogin">Login</a></div>
+                <div id="authMsg" style="color:#b87c4f; margin-top:8px;"></div>
             `;
-            document.getElementById('regAction')?.onclick = () => {
+            document.getElementById('regAction').onclick = () => {
                 const result = register(document.getElementById('regUser').value, document.getElementById('regPass').value);
                 if (result === 'success') {
                     openAuthModal('login');
@@ -702,22 +591,16 @@
                     document.getElementById('authMsg').innerText = result;
                 }
             };
-            document.getElementById('toLogin')?.onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
+            document.getElementById('toLogin').onclick = (e) => { e.preventDefault(); openAuthModal('login'); };
         }
-        modal.classList.add('active');
-    }
-
-    // ==================== NAVIGASI ====================
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
+        modal.classList.add('show');
     }
 
     // ==================== DARK MODE ====================
-    function initTheme() {
+    function initDarkMode() {
         const dark = localStorage.getItem('dark') === 'true';
         if (dark) document.body.classList.add('dark');
-        const btn = document.getElementById('themeBtn');
+        const btn = document.getElementById('darkModeBtn');
         btn.textContent = dark ? '☀️' : '🌙';
         btn.onclick = () => {
             document.body.classList.toggle('dark');
@@ -729,21 +612,16 @@
 
     // ==================== INIT ====================
     function init() {
-        renderKomik();
+        renderHome();
+        updateUserBtn();
+        initDarkMode();
         
-        document.getElementById('backHomeBtn')?.onclick = () => showPage('home');
-        document.getElementById('backChaptersBtn')?.onclick = () => showPage('chaptersPage');
+        document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
+        document.getElementById('backChaptersBtn').onclick = () => showPage('chaptersPage');
         
-        const accountBtn = document.getElementById('accountBtn');
-        const dropdown = document.getElementById('userDropdown');
-        accountBtn?.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('active'); };
-        document.onclick = () => dropdown.classList.remove('active');
-        
+        // Tutup modal klik di luar
         const modal = document.getElementById('authModal');
-        modal?.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
-        
-        updateDropdown();
-        initTheme();
+        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('show'); };
     }
     
     init();
