@@ -364,13 +364,21 @@
             margin-left: 0.5rem;
         }
 
-        .admin-badge {
-            background: #b87c4f;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            margin-left: 0.5rem;
+        .login-to-comment {
+            text-align: center;
+            padding: 1rem;
+            background: #f5f0e8;
+            border-radius: 16px;
+            color: #666;
+        }
+
+        body.dark .login-to-comment {
+            background: #2a2a2a;
+        }
+
+        .login-to-comment a {
+            color: #b87c4f;
+            cursor: pointer;
         }
 
         .modal {
@@ -433,13 +441,19 @@
 
         .close-modal {
             position: absolute;
-            top: 0.5rem;
+            top: 0.8rem;
             right: 0.8rem;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: #999;
+            width: auto;
+            padding: 0;
+        }
+
+        .close-modal:hover {
+            color: #b87c4f;
         }
 
         .auth-switch {
@@ -512,7 +526,7 @@
     <div id="home" class="page active">
         <div class="hero">
             <h1>✨ Selamat Datang di VNovel ✨</h1>
-            <p>Baca novel favoritmu gratis! Login dulu ya sebelum baca.</p>
+            <p>Baca novel favoritmu gratis! Login untuk berkomentar.</p>
         </div>
         <div class="komik-grid" id="komikGrid"></div>
     </div>
@@ -531,7 +545,7 @@
 
 <div id="authModal" class="modal">
     <div class="modal-content">
-        <button class="close-modal" id="closeModalBtn">&times;</button>
+        <button class="close-modal" id="closeModalBtn">✕</button>
         <div id="modalFormContainer"></div>
     </div>
 </div>
@@ -541,8 +555,7 @@
 </div>
 
 <script>
-    // ==================== KONFIGURASI ====================
-    // Data komik (25 chapter)
+    // ==================== DATA KOMIK (25 CHAPTER) ====================
     const komikData = [
         {
             id: 1,
@@ -631,10 +644,6 @@
     }
 
     window.selectKomik = function(komikId) {
-        if (!currentUser) {
-            openAuthModal('login');
-            return;
-        }
         currentKomik = komikData.find(k => k.id === komikId);
         if (!currentKomik) return;
         document.getElementById('komikTitle').innerHTML = `📖 ${currentKomik.title}`;
@@ -658,10 +667,6 @@
     let currentChapter = null;
 
     window.openChapter = function(chapterId) {
-        if (!currentUser) {
-            openAuthModal('login');
-            return;
-        }
         currentChapter = currentKomik.chapters.find(ch => ch.id === chapterId);
         if (!currentChapter) return;
         
@@ -680,6 +685,23 @@
             commentsHtml = '<p style="opacity:0.6;">Belum ada komentar. Jadilah yang pertama!</p>';
         }
         
+        // Login prompt untuk komentar
+        let commentInputHtml = '';
+        if (currentUser) {
+            commentInputHtml = `
+                <div class="comment-input">
+                    <textarea id="commentText" rows="2" placeholder="Tulis komentar..."></textarea>
+                    <button id="submitCommentBtn">Kirim Komentar</button>
+                </div>
+            `;
+        } else {
+            commentInputHtml = `
+                <div class="login-to-comment">
+                    🔐 <a id="loginToCommentBtn">Login</a> untuk berkomentar
+                </div>
+            `;
+        }
+        
         const currentIndex = currentKomik.chapters.findIndex(ch => ch.id === chapterId);
         const prevChapter = currentIndex > 0 ? currentKomik.chapters[currentIndex - 1] : null;
         const nextChapter = currentIndex < currentKomik.chapters.length - 1 ? currentKomik.chapters[currentIndex + 1] : null;
@@ -696,10 +718,7 @@
                 <div class="comment-section">
                     <h4>💬 Komentar Pembaca (${comments.length})</h4>
                     <div id="commentsList">${commentsHtml}</div>
-                    <div class="comment-input">
-                        <textarea id="commentText" rows="2" placeholder="Tulis komentar..."></textarea>
-                        <button id="submitCommentBtn">Kirim Komentar</button>
-                    </div>
+                    ${commentInputHtml}
                 </div>
             </div>
         `;
@@ -710,13 +729,23 @@
         document.getElementById('nextChapterBtn')?.addEventListener('click', () => {
             if (nextChapter) openChapter(nextChapter.id);
         });
-        document.getElementById('submitCommentBtn')?.addEventListener('click', () => {
-            const text = document.getElementById('commentText').value;
-            if (addComment(currentKomik.id, chapterId, text)) {
-                document.getElementById('commentText').value = '';
-                openChapter(chapterId);
-            }
-        });
+        
+        const submitBtn = document.getElementById('submitCommentBtn');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                const text = document.getElementById('commentText').value;
+                if (addComment(currentKomik.id, chapterId, text)) {
+                    document.getElementById('commentText').value = '';
+                    openChapter(chapterId);
+                }
+            });
+        }
+        
+        const loginToCommentBtn = document.getElementById('loginToCommentBtn');
+        if (loginToCommentBtn) {
+            loginToCommentBtn.addEventListener('click', () => openAuthModal('login'));
+        }
+        
         showReadingPage();
     }
 
