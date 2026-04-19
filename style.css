@@ -1,22 +1,17 @@
 body{
   margin:0;
   padding:0;
-  font-family:Arial,sans-serif;
-  background:#0f0f0f;
-  color:#fff;
+  font-family:Arial;
+  background:#111;
+  color:white;
 }
 
 header{
-  background:#181818;
+  background:#1c1c1c;
   padding:20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  border-bottom:1px solid #333;
-}
-
-h1,h2{
-  margin:0 0 15px;
 }
 
 section{
@@ -29,22 +24,17 @@ input,textarea{
   margin-bottom:10px;
   border:none;
   border-radius:8px;
-  background:#1f1f1f;
-  color:#fff;
+  background:#222;
+  color:white;
   box-sizing:border-box;
 }
 
-textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
 button{
-  background:#6c2bd9;
-  color:white;
-  border:none;
   padding:12px 20px;
+  border:none;
   border-radius:8px;
+  background:#6f42c1;
+  color:white;
   cursor:pointer;
 }
 
@@ -52,7 +42,7 @@ button:hover{
   opacity:0.9;
 }
 
-.btn-group{
+.buttons{
   display:flex;
   gap:10px;
 }
@@ -64,40 +54,32 @@ button:hover{
 }
 
 .novel-card{
-  background:#181818;
+  background:#1c1c1c;
   padding:15px;
   border-radius:12px;
-  border:1px solid #333;
 }
 
 .novel-card img{
   width:100%;
-  height:260px;
+  height:280px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:8px;
 }
 
 .chapter-item{
-  background:#181818;
+  background:#1c1c1c;
   padding:15px;
-  border-radius:12px;
+  border-radius:10px;
   margin-bottom:15px;
-  border:1px solid #333;
 }
 
 .chapter-item pre{
   white-space:pre-wrap;
-  color:#ddd;
 }
 
 .comment{
-  background:#181818;
-  padding:12px;
-  border-radius:10px;
+  background:#1c1c1c;
+  padding:10px;
+  border-radius:8px;
   margin-top:10px;
-  border:1px solid #333;
-}
-
-.comment b{
-  color:#9d6bff;
 }
