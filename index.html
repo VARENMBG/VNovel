@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VNovel - Archeon: The End Before Beginning</title>
+<title>VNovel - Archeon</title>
 <style>
 body{
     margin:0;
@@ -12,93 +12,89 @@ body{
     font-family:Arial, sans-serif;
 }
 header{
-    background:#1a1a1a;
-    padding:20px;
-    text-align:center;
-    font-size:28px;
+    background:#181818;
     color:#fff;
+    text-align:center;
+    padding:20px;
+    font-size:32px;
     font-weight:bold;
     border-bottom:1px solid #333;
 }
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:auto;
-    padding:20px;
+    padding:25px;
 }
 .novel-box{
     display:flex;
-    gap:20px;
+    flex-wrap:wrap;
+    gap:25px;
     background:#1b1b1b;
     padding:20px;
-    border-radius:12px;
+    border-radius:14px;
 }
 .cover{
     width:220px;
-    border-radius:10px;
+    border-radius:12px;
+}
+.info{
+    flex:1;
 }
 .info h1{
     margin:0;
     color:#fff;
 }
 .author{
-    color:#aaa;
     margin-top:10px;
+    color:#aaa;
 }
 .rating{
-    color:gold;
     margin-top:10px;
+    color:gold;
     font-size:18px;
 }
 .desc{
     margin-top:20px;
     line-height:1.8;
 }
-.chapter-box{
-    margin-top:30px;
-}
-.chapter-toggle{
+.chapter-button{
     width:100%;
-    padding:14px;
+    margin-top:30px;
+    padding:16px;
     background:#222;
     border:none;
+    border-radius:10px;
     color:#fff;
     font-size:18px;
     cursor:pointer;
-    border-radius:8px;
-    text-align:left;
 }
 .chapter-list{
     display:none;
     background:#181818;
-    border-radius:8px;
     margin-top:10px;
+    border-radius:10px;
     overflow:hidden;
 }
-.chapter-list button{
-    width:100%;
-    background:none;
-    border:none;
-    color:#ccc;
-    padding:14px;
-    text-align:left;
-    cursor:pointer;
+.chapter-item{
+    padding:15px 20px;
     border-bottom:1px solid #333;
+    cursor:pointer;
 }
-.chapter-list button:hover{
+.chapter-item:hover{
     background:#222;
 }
-.chapter-content{
+.reader{
     margin-top:30px;
     background:#1b1b1b;
     padding:30px;
-    border-radius:12px;
+    border-radius:14px;
     line-height:2;
     white-space:pre-line;
 }
 .chapter-title{
-    color:#fff;
     font-size:28px;
-    margin-bottom:20px;
+    color:#fff;
+    margin-bottom:25px;
 }
 </style>
 </head>
@@ -109,7 +105,7 @@ header{
 <div class="container">
 
 <div class="novel-box">
-    <img src="cover.jpg" class="cover">
+    <img src="cover.jpg" class="cover" alt="Cover Novel">
     <div class="info">
         <h1>Archeon: The End Before Beginning</h1>
         <div class="author">Author: MUHAMMAD ALFAREL HAFIZH</div>
@@ -121,135 +117,164 @@ header{
     </div>
 </div>
 
-<div class="chapter-box">
-    <button class="chapter-toggle" onclick="toggleChapter()">
-        📖 Chapter ▼
-    </button>
+<button class="chapter-button" onclick="toggleChapters()">
+📖 Chapter
+</button>
 
-    <div class="chapter-list" id="chapterList">
-        <button onclick="loadChapter(1)">Chapter 1</button>
-        <button onclick="loadChapter(2)">Chapter 2</button>
-    </div>
+<div class="chapter-list" id="chapterList">
+    <div class="chapter-item" onclick="loadChapter(1)">Chapter 1</div>
+    <div class="chapter-item" onclick="loadChapter(2)">Chapter 2</div>
 </div>
 
-<div class="chapter-content" id="chapterContent">
-    <div class="chapter-title">Chapter 1 — Anak yang Lahir dalam Keheningan</div>
-    Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya.
-
-    Tidak ada hujan.
-    Tidak ada angin.
-    Tidak ada suara malam.
-
-    Bahkan hutan di sekitar desa terasa diam,
-    seolah seluruh dunia sedang menunggu sesuatu.
-
-    Di sebuah rumah kayu sederhana di pinggir desa,
-    seorang bayi laki-laki akhirnya lahir.
-
-    Tangisannya kecil.
-    Pelan.
-    Hampir tidak terdengar.
-
-    Ibunya, Elena, memeluk bayi itu dengan napas lelah.
-    Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang.
-
-    Seperti tradisi desa,
-    tabib tua bernama Sera meletakkan tangannya
-    di dada bayi itu
-    untuk merasakan aliran mana pertama.
-
-    Namun saat Sera menutup mata,
-    wajahnya perlahan berubah.
-
-    Tidak ada.
-
-    Tidak ada mana.
-
-    Sama sekali.
-
-    Bayi itu diberi nama...
-
-    Archeon.
-</div>
+<div class="reader" id="reader"></div>
 
 </div>
 
 <script>
-function toggleChapter(){
+const chapters = {
+1: {
+title: "Chapter 1 — Anak yang Lahir dalam Keheningan",
+content: `Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya.
+
+Tidak ada hujan.
+Tidak ada angin.
+Tidak ada suara malam.
+
+Bahkan hutan di sekitar desa terasa diam,
+seolah seluruh dunia sedang menunggu sesuatu.
+
+Di sebuah rumah kayu sederhana di pinggir desa,
+seorang bayi laki-laki akhirnya lahir.
+
+Tangisannya kecil.
+Pelan.
+Hampir tidak terdengar.
+
+Ibunya, Elena, memeluk bayi itu dengan napas lelah.
+Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang.
+
+Seperti tradisi desa,
+tabib tua bernama Sera meletakkan tangannya
+di dada bayi itu
+untuk merasakan aliran mana pertama.
+
+Setiap anak yang lahir di Elaris
+selalu membawa mana.
+
+Namun saat Sera menutup mata,
+wajahnya perlahan berubah.
+
+Tidak ada.
+
+Tidak ada mana.
+
+Sama sekali.
+
+Bayi itu diberi nama...
+
+Archeon.
+
+Dan malam itu,
+tanpa diketahui siapa pun,
+Crystal of Origin di pusat desa
+meredup sesaat
+sebelum kembali normal.`
+},
+
+2: {
+title: "Chapter 2 — Hari Ketika Desa Memilih Takut",
+content: `Tidak ada seorang pun
+yang langsung bergerak
+setelah Tetua Rowan
+mengucapkan keputusan itu.
+
+Seluruh alun-alun desa
+mendadak sunyi.
+
+Bisikan kecil mulai terdengar.
+
+"Anak tanpa mana..."
+"Crystal menolaknya..."
+"Dia berbeda..."
+
+Lyria melangkah maju.
+
+"Ini tidak adil."
+
+Tetua Rowan menatap dingin.
+
+"Crystal tidak menolaknya."
+
+Ia berhenti sesaat.
+
+"Crystal tidak bisa membaca dirinya."
+
+Semua orang terdiam.
+
+Kalimat itu jauh lebih menakutkan
+daripada sekadar anak tanpa mana.
+
+Karena di dunia itu,
+setiap makhluk hidup
+selalu memiliki jejak mana.
+
+Namun Archeon berbeda.
+
+Bukan lemah.
+
+Tetapi kosong.
+
+Archeon menatap crystal besar itu.
+
+Dan untuk sesaat,
+ia merasa sesuatu
+di dalam crystal
+sedang menatap balik dirinya.
+
+Lalu Rowan berkata pelan.
+
+"Mulai malam ini,
+Archeon harus meninggalkan Elaris."
+
+Elena menangis.
+
+Daren mengepalkan tangan.
+
+Lyria menatap tak percaya.
+
+Namun Archeon
+hanya berdiri diam.
+
+Karena untuk pertama kalinya,
+ia merasa
+desa itu
+bukan sedang mengusirnya.
+
+Melainkan
+mendorongnya menuju
+takdir yang sejak awal
+sudah menunggunya.
+
+Dan sejak hari itu,
+hidup Archeon
+mulai berubah.`
+}
+};
+
+function toggleChapters(){
     const list = document.getElementById("chapterList");
     list.style.display = list.style.display === "block" ? "none" : "block";
 }
 
-function loadChapter(num){
-    const content = document.getElementById("chapterContent");
-
-    if(num === 1){
-        content.innerHTML = `
-        <div class="chapter-title">Chapter 1 — Anak yang Lahir dalam Keheningan</div>
-        Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya.
-
-        Tidak ada hujan.
-        Tidak ada angin.
-        Tidak ada suara malam.
-
-        Bahkan hutan di sekitar desa terasa diam,
-        seolah seluruh dunia sedang menunggu sesuatu.
-
-        Di sebuah rumah kayu sederhana di pinggir desa,
-        seorang bayi laki-laki akhirnya lahir.
-
-        Tangisannya kecil.
-        Pelan.
-        Hampir tidak terdengar.
-
-        Bayi itu diberi nama...
-
-        Archeon.
-        `;
-    }
-
-    if(num === 2){
-        content.innerHTML = `
-        <div class="chapter-title">Chapter 2 — Hari Ketika Desa Memilih Takut</div>
-        Tidak ada seorang pun
-        yang langsung bergerak
-        setelah Tetua Rowan
-        mengucapkan keputusan itu.
-
-        Seluruh alun-alun desa
-        mendadak menjadi sunyi.
-
-        Lyria melangkah maju lebih dulu.
-
-        "Ini tidak adil."
-
-        Namun Rowan hanya menatap dingin.
-
-        "Crystal tidak bisa membaca dirinya."
-
-        Bisikan mulai menyebar.
-        Ketakutan mulai tumbuh.
-
-        Dan pada hari itu,
-        desa kecil Elaris
-        memilih rasa takut
-        dibandingkan kebenaran.
-
-        Archeon akhirnya hanya berkata pelan—
-
-        "Kalau aku pergi...
-        apakah itu cukup?"
-
-        Rowan menjawab singkat.
-
-        "Untuk sekarang."
-
-        Dan sejak hari itu,
-        takdir Archeon
-        mulai bergerak.
-        `;
-    }
+function loadChapter(id){
+    const chapter = chapters[id];
+    document.getElementById("reader").innerHTML = `
+        <div class="chapter-title">${chapter.title}</div>
+        ${chapter.content}
+    `;
 }
+
+loadChapter(1);
 </script>
 
 </body>
