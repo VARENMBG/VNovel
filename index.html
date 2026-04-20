@@ -3,953 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VNovel - Archeon</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<title>VNovel - Archeon: The End Before Beginning</title>
 <style>
-:root{
-    --bg:#0f1117;
-    --card:#161b22;
-    --text:#ffffff;
-    --muted:#9ca3af;
-    --border:#2a2f3a;
-    --accent:#8b0000;
-}
-body.light{
-    --bg:#f8f9fa;
-    --card:#ffffff;
-    --text:#111827;
-    --muted:#6b7280;
-    --border:#e5e7eb;
-}
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
 body{
-    background:var(--bg);
-    color:var(--text);
+    margin:0;
+    background:#111;
+    color:#ddd;
+    font-family:Arial, sans-serif;
 }
 header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 28px;
-    border-bottom:1px solid var(--border);
-}
-.logo{
+    background:#1a1a1a;
+    padding:20px;
+    text-align:center;
     font-size:28px;
-    font-weight:700;
-}
-.top-buttons{
-    display:flex;
-    gap:10px;
-}
-button{
-    border:none;
-    background:var(--card);
-    color:var(--text);
-    padding:10px 16px;
-    border-radius:10px;
-    cursor:pointer;
+    color:#fff;
+    font-weight:bold;
+    border-bottom:1px solid #333;
 }
 .container{
-    padding:30px;
-}
-.section-title{
-    font-size:24px;
-    margin-bottom:20px;
-}
-.novel-row{
-    display:flex;
-    gap:20px;
-    overflow-x:auto;
-}
-.novel-card{
-    width:180px;
-    background:var(--card);
-    border-radius:16px;
-    overflow:hidden;
-    cursor:pointer;
-}
-.novel-card img{
-    width:100%;
-    aspect-ratio:2/3;
-    object-fit:cover;
-}
-.novel-info{
-    padding:12px;
-}
-.novel-title{
-    font-weight:600;
-    margin-bottom:8px;
-}
-.genre-list{
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-}
-.genre{
-    background:var(--accent);
-    color:#fff;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:11px;
-}
-.reader-layout{
-    display:none;
-    min-height:100vh;
-}
-.sidebar{
-    width:280px;
-    background:var(--card);
-    border-right:1px solid var(--border);
-    padding:20px;
-    overflow-y:auto;
-    height:100vh;
-    position:sticky;
-    top:0;
-}
-.sidebar-title{
-    font-size:22px;
-    font-weight:600;
-    margin-bottom:20px;
-}
-.chapter-item{
-    padding:12px;
-    border-radius:10px;
-    cursor:pointer;
-    margin-bottom:8px;
-    color:var(--muted);
-}
-.chapter-item:hover{
-    background:#222;
-}
-.chapter-item.active{
-    background:var(--accent);
-    color:white;
-}
-.reader{
-    flex:1;
     max-width:900px;
     margin:auto;
-    padding:40px;
+    padding:20px;
 }
-.chapter-title{
-    font-size:30px;
-    margin-bottom:30px;
-}
-.chapter-content{
-    white-space:pre-line;
-    line-height:2;
-    font-size:17px;
-}
-.navigation{
+.novel-box{
     display:flex;
-    justify-content:space-between;
-    margin-top:40px;
+    gap:20px;
+    background:#1b1b1b;
+    padding:20px;
+    border-radius:12px;
 }
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.7);
-    justify-content:center;
-    align-items:center;
+.cover{
+    width:220px;
+    border-radius:10px;
 }
-.modal-content{
-    background:var(--card);
-    padding:25px;
-    border-radius:16px;
-    max-width:450px;
+.info h1{
+    margin:0;
+    color:#fff;
 }
-.modal-content h2{
-    margin-bottom:15px;
+.author{
+    color:#aaa;
+    margin-top:10px;
 }
-.modal-content p{
-    color:var(--muted);
+.rating{
+    color:gold;
+    margin-top:10px;
+    font-size:18px;
+}
+.desc{
+    margin-top:20px;
     line-height:1.8;
 }
-@media(max-width:900px){
-    .reader-layout{
-        flex-direction:column;
-    }
-    .sidebar{
-        width:100%;
-        height:auto;
-        position:relative;
-    }
+.chapter-box{
+    margin-top:30px;
+}
+.chapter-toggle{
+    width:100%;
+    padding:14px;
+    background:#222;
+    border:none;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    border-radius:8px;
+    text-align:left;
+}
+.chapter-list{
+    display:none;
+    background:#181818;
+    border-radius:8px;
+    margin-top:10px;
+    overflow:hidden;
+}
+.chapter-list button{
+    width:100%;
+    background:none;
+    border:none;
+    color:#ccc;
+    padding:14px;
+    text-align:left;
+    cursor:pointer;
+    border-bottom:1px solid #333;
+}
+.chapter-list button:hover{
+    background:#222;
+}
+.chapter-content{
+    margin-top:30px;
+    background:#1b1b1b;
+    padding:30px;
+    border-radius:12px;
+    line-height:2;
+    white-space:pre-line;
+}
+.chapter-title{
+    color:#fff;
+    font-size:28px;
+    margin-bottom:20px;
 }
 </style>
 </head>
 <body>
 
-<div id="homePage">
-<header>
-    <div class="logo">VNovel</div>
-    <div class="top-buttons">
-        <button onclick="toggleTheme()">Mode</button>
-        <button onclick="openAbout()">Tentang</button>
-    </div>
-</header>
+<header>VNovel</header>
 
 <div class="container">
-    <h2 class="section-title">Fantasy</h2>
-    <div class="novel-row">
-        <div class="novel-card" onclick="openNovel()">
-            <img src="archeon.png" alt="Archeon">
-            <div class="novel-info">
-                <div class="novel-title">Archeon: The End Before Beginning</div>
-                <div class="genre-list">
-                    <span class="genre">Fantasy</span>
-                    <span class="genre">Action</span>
-                </div>
-            </div>
+
+<div class="novel-box">
+    <img src="cover.jpg" class="cover">
+    <div class="info">
+        <h1>Archeon: The End Before Beginning</h1>
+        <div class="author">Author: MUHAMMAD ALFAREL HAFIZH</div>
+        <div class="rating">★ 4.5 / 5</div>
+        <div class="desc">
+            Seorang anak tanpa mana di dunia sihir diusir dari desanya,
+            tanpa mengetahui bahwa dirinya sendiri adalah awal dari seluruh keberadaan.
         </div>
     </div>
 </div>
-</div>
 
-<div id="readerPage" class="reader-layout">
-    <aside class="sidebar">
-        <div class="sidebar-title">Daftar Chapter</div>
-        <div id="chapterList"></div>
-    </aside>
+<div class="chapter-box">
+    <button class="chapter-toggle" onclick="toggleChapter()">
+        📖 Chapter ▼
+    </button>
 
-    <main class="reader">
-        <button onclick="goHome()">← Kembali</button>
-        <h1 id="chapterTitle" class="chapter-title"></h1>
-        <div id="chapterContent" class="chapter-content"></div>
-
-        <div class="navigation">
-            <button onclick="prevChapter()">← Previous</button>
-            <button onclick="nextChapter()">Next →</button>
-        </div>
-    </main>
-</div>
-
-<div id="aboutModal" class="modal" onclick="closeAbout()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h2>Tentang Website</h2>
-        <p>
-            Website ini dibuat oleh <b>Muhammad Alfarel Hafizh</b>.<br><br>
-            Ini adalah website novel pribadi untuk membaca Archeon: The End Before Beginning.<br><br>
-            TikTok: @varenpenikmatmbgdannaspd<br>
-            Instagram: @varenemci
-        </p>
+    <div class="chapter-list" id="chapterList">
+        <button onclick="loadChapter(1)">Chapter 1</button>
+        <button onclick="loadChapter(2)">Chapter 2</button>
     </div>
+</div>
+
+<div class="chapter-content" id="chapterContent">
+    <div class="chapter-title">Chapter 1 — Anak yang Lahir dalam Keheningan</div>
+    Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya.
+
+    Tidak ada hujan.
+    Tidak ada angin.
+    Tidak ada suara malam.
+
+    Bahkan hutan di sekitar desa terasa diam,
+    seolah seluruh dunia sedang menunggu sesuatu.
+
+    Di sebuah rumah kayu sederhana di pinggir desa,
+    seorang bayi laki-laki akhirnya lahir.
+
+    Tangisannya kecil.
+    Pelan.
+    Hampir tidak terdengar.
+
+    Ibunya, Elena, memeluk bayi itu dengan napas lelah.
+    Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang.
+
+    Seperti tradisi desa,
+    tabib tua bernama Sera meletakkan tangannya
+    di dada bayi itu
+    untuk merasakan aliran mana pertama.
+
+    Namun saat Sera menutup mata,
+    wajahnya perlahan berubah.
+
+    Tidak ada.
+
+    Tidak ada mana.
+
+    Sama sekali.
+
+    Bayi itu diberi nama...
+
+    Archeon.
+</div>
+
 </div>
 
 <script>
-const chapters = [
-{
-number:1,
-name:"Anak yang Lahir dalam Keheningan",
-text:`Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya.
-
-Tidak ada hujan. Tidak ada angin. Tidak ada suara malam. Bahkan hutan di sekitar desa terasa diam, seolah seluruh dunia sedang menunggu sesuatu.
-
-Di sebuah rumah kayu sederhana di pinggir desa, seorang bayi laki-laki akhirnya lahir. Tangisannya kecil. Pelan. Hampir tidak terdengar.
-
-Ibunya, Elena, memeluk bayi itu dengan napas lelah. Di sampingnya, ayahnya, Daren, menatap dengan wajah tegang.
-
-Seperti tradisi desa, tabib tua bernama Sera meletakkan tangannya di dada bayi itu untuk merasakan aliran mana pertama. Setiap anak yang lahir di Elaris selalu membawa mana. Sedikit ataupun besar.
-
-Namun saat Sera menutup mata, wajahnya perlahan berubah. Ia membuka mata pelan. Lalu menatap bayi itu sekali lagi.
-
-Tidak ada. Tidak ada mana. Sama sekali.
-
-Sera menatap Elena, namun tidak berkata apa pun. Daren langsung memahami dari wajahnya.
-
-"Kosong?" bisiknya pelan. Sera hanya mengangguk kecil.
-
-Di dunia itu, bahkan bayi paling lemah tetap memiliki jejak mana. Tetapi bayi itu berbeda. Ia tidak terasa lemah. Ia terasa kosong. Seolah sesuatu di dalam dirinya belum bangun.
-
-Elena memeluk bayinya lebih erat. "Aku tidak peduli. Dia tetap anakku."
-
-Daren terdiam cukup lama sebelum akhirnya berkata pelan, "Namanya..." Elena menatap bayi itu. "Archeon."
-
-Malam itu berlalu seperti biasa. Tidak ada petir. Tidak ada cahaya. Tidak ada pertanda besar.
-
-Namun jauh di tengah desa, Crystal of Origin yang berdiri diam selama ratusan tahun mendadak meredup sesaat. Lalu kembali normal. Tak seorang pun melihatnya.
-
-Beberapa jam kemudian, di rumah lain tak jauh dari sana, seorang bayi perempuan lahir. Tangisnya lembut. Hangat. Menenangkan. Saat bayi itu membuka mata, bunga-bunga putih di halaman rumah mekar perlahan di tengah malam.
-
-Ibunya tersenyum sambil berbisik, "Lyria..."
-
-Dan sejak malam itu, dua anak lahir di bawah langit yang sama, membawa takdir yang bahkan dunia belum pahami.`
-},
-{
-number:2,
-name:"Hari yang Tidak Memilihnya",
-text:`Tahun-tahun berlalu dengan cepat.
-
-Anak kecil yang dulu selalu duduk sendirian di bawah pohon kini telah tumbuh menjadi seorang remaja berusia tujuh belas tahun.
-
-Archeon berdiri lebih tinggi sekarang. Rambut hitamnya sedikit panjang. Tatapannya tenang. Wajahnya selalu terlihat dingin, meski sebenarnya ia hanya terlalu sering memendam semuanya sendiri.
-
-Namun satu hal tidak pernah berubah. Ia tetap tidak memiliki mana.
-
-Di usia ketika remaja lain mulai menguasai sihir, Archeon tetap menjadi satu-satunya orang di desa Elaris yang tidak bisa menggunakan apa pun. Kosong. Dan bagi penduduk desa, kekosongan itu jauh lebih menakutkan daripada kelemahan.
-
-Pagi itu, Archeon duduk di atas bukit kecil di belakang desa. Dari sana, ia bisa melihat seluruh Elaris. Rumah-rumah kayu. Kabut tipis. Dan Crystal of Origin yang berdiri diam di tengah desa.
-
-Kristal itu tampak sama seperti biasanya. Bersinar lembut. Tenang. Suci.
-
-Tak ada seorang pun yang tahu bahwa selama dua tahun terakhir, setiap kali Archeon bermimpi, retakan kecil di bagian belakang kristal terus bertambah sedikit demi sedikit. Sampai kini, retakan itu sudah hampir menyentuh inti. Namun masih tersembunyi. Masih menunggu.
-
-Suara langkah lembut terdengar dari belakang. Archeon tidak perlu menoleh. Ia tahu siapa itu.
-
-Lyria duduk di sampingnya. Rambut peraknya tertiup angin pagi, mata ungunya menatap lurus ke depan. Hari itu, ia mengenakan pakaian putih sederhana yang membuatnya terlihat lebih dewasa.
-
-"Kau kabur lagi ke sini."
-
-Archeon menatap langit. "Aku cuma ingin tenang."
-
-Lyria tersenyum kecil. "Berarti kau gugup."
-
-Archeon menoleh. "Aku tidak gugup."
-
-Lyria menatapnya, lalu tertawa pelan. "Kau selalu bilang begitu saat sebenarnya kau gugup."
-
-Archeon terdiam. Lyria benar.
-
-Hari itu adalah Hari Pengukuran. Hari ketika semua remaja usia tujuh belas tahun akan menyentuh Crystal of Origin dan mengetahui masa depan mereka.
-
-Dan Archeon tahu, miliknya mungkin sudah jelas. Tidak ada apa-apa.`
-},
-{
-number:3,
-name:"Yang Dibuang Oleh Cahaya",
-text:`Keheningan menyelimuti alun-alun desa.
-
-Setelah tangan Archeon terlepas dari Crystal of Origin, tak ada satu pun cahaya yang muncul. Tak ada tanda. Tak ada pengakuan. Hanya bisikan yang perlahan berubah menjadi suara.
-
-"Kosong..." "Benar-benar tidak punya mana..." "Bahkan kristal menolaknya..."
-
-Ketua Rowan melangkah maju. Tongkat kayunya menghantam tanah batu. Suara itu membuat seluruh desa diam.
-
-Rowan menatap Archeon dengan mata dingin. "Sudah jelas." Ia menoleh ke arah warga. "Crystal of Origin telah menunjukkan jawabannya."
-
-Archeon perlahan menunduk. Ia sudah tahu apa yang akan terjadi selanjutnya. Namun mendengarnya langsung tetap terasa berbeda.
-
-Rowan mengangkat suaranya. "Anak tanpa mana tidak bisa hidup di bawah perlindungan desa ini. Demi keselamatan Elaris..." Ia menatap Archeon lurus. "Mulai hari ini, Archeon diasingkan dari desa."
-
-Lyria melangkah maju dan berdiri di samping Archeon. Matanya tajam. "Kalian tidak bisa mengusir seseorang hanya karena kalian tidak mengerti dia."
-
-Rowan mengernyit. "Lyria. Jangan ikut campur."
-
-Lyria menggenggam tangan Archeon erat. "Kalau dia pergi... aku ikut."
-
-Langkah kaki lain terdengar. Rhen maju. "Kalau dia keluar, aku ikut." Mira mengangkat tangan kecil. "Aku juga." Kaien tersenyum santai. "Jujur saja, desa ini membosankan." Selene berjalan pelan. "Jalanmu memang bukan di sini."
-
-Rowan membentak. "Kalian semua sudah gila?"
-
-Namun tak satu pun dari mereka mundur. Archeon menatap teman-temannya dengan mata sedikit membesar. "Kalian... kenapa?"
-
-Rhen mendengus. "Jangan buat aku mengulang."
-
-Mira tersenyum kecil. "Karena teman ya teman."
-
-Kaien menyilangkan tangan. "Kau terlalu sering sendirian."
-
-Selene menatap Archeon tenang. "Dan jalanmu baru dimulai."
-
-Untuk pertama kalinya, Archeon tidak tahu harus menjawab apa. Karena selama hidupnya, ia selalu siap dibuang. Tapi ia tidak pernah siap jika ada orang yang memilih tetap tinggal.`
-},
-{
-number:4,
-name:"Langkah Pertama di Luar Cahaya",
-text:`Malam pertama di luar desa terasa jauh lebih sunyi.
-
-Tidak ada suara lonceng malam. Tidak ada cahaya rumah. Tidak ada kilau Crystal of Origin yang selama ini selalu terlihat dari kejauhan. Yang ada hanya hutan gelap, angin dingin, dan suara ranting yang sesekali patah.
-
-Archeon duduk di dekat api kecil tanpa banyak bicara. Lyria duduk di sampingnya.
-
-"Kau masih memikirkannya?"
-
-Archeon menatap api. "Aku tidak tahu kenapa aku bisa mendengar suara itu."
-
-Lyria menatapnya sebentar. "Mungkin kristal itu memang bereaksi."
-
-Archeon menggeleng pelan. "Tapi tidak ada yang melihat."
-
-Lyria tersenyum tipis. "Mungkin karena itu hanya untukmu."
-
-Di sisi lain, Mira sedang mencoba menyalakan api tambahan. Namun ranting yang ia susun malah patah berantakan. Kaien tertawa kecil. "Kau mau masak atau membakar hutan?"
-
-Mira melotot. "Diam."
-
-Rhen duduk sambil mengasah pedangnya. "Kita harus cari tempat aman besok."
-
-Selene menatap gelapnya hutan. "Besok... kita tidak sendirian."`
-},
-{
-number:5,
-name:"Kota di Ujung Hutan",
-text:`Jalan batu tua itu membawa mereka keluar dari hutan.
-
-Setelah dua hari berjalan, pepohonan mulai menipis. Kabut perlahan menghilang. Dan untuk pertama kalinya, Archeon melihat dunia di luar Elaris dengan jelas.
-
-Di kejauhan, berdiri sebuah kota kecil dengan tembok batu rendah dan gerbang kayu besar. Di atas gerbang tertulis satu nama. Astera.
-
-Mira langsung tersenyum lebar. "Akhirnya kita sampai!"
-
-Kaien hampir terlihat terharu. "Aku mau makanan hangat. Sekarang."
-
-Rhen menghela napas. "Kau cuma mikirin makan."
-
-Lyria tertawa kecil. Hanya Archeon yang diam. Ia menatap kota itu cukup lama. Bukan karena kagum. Tetapi karena ini pertama kalinya ia benar-benar sadar betapa kecil dunianya selama ini.
-
-Lyria memperhatikan wajahnya. "Kau baik?"
-
-Archeon mengangguk kecil. "Hanya terasa aneh."
-
-Lyria tersenyum. "Dunia luar memang seperti itu."
-
-Mereka masuk ke dalam kota. Astera penuh dengan kehidupan. Pedagang berteriak menawarkan barang. Anak-anak berlari di jalan. Pandai besi memukul logam panas. Petualang berjalan dengan pedang besar di punggung.`
-},
-{
-number:6,
-name:"Nama yang Dicari Kegelapan",
-text:`Archeon terbangun dengan napas tertahan.
-
-Cahaya bulan masih masuk melalui jendela. Ia langsung bangkit dari tempat tidur dan menatap ke luar. Jalanan kota Astera sunyi. Sepi. Tidak ada siapa pun. Pria berjubah abu-abu itu sudah menghilang.
-
-Archeon berdiri diam beberapa saat, masih mencoba memastikan bahwa itu bukan mimpi. Namun rasa dingin di dadanya belum hilang. Seseorang benar-benar sedang mencarinya. Dan orang itu tahu dirinya ada di sini.
-
-"Kau tidak tidur?"
-
-Suara lembut dari belakang membuat Archeon menoleh. Lyria sudah duduk di tepi ranjang, masih setengah terbangun. Rambut peraknya berantakan, namun matanya langsung serius saat melihat wajah Archeon.
-
-"Ada apa?"
-
-Archeon menatap jendela. "Dia ada di luar tadi."
-
-Lyria langsung bangun. "Pria itu?"
-
-Archeon mengangguk.
-
-Lyria berjalan mendekat, melihat ke jalan kosong. "Kenapa dia cuma melihat?"
-
-Archeon menggeleng pelan. "Itu yang membuatku khawatir."`
-},
-{
-number:7,
-name:"Nama yang Bukan Miliknya",
-text:`Suasana di dalam penginapan membeku.
-
-Tak ada yang bergerak. Tak ada yang berbicara. Hanya satu kata yang masih menggantung di udara.
-
-"Origin."
-
-Archeon menatap pria berjubah abu-abu itu. Jantungnya berdetak lebih keras dari biasanya. Bukan karena takut. Tetapi karena saat nama itu diucapkan, sesuatu di dalam dirinya seolah bereaksi. Seperti suara lama yang sedang mencoba bangkit.
-
-Rhen mengangkat pedangnya. "Kau salah orang."
-
-Pria itu tidak menoleh. Tatapannya tetap pada Archeon. "Aku tidak pernah salah."
-
-Lyria berdiri lebih dekat di depan Archeon. "Kau siapa?"
-
-Pria itu menjawab singkat. "Seorang penjaga."
-
-Mira mengernyit. "Penjaga apaan?"
-
-Pria itu menatap Archeon. "Segel."
-
-Ruangan kembali sunyi. Archeon menatap telapak tangannya. Simbol lingkaran retak itu masih terlihat samar di kulitnya.
-
-Nora memegang meja pelan, seolah mengenali sesuatu yang seharusnya tidak kembali.`
-},
-{
-number:8,
-name:"Jejak yang Mulai Terbuka",
-text:`Pagi di Astera terasa berbeda.
-
-Langit masih cerah. Orang-orang masih memenuhi jalan. Pedagang tetap berteriak seperti biasa. Namun bagi Archeon, semuanya terasa lebih sempit.
-
-Sejak pria berjubah abu-abu itu pergi, satu pertanyaan terus menghantui pikirannya. Siapa sebenarnya Origin? Dan kenapa nama itu terasa begitu dekat dengannya?
-
-Archeon berdiri di dekat jendela penginapan, menatap telapak tangannya. Simbol lingkaran retak itu masih ada. Samar. Gelap. Dan sekarang, tak lagi menghilang.
-
-Lyria masuk perlahan ke kamar. "Kau belum tidur semalam?"
-
-Archeon menutup tangannya. "Tidak bisa."
-
-Lyria berdiri di sampingnya. "Karena pria itu?"
-
-Archeon mengangguk. Lalu bertanya pelan. "Kalau suatu hari aku berubah... apa kau masih percaya padaku?"
-
-Lyria menatapnya cukup lama. Lalu menjawab tanpa ragu. "Aku tidak pernah percaya pada kekuatanmu." Ia menggenggam tangannya. "Aku percaya padamu."`
-},
-{
-number:9,
-name:"Reruntuhan yang Mengenalnya",
-text:`Pecahan Stone Hollow masih berserakan di tanah.
-
-Kabut tipis perlahan turun kembali, menyelimuti hutan sunyi di sekitar mereka. Tak seorang pun langsung berbicara.
-
-Mira menatap Archeon dengan mata yang belum benar-benar percaya. "Kau... bagaimana bisa tahu titik lemahnya?"
-
-Archeon masih melihat tangannya sendiri. Ia ingin menjawab. Namun ia sendiri tidak tahu. Saat itu terjadi, bukan pikirannya yang bergerak. Tubuhnya yang tahu lebih dulu. Seolah sesuatu di dalam dirinya sudah pernah melihat monster itu sebelumnya.
-
-"Aku tidak tahu."
-
-Rhen menatap pecahan monster di tanah, lalu menatap Archeon. "Kebetulan seperti itu tidak terjadi dua kali."
-
-Lyria berjalan mendekat, lalu memegang tangan Archeon. Hangat. Sederhana. Namun cukup membuat Archeon kembali dari pikirannya sendiri.
-
-"Kita belum selesai."
-
-Di depan mereka, pintu batu besar yang sebelumnya tertutup rapat kini terbuka perlahan.`
-},
-{
-number:10,
-name:"Pintu Kedua",
-text:`Suara batu bergeser memenuhi lorong.
-
-Di balik Guardian yang masih berlutut, pintu kedua perlahan terbuka. Debu tua jatuh dari langit-langit. Udara dingin keluar dari ruangan di dalamnya. Dan bersama udara itu, muncul tekanan aneh yang membuat seluruh lorong terasa berat.
-
-Mira langsung mundur. "Aku tidak suka ini. Aku benar-benar tidak suka ini."
-
-Kaien menatap pintu itu. "Untuk sekali ini, aku setuju."
-
-Rhen menggenggam pedangnya lebih erat. "Tempat seperti ini biasanya tidak menyimpan hal baik."
-
-Selene menatap gelap di balik pintu. "Tapi jawaban kita ada di sana."
-
-Archeon menarik napas pelan. "Lanjut."
-
-Mereka memasuki ruangan kedua. Ruangan itu jauh lebih besar. Bentuknya melingkar. Dindingnya penuh simbol kuno. Di tengah ruangan, berdiri sebuah altar hitam yang dipenuhi retakan bercahaya merah.
-
-Di atas altar, melayang sebuah pecahan kristal kecil.`
-},
-{
-number:11,
-name:"Runtuhan yang Memilih",
-text:`Suara retakan memenuhi ruangan.
-
-Langit-langit batu mulai runtuh. Debu berjatuhan. Pilar-pilar tua pecah satu per satu. Lantai di bawah kaki mereka bergetar hebat.
-
-Mira menjerit. "Tempat ini runtuh!"
-
-Rhen langsung bangkit meski bahunya masih sakit. "Keluar sekarang!"
-
-Kaien membantu Mira berdiri. Selene menarik Nora menjauh dari altar. Lyria masih berdiri di depan Archeon.
-
-Sedangkan Archeon sendiri masih menatap tangannya. Tangan yang tadi menghentikan makhluk bayangan hanya dengan satu kata.
-
-"Diam."
-
-Ia bahkan tidak tahu bagaimana dirinya melakukannya. Bayangan hitam di depan altar masih menatapnya. Senyumnya samar. Seolah ia memang sedang menunggu hal itu.
-
-"Archeon!" Suara Lyria membuyarkan pikirannya. Sebuah batu besar jatuh dari atas. Refleks. Archeon menarik tubuh Lyria ke dalam pelukannya.`
-},
-{
-number:12,
-name:"Suara dari Dalam Diri",
-text:`Lorong batu itu kembali sunyi.
-
-Hanya suara napas Archeon dan Lyria yang terdengar pelan di tengah kegelapan reruntuhan.
-
-Di ujung lorong, pintu batu besar terbuka penuh. Cahaya merah samar keluar dari dalamnya. Dan suara berat tadi masih terngiang di kepala Archeon.
-
-"Pemilik telah kembali."
-
-Lyria menggenggam tangan Archeon lebih erat. "Kita tidak harus masuk."
-
-Archeon menatap pintu itu lama. Bagian terdalam dirinya berteriak untuk menjauh. Namun bagian lain... justru merasa seperti sedang pulang.
-
-"Aku harus tahu."
-
-Lyria menatap wajahnya beberapa detik. Lalu mengangguk kecil. "Kalau begitu, aku ikut."
-
-Archeon menoleh. "Kau tidak perlu."
-
-Lyria menatapnya tenang. "Aku tahu." Ia tersenyum tipis. "Tapi aku tetap ikut."`
-},
-{
-number:13,
-name:"Cahaya yang Tetap Tinggal",
-text:`Ruangan itu kembali sunyi.
-
-Hanya napas Archeon yang masih tidak teratur. Ia berlutut di lantai batu, sementara tangannya gemetar pelan. Bayangan tadi masih tertinggal di kepalanya. Anak kecil. Dunia yang hancur. Dan penjaga yang berjanji akan menunggunya.
-
-Itu terlalu nyata untuk disebut mimpi.
-
-Lyria masih memeluknya erat. "Archeon... dengar suaraku."
-
-Archeon perlahan menoleh. Matanya masih kosong, seolah sebagian pikirannya belum kembali.
-
-Lyria menatapnya dengan penuh khawatir. "Kau di sini." Ia menggenggam tangannya. "Bukan di masa lalu."
-
-Archeon menatap wajahnya lama. Dan perlahan, suara di dalam kepalanya mereda. Denyut simbol di tangannya kembali melemah.
-
-"Kalau kau takut... maka takutlah bersama aku." suara Lyria lembut. "Aku tidak akan pergi."`
-},
-{
-number:14,
-name:"Luka Pertama",
-text:`Debu masih memenuhi ruangan.
-
-Pecahan batu jatuh dari langit-langit. Tiga sosok berjubah hitam kini berdiri di pintu reruntuhan. Masing-masing diam. Namun tekanan dari mereka membuat udara terasa berat.
-
-Lyria langsung berdiri di depan Archeon.
-
-Rhen yang baru tiba dari lorong lain masuk bersama Kaien, Mira, dan Selene. "Kami dengar ledakan—" Kalimatnya terhenti saat melihat tiga sosok itu.
-
-Salah satu sosok melangkah maju. Topeng putih retak menutupi wajahnya. "Subjek ditemukan. Eksekusi diizinkan."
-
-Mereka menyerang sekaligus. Kaien maju lebih dulu. Namun serangan balasan menghantam dada Kaien. Rhen terluka. Mira gemetar. Lyria kelelahan.
-
-Archeon melihat semuanya. Dan semua ini... karena dirinya.
-
-Sosok bertopeng mengangkat tangan. Rantai hitam muncul. Kali ini menuju Lyria.
-
-Archeon membelalak. "Lyria!"
-
-Tanpa berpikir, Archeon berlari. Ia mendorong Lyria menjauh. Rantai itu berbelok. Dan menghantam tubuh Archeon.`
-},
-{
-number:15,
-name:"Simbol Kedua",
-text:`Ruangan itu mendadak sunyi.
-
-Pedang hitam milik sosok bertopeng berhenti hanya beberapa inci di depan leher Archeon. Debu yang jatuh di udara membeku di tempat. Nyala merah di dinding seolah berhenti berdenyut.
-
-Selene berdiri dengan mata perak menyala. "Aku bilang... jangan sentuh dia."
-
-Namun beberapa detik kemudian, darah tipis mengalir dari sudut bibirnya. Lyria langsung sadar. "Selene, berhenti. Tubuhmu tidak kuat."
-
-Selene berkata pelan. "Aku hanya bisa menahan beberapa detik."
-
-Waktu mulai retak. Pedang hitam itu bergerak lagi.
-
-Archeon masih berlutut, menahan luka di bahunya. Namun kini rasa sakitnya berubah. Simbol hitam di telapak tangannya berdenyut lebih keras. Lalu garis hitam baru muncul perlahan naik sampai pergelangan tangan.
-
-Mira melihatnya lebih dulu. "Archeon... tanganmu."
-
-Simbol kedua. Lebih tajam. Lebih gelap. Seperti akar hitam yang perlahan hidup.`
-},
-{
-number:16,
-name:"Nama yang Dibisikkan",
-text:`Ruangan reruntuhan masih dipenuhi debu.
-
-Tak ada lagi musuh. Tak ada lagi suara langkah. Namun kata terakhir dari sosok bertopeng itu masih tertinggal jelas di kepala Archeon.
-
-"Master harus diberitahu."
-
-Lyria berdiri di sampingnya. "Kau masih merasakannya?"
-
-Archeon mengangguk pelan. "Bukan hanya sakit." Ia menatap telapak tangannya. "Rasanya seperti... sesuatu sedang membuka matanya."
-
-Penjaga Kedua perlahan mengangguk. "Orang pertama yang menyaksikan kejatuhanmu."
-
-Setelah keluar dari reruntuhan, cahaya sore menyambut mereka. Langit oranye. Angin dingin. Dan suara hutan yang kembali hidup.
-
-Dari balik pohon, pria berjubah abu-abu perlahan muncul. "Simbol kedua sudah bangkit."
-
-Archeon menatap tajam. "Siapa Master?"
-
-Pria berjubah itu diam sesaat. Kemudian menjawab. "Azravel."
-
-Nama itu membuat kepala Archeon berdenyut hebat.`
-},
-{
-number:17,
-name:"Kota yang Menolak",
-text:`Malam mulai turun saat mereka kembali ke Astera.
-
-Lampu-lampu kota mulai menyala. Pedagang mulai menutup toko. Orang-orang memenuhi jalan utama. Namun kali ini, suasananya berbeda.
-
-Begitu Archeon melangkah masuk, beberapa orang langsung berhenti bicara. Tatapan mereka berubah. Bisikan mulai terdengar.
-
-"Itu dia..." "Anak tanpa mana itu..." "Katanya monster di utara mati karenanya..." "Silent Order datang mencarinya..."
-
-Seorang ibu langsung menarik anaknya menjauh saat Archeon lewat. Seorang pedagang menutup tokonya lebih cepat. Beberapa orang bahkan mundur. Seolah Archeon membawa sesuatu yang berbahaya.
-
-Lyria melihat semuanya. Ia berjalan lebih dekat ke Archeon. Sengaja. Agar semua orang tahu ia tetap di sisinya. Namun itu justru membuat bisikan semakin keras.`
-},
-{
-number:18,
-name:"Pedang Tanpa Mana",
-text:`Pagi di Astera terasa lebih sunyi.
-
-Bukan karena kota berubah. Tetapi karena mereka semua tahu bahwa waktu mereka semakin sedikit.
-
-Di halaman belakang penginapan, Archeon berdiri memegang pedang kayu. Tatapannya serius. Di depannya, Rhen menyilangkan tangan.
-
-"Kau yakin?"
-
-Archeon mengangguk. "Aku tidak punya mana." Ia menggenggam pedang lebih erat. "Kalau begitu, aku harus punya sesuatu yang lain."
-
-Rhen melempar pedang kayu kedua. "Baik."
-
-Beberapa jam berlalu. Keringat membasahi bajunya. Napasnya berat. Tangannya gemetar. Rhen mengangkat pedang. "Cukup."
-
-Archeon masih berdiri. "Belum."
-
-Rhen menatapnya. "Kau bahkan hampir tak bisa berdiri."
-
-Archeon mengangkat pedangnya lagi. "Aku tidak bisa terus dilindungi orang lain."
-
-Malamnya, saat semua tertidur, Archeon kembali memegang pedang kayu sendirian. Ia mengayunkannya perlahan.`
-},
-{
-number:19,
-name:"Malam Berdarah Astera",
-text:`Angin malam berhembus pelan di halaman belakang penginapan.
-
-Archeon berdiri membeku, pedang kayu masih di tangannya. Di depannya, Azravel berdiri tenang seolah ia bukan ancaman. Padahal justru kehadirannya sendiri membuat udara terasa lebih berat.
-
-Tiba-tiba—BOOOOM!
-
-Ledakan besar mengguncang bagian depan Astera. Jeritan warga pecah. Api menyala di atas atap-atap kota.
-
-Di langit Astera, lingkaran hitam besar muncul. Seperti retakan gelap di udara. Dari dalamnya, puluhan makhluk bayangan jatuh ke jalan-jalan kota. Tubuh hitam. Mata merah. Lengan panjang seperti pisau. Warga berteriak panik.
-
-Makhluk raksasa berlapis bayangan hitam mendarat di tengah kota. Tanah bergetar hebat. Semua orang membeku.
-
-Azravel menatap makhluk itu untuk pertama kalinya dengan ekspresi serius. "Silent Order... sudah gila."`
-},
-{
-number:20,
-name:"Nama yang Mulai Bangkit",
-text:`Makhluk raksasa itu berdiri di tengah kota Astera.
-
-Tubuhnya hitam pekat. Retakan merah menyala di seluruh kulitnya. Empat lengannya berakhir seperti bilah tulang panjang. Dan di dadanya, terukir simbol yang sama dengan milik Archeon.
-
-Makhluk itu perlahan menoleh. Lalu matanya menyala merah. Dan menatap langsung ke Archeon.
-
-"Origin..."
-
-Simbol di tangannya menyala semakin terang. Makhluk itu menyerang.
-
-Rhen mencoba menghalangi — terpental. Kaien menyerang — terlempar. Mira dan Selene tak mampu. Lyria menembakkan cahaya ungu — hanya retakan kecil.
-
-Archeon jatuh berlutut. Lyria langsung memeluknya. "Archeon! Lihat aku!"
-
-Archeon gemetar. "Aku... tidak tahu siapa aku."
-
-Lyria memegang wajahnya. "Kalau begitu jangan cari jawaban malam ini." Ia menggenggam tangannya. "Jadilah Archeon dulu."
-
-Makhluk itu menyerang lagi. Kali ini langsung ke Lyria. Tanpa sadar, kata itu keluar dari bibir Archeon.
-
-"Berhenti."
-
-Seluruh kota mendadak sunyi. Makhluk raksasa itu langsung membeku. Api berhenti berkibar. Debu berhenti jatuh.
-
-Makhluk itu perlahan berlutut. "Origin... telah kembali."`
-},
-{
-number:21,
-name:"Setelah Nama Itu Bangkit",
-text:`Malam di Astera mendadak sunyi.
-
-Api masih menyala di beberapa sudut kota. Asap masih naik ke langit gelap. Namun yang paling menakutkan bukan kehancuran itu. Melainkan pemandangan di tengah jalan utama.
-
-Puluhan monster bayangan berlutut di hadapan Archeon. Tak bergerak. Tak menyerang. Seolah sedang menunggu perintah.
-
-Tak seorang pun berbicara.
-
-Mira menatap dengan bibir gemetar. "Ini... bukan lagi kebetulan."
-
-Kaien yang masih duduk di tanah hanya tertawa pelan. "Aku rasa... hidup normal kita sudah selesai."
-
-Rhen berdiri sambil menahan luka, namun matanya tak lepas dari Archeon. "Archeon."
-
-Suara itu membuat Archeon tersadar. Ia menatap tangannya sendiri. Simbol hitam di pergelangan tangannya masih menyala terang. Jauh lebih jelas dari sebelumnya.
-
-Dan untuk pertama kalinya, simbol itu terasa hangat. Bukan menyakitkan. Bukan liar. Seolah sesuatu di dalam dirinya baru saja mengenali dirinya kembali.
-
-Lyria berdiri paling dekat. Matanya tak berisi takut. Hanya khawatir. "Archeon... kau masih bisa dengar aku?"
-
-Archeon menoleh pelan. Ia ingin menjawab. Namun sebelum sempat bicara, monster raksasa di depannya perlahan mengangkat kepala. Matanya merah menyala. Lalu dengan suara berat, makhluk itu berkata: "Perintah."`
-},
-{
-number:22,
-name:"Mata di Dalam Bayangan",
-text:`Malam di Astera belum benar-benar berakhir.
-
-Meski monster telah menghilang, rasa takut masih tertinggal di setiap sudut kota. Orang-orang keluar perlahan dari tempat persembunyian mereka. Mereka melihat jalan yang hancur. Rumah yang terbakar. Jejak pertempuran.
-
-Dan akhirnya— mereka melihat Archeon.
-
-Tatapan yang muncul bukan lagi rasa penasaran. Bukan lagi ejekan. Melainkan ketakutan murni.
-
-Seorang pria tua mundur pelan. "Itu dia..."
-
-Seorang wanita memeluk anaknya. "Monster itu berlutut padanya..."
-
-Bisikan mulai menyebar. "Anak terkutuk..." "Pembawa bencana..." "Dia bukan manusia..." "Silent Order datang karena dia..."
-
-Archeon berdiri diam di tengah jalan utama. Mendengar semuanya. Dan kali ini, tak ada satu kata pun yang bisa ia bantah. Karena mereka melihatnya sendiri.
-
-Lyria langsung berdiri lebih dekat. Namun Archeon melangkah menjauh sedikit.
-
-Lyria menatap. "Archeon?"
-
-Archeon menunduk. "Mereka benar."
-
-Lyria mengerutkan kening. "Tidak."
-
-Archeon tersenyum kecil. Lelah. Kosong. "Aku sendiri sudah tidak tahu lagi."`
-},
-{
-number:23,
-name:"Jalan ke Timur",
-text:`Mereka memutuskan meninggalkan Astera.
-
-Selene menunjuk ke timur. "Kita harus ke sana."
-
-Rhen mengernyit. "Kenapa timur?"
-
-Selene menjawab pendek. "Aku merasa kita harus ke sana."
-
-Mira menghela napas. "Jawaban seperti biasa." Meski tidak ada yang benar-benar mengerti, mereka tetap mengikuti. Karena sejak dulu, firasat Selene jarang salah.
-
-Perjalanan dimulai. Mereka melewati akar besar, tanah lembap, dan jalur sempit di antara batu. Untuk pertama kalinya, Archeon benar-benar meninggalkan Elaris jauh di belakang.
-
-Dunia di luar desa ternyata jauh lebih luas dari yang pernah ia bayangkan. Dan lebih sunyi.
-
-Di kejauhan, bayangan hitam mulai mengikuti mereka.`
-},
-{
-number:24,
-name:"Kota Abu yang Sunyi",
-text:`Mereka sampai di sebuah desa kosong.
-
-Tidak ada suara. Tak ada anak-anak. Tak ada pedagang. Tak ada kehidupan. Hanya rumah-rumah kayu tua yang setengah rusak dan jalan kosong berdebu.
-
-Mira memeluk lengannya. "Aku tidak suka ini."
-
-Kaien melihat sekitar. "Aku juga."
-
-Rhen perlahan menghunus pedang. "Terlalu sepi."
-
-Lyria menatap pintu-pintu rumah. "Seperti semua orang pergi mendadak."
-
-Archeon melangkah perlahan ke tengah desa. Dan saat kakinya menginjak tanah, simbol di tangannya berdenyut.
-
-Ia langsung berhenti.
-
-Selene menoleh. "Kau merasakan sesuatu?"
-
-Archeon mengangguk. "Ada sisa energi."
-
-Rhen menatap serius. "Dari monster?"
-
-Archeon menatap tanah retak. "Bukan." Ia mengangkat kepala. "Dari manusia."`
-},
-{
-number:25,
-name:"Desa yang Mengingat",
-text:`Angin dingin berhembus pelan melewati rumah-rumah kosong.
-
-Desa tua itu tetap sunyi. Tidak ada suara manusia. Tidak ada tawa anak-anak. Tidak ada cahaya kehidupan. Hanya derit kayu tua dan debu yang menari di jalanan batu retak.
-
-Di tengah desa, patung raksasa itu masih berlutut di hadapan Archeon. Retakan merah di tubuh batunya berdenyut perlahan. Seperti sesuatu yang belum sepenuhnya mati.
-
-Seorang anak kecil bermata merah berdiri di depan rumah tua. Ia tidak terlihat takut. Tidak juga terlihat marah. Ia hanya menatap Archeon seolah sudah mengenalnya jauh sebelum pertemuan ini.
-
-"Aku yang tertinggal."
-
-Selene menatap tajam. "Dia bukan anak kecil."
-
-Patung raksasa perlahan mengangkat kepalanya. "Desa ini... telah menunggumu."
-
-Angin tiba-tiba berembus lebih kencang. Dan seluruh pintu rumah di desa itu terbuka bersamaan.
-
-Dari dalam rumah-rumah gelap, muncul bayangan manusia. Satu. Dua. Lalu puluhan. Mereka berdiri di ambang pintu. Tubuh samar. Wajah pucat. Mata merah redup. Diam.
-
-Mereka hanya memandang Archeon. Bukan kelompoknya. Hanya Archeon.
-
-Seorang wanita tua melangkah keluar. Tubuhnya seperti kabut. Wajahnya nyaris tak terlihat. Namun suaranya lembut.
-
-"...akhirnya."
-
-Air mata hitam mengalir dari matanya. "Kami menunggumu..."
-
-Tiba-tiba tubuhnya hancur menjadi abu. Hilang tertiup angin. Satu per satu, bayangan lain ikut menghilang. Menjadi debu hitam. Lenyap.
-
-Dalam beberapa detik, seluruh desa kembali sunyi. Kosong. Seolah tidak pernah ada siapa-siapa.
-
-Anak kecil itu perlahan mundur ke dalam rumah. Sebelum menghilang ke kegelapan, ia menatap Archeon sekali lagi. Lalu berbisik: "Jangan terlambat kali ini."
-
-Archeon maju satu langkah. Namun saat Archeon masuk ke rumah itu— tidak ada siapa pun. Ruangan kosong. Debu tebal. Dan di lantai kayu tua, hanya ada satu simbol merah yang sama persis dengan tanda di tangannya.`
-}
-];
-
-let currentChapter = parseInt(localStorage.getItem("archeon_progress")) || 0;
-
-function renderChapters(){
+function toggleChapter(){
     const list = document.getElementById("chapterList");
-    list.innerHTML = "";
-
-    chapters.forEach((chapter,index)=>{
-        const div = document.createElement("div");
-        div.className = "chapter-item" + (index===currentChapter ? " active":"");
-        div.textContent = "Chapter " + chapter.number + " — " + chapter.name;
-        div.onclick = ()=>{
-            currentChapter = index;
-            showChapter();
-        };
-        list.appendChild(div);
-    });
+    list.style.display = list.style.display === "block" ? "none" : "block";
 }
 
-function showChapter(){
-    const chapter = chapters[currentChapter];
+function loadChapter(num){
+    const content = document.getElementById("chapterContent");
 
-    document.getElementById("chapterTitle").textContent =
-        "Chapter " + chapter.number + " — " + chapter.name;
+    if(num === 1){
+        content.innerHTML = `
+        <div class="chapter-title">Chapter 1 — Anak yang Lahir dalam Keheningan</div>
+        Malam itu desa Elaris diselimuti kabut lebih tebal dari biasanya.
 
-    document.getElementById("chapterContent").textContent =
-        chapter.text;
+        Tidak ada hujan.
+        Tidak ada angin.
+        Tidak ada suara malam.
 
-    localStorage.setItem("archeon_progress", currentChapter);
-    renderChapters();
-    window.scrollTo(0,0);
-}
+        Bahkan hutan di sekitar desa terasa diam,
+        seolah seluruh dunia sedang menunggu sesuatu.
 
-function openNovel(){
-    document.getElementById("homePage").style.display="none";
-    document.getElementById("readerPage").style.display="flex";
-    showChapter();
-}
+        Di sebuah rumah kayu sederhana di pinggir desa,
+        seorang bayi laki-laki akhirnya lahir.
 
-function goHome(){
-    document.getElementById("homePage").style.display="block";
-    document.getElementById("readerPage").style.display="none";
-}
+        Tangisannya kecil.
+        Pelan.
+        Hampir tidak terdengar.
 
-function nextChapter(){
-    if(currentChapter < chapters.length-1){
-        currentChapter++;
-        showChapter();
+        Bayi itu diberi nama...
+
+        Archeon.
+        `;
     }
-}
 
-function prevChapter(){
-    if(currentChapter > 0){
-        currentChapter--;
-        showChapter();
+    if(num === 2){
+        content.innerHTML = `
+        <div class="chapter-title">Chapter 2 — Hari Ketika Desa Memilih Takut</div>
+        Tidak ada seorang pun
+        yang langsung bergerak
+        setelah Tetua Rowan
+        mengucapkan keputusan itu.
+
+        Seluruh alun-alun desa
+        mendadak menjadi sunyi.
+
+        Lyria melangkah maju lebih dulu.
+
+        "Ini tidak adil."
+
+        Namun Rowan hanya menatap dingin.
+
+        "Crystal tidak bisa membaca dirinya."
+
+        Bisikan mulai menyebar.
+        Ketakutan mulai tumbuh.
+
+        Dan pada hari itu,
+        desa kecil Elaris
+        memilih rasa takut
+        dibandingkan kebenaran.
+
+        Archeon akhirnya hanya berkata pelan—
+
+        "Kalau aku pergi...
+        apakah itu cukup?"
+
+        Rowan menjawab singkat.
+
+        "Untuk sekarang."
+
+        Dan sejak hari itu,
+        takdir Archeon
+        mulai bergerak.
+        `;
     }
-}
-
-function toggleTheme(){
-    document.body.classList.toggle("light");
-}
-
-function openAbout(){
-    document.getElementById("aboutModal").style.display="flex";
-}
-
-function closeAbout(){
-    document.getElementById("aboutModal").style.display="none";
 }
 </script>
 
